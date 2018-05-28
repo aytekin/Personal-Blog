@@ -24,7 +24,7 @@ namespace KisiselBlog.Models
         [StringLength(5000), Required]
         public string Text { get; set; }
         [Required]
-        public Boolean status { get; set; }
+        public Boolean Status { get; set; }
 
         public int UserID { get; set; }
         public virtual Users author { get; set; }

@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <!-- Custom styles for this template -->
     <link href="~/Content/css/blog-post.css" rel="stylesheet">
+    <link href="~/Content/css/animate.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 </head>
 
@@ -52,10 +54,10 @@
                         <a class="nav-link" href="@Url.Action("Hakkimizda","Home")"><i class="fas fa-info-circle"></i>&nbsp;Hakkımda</a>
                     </li>
                     <li class="nav-item bg">
-                        <a class="nav-link" href="#"><small>Kayıt Ol</small></a>
+                        <a class="nav-link" href="@Url.Action("KayitOl","Home")"><small>Kayıt Ol</small></a>
                     </li>
                     <li class="nav-item bg">
-                       <button class="btn btn-outline-success btn-sm" type="button" >Giriş Yap</button>
+                       <button onclick="window.location.href='@Url.Action("GirisYap","Home")'" class="btn btn-outline-success btn-sm" type="button" >Giriş Yap</button>
                     </li>
                 </ul>
             </div>
@@ -98,3 +100,21 @@
 </body>
 
 </html>
+<script>
+    function testAnim(x) {
+        $('#animationSandbox').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+            $(this).removeClass();
+        });
+    };
+    $(document).ready(function () {
+        $('.js--triggerAnimation').click(function (e) {
+            e.preventDefault();
+            var anim = $('.js--animations').val();
+            testAnim(anim);
+        });
+        $('.js--animations').change(function () {
+            var anim = $(this).val();
+            testAnim(anim);
+        });
+    });
+</script>

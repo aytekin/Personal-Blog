@@ -25,6 +25,9 @@ namespace KisiselBlog.Context
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Entity<Comments>().Property(b => b.NickName).IsOptional(); //NickName attr is not required on comment table
+            modelBuilder.Entity<Users>().Property(b => b.PPPath).IsOptional(); //NickName attr is not required on comment table
+            modelBuilder.Entity<Users>().Property(b => b.AboutUser).IsOptional();
+            
         }
        
 

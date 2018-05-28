@@ -20,12 +20,12 @@ namespace KisiselBlog.Models
         public string NickName { get; set; }
         [StringLength(32), Required]
         public string Email { get; set; }
-        [StringLength(15),Required]
+        [StringLength(45),Required]
         public string Password { get; set; }
         public DateTime LastLoginDate { get; set; }
         [StringLength(64)]
         public string PPPath {get; set;}
-        [Required,StringLength(256)]
+        [StringLength(256)]
         public string AboutUser { get; set; }
         
         public int RoleID { get; set; }
