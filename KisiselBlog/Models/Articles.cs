@@ -1,0 +1,36 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Web;
+
+namespace KisiselBlog.Models
+{
+    [Table("Articles")]
+    public class Articles
+    {
+        public Articles()
+        {
+            this.category = new HashSet<Categories>();
+        }
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int ArticleID { get; set; }
+        [StringLength(64),Required]
+        public string Header { get; set; }
+        [StringLength(64), Required]
+        public string LinkAdress { get; set; }
+        public DateTime PostedDate { get; set; }
+        [StringLength(5000), Required]
+        public string Text { get; set; }
+        [Required]
+        public Boolean status { get; set; }
+
+        public int UserID { get; set; }
+        public virtual Users author { get; set; }
+
+        public ICollection<Images> images { get; set; }
+        public ICollection<Comments> comments { get; set; }
+        public ICollection<Categories> category { get; set; }
+    }
+}

@@ -44,6 +44,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -89,21 +95,89 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\blog-post.css" />
+    <Content Include="Content\media\img\bigdata.jpg" />
+    <Content Include="Content\vendor\bootstrap\css\bootstrap-grid.css" />
+    <Content Include="Content\vendor\bootstrap\css\bootstrap-grid.min.css" />
+    <Content Include="Content\vendor\bootstrap\css\bootstrap-reboot.css" />
+    <Content Include="Content\vendor\bootstrap\css\bootstrap-reboot.min.css" />
+    <Content Include="Content\vendor\bootstrap\css\bootstrap.css" />
+    <Content Include="Content\vendor\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\vendor\bootstrap\js\bootstrap.bundle.js" />
+    <Content Include="Content\vendor\bootstrap\js\bootstrap.bundle.min.js" />
+    <Content Include="Content\vendor\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\vendor\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\vendor\jquery\jquery.js" />
+    <Content Include="Content\vendor\jquery\jquery.min.js" />
+    <Content Include="Content\vendor\jquery\jquery.slim.js" />
+    <Content Include="Content\vendor\jquery\jquery.slim.min.js" />
     <Content Include="Global.asax" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Context\DatabaseContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805281749506_baslangic.cs" />
+    <Compile Include="Migrations\201805281749506_baslangic.Designer.cs">
+      <DependentUpon>201805281749506_baslangic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805281753092_Article-User-Rel.cs" />
+    <Compile Include="Migrations\201805281753092_Article-User-Rel.Designer.cs">
+      <DependentUpon>201805281753092_Article-User-Rel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805281755236_Article-Images-rel-oc.cs" />
+    <Compile Include="Migrations\201805281755236_Article-Images-rel-oc.Designer.cs">
+      <DependentUpon>201805281755236_Article-Images-rel-oc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805281758027_Arti-Comnt-rel-oc.cs" />
+    <Compile Include="Migrations\201805281758027_Arti-Comnt-rel-oc.Designer.cs">
+      <DependentUpon>201805281758027_Arti-Comnt-rel-oc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805281819280_user-commnt-ready-oc.cs" />
+    <Compile Include="Migrations\201805281819280_user-commnt-ready-oc.Designer.cs">
+      <DependentUpon>201805281819280_user-commnt-ready-oc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805281842068_category.cs" />
+    <Compile Include="Migrations\201805281842068_category.Designer.cs">
+      <DependentUpon>201805281842068_category.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805281910082_article_status-oc.cs" />
+    <Compile Include="Migrations\201805281910082_article_status-oc.Designer.cs">
+      <DependentUpon>201805281910082_article_status-oc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Articles.cs" />
+    <Compile Include="Models\Categories.cs" />
+    <Compile Include="Models\Comments.cs" />
+    <Compile Include="Models\Images.cs" />
+    <Compile Include="Models\Roles.cs" />
+    <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
+    <Content Include="Content\vendor\bootstrap\css\bootstrap.css.map" />
+    <Content Include="Content\vendor\bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="Content\vendor\bootstrap\js\bootstrap.bundle.js.map" />
+    <Content Include="Content\vendor\bootstrap\js\bootstrap.bundle.min.js.map" />
+    <Content Include="Content\vendor\bootstrap\js\bootstrap.js.map" />
+    <Content Include="Content\vendor\bootstrap\js\bootstrap.min.js.map" />
+    <Content Include="Content\vendor\jquery\jquery.min.map" />
+    <Content Include="Content\vendor\jquery\jquery.slim.min.map" />
     <None Include="packages.config" />
+    <Content Include="Views\Shared\_layout.cshtml" />
+    <Content Include="Views\_viewstart.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Hakkimizda.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -111,8 +185,29 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201805281749506_baslangic.resx">
+      <DependentUpon>201805281749506_baslangic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805281753092_Article-User-Rel.resx">
+      <DependentUpon>201805281753092_Article-User-Rel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805281755236_Article-Images-rel-oc.resx">
+      <DependentUpon>201805281755236_Article-Images-rel-oc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805281758027_Arti-Comnt-rel-oc.resx">
+      <DependentUpon>201805281758027_Arti-Comnt-rel-oc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805281819280_user-commnt-ready-oc.resx">
+      <DependentUpon>201805281819280_user-commnt-ready-oc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805281842068_category.resx">
+      <DependentUpon>201805281842068_category.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805281910082_article_status-oc.resx">
+      <DependentUpon>201805281910082_article_status-oc.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

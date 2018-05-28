@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Data.Entity;
+using KisiselBlog.Models;
+using System.Data.Entity.ModelConfiguration.Conventions;
+
+namespace KisiselBlog.Context
+{
+    public class DatabaseContext : DbContext
+    {
+        public DatabaseContext() : base("KisiselBlog")
+        {
+
+        }
+
+        public DbSet<Users> users { get; set; }
+        public DbSet<Roles> roles { get; set; }
+        public DbSet<Comments> comments { get; set; }
+        public DbSet<Images> images { get; set; }
+        public DbSet<Articles> articles { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)//Kayit(s) Falan oluşturmasını engellemek için ezdirme yaptık
+        {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            modelBuilder.Entity<Comments>().Property(b => b.NickName).IsOptional(); //NickName attr is not required on comment table
+        }
+       
+
+    }
+  
+
+
+}

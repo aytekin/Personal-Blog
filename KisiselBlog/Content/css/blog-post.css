@@ -1,0 +1,38 @@
+/*!
+ * Start Bootstrap - Blog Post (https://startbootstrap.com/template-overviews/blog-post)
+ * Copyright 2013-2017 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-blog-post/blob/master/LICENSE)
+ */
+
+body {
+  padding-top: 54px;
+}
+
+@media (min-width: 992px) {
+  body {
+    padding-top: 56px;
+  }
+}
+.head {
+    background-color: #401F7C;
+}
+.foot{
+  background-color: #401F7C;
+
+}
+.bg:hover{
+ 
+}
+/* navbar uzerindeki dropdown menunun tıklanmadan acılması icin */
+.dropdown:hover > .dropdown-menu{
+  display: block;
+}
+
+.foot {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    background-color: #401F7C;
+}
