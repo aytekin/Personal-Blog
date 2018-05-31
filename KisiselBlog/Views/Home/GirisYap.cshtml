@@ -2,6 +2,38 @@
 @{
     ViewBag.Title = "GirisYap";
 }
-
-<h2>GirisYap</h2>
-
+@section bg{
+    class="bg-dark"    
+}
+<div class="container animated zoomIn">
+    <div class="card card-login col-md-5 offset-2 mx-auto mt-5">
+        
+        <div class="card-header"><h3 class="text-center"><i class="fas fa-code"></i>&nbsp;Sisteme Giriş Yap</h3></div>
+        <div class="card-body">
+            @using (Html.BeginForm("GirisYap", "Home", FormMethod.Post,
+                new { enctype = "multipart/form-data" }))
+            {
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Kullanıcı Adı</label>
+                    <input class="form-control" id="nickName" name="nickName" type="text" required="required" placeholder="Kullanıcı Adı">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Parola</label>
+                    <input class="form-control" id="pass" name="pass" required="required" type="password" placeholder="Parola">
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox"> Beni Hatırla
+                        </label>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-block" type="submit">Giriş</button>
+            }
+                <div class="text-center">
+                    <a class="d-block small mt-3" href="register.html">Register an Account</a>
+                    <a class="d-block small" href="forgot-password.html">Forgot Password?</a>
+                </div>
+            </div>
+    </div>
+</div>

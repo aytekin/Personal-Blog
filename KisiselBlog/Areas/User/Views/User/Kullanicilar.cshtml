@@ -1,0 +1,58 @@
+﻿@using KisiselBlog.Models
+@model IEnumerable<Users>
+@{
+    ViewBag.Title = "Kullanicilar";
+    Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
+}
+
+
+
+<div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Adı</th>
+                    <th>Soyadı</th>
+                    <th>Kullanıcı Adı</th>
+                    <th>Email</th>
+                    <th>Yetki</th>
+                    <th>Kayıt Tarihi</th>
+                    <th>Son Login Tarihi</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Adı</th>
+                    <th>Soyadı</th>
+                    <th>Kullanıcı Adı</th>
+                    <th>Email</th>
+                    <th>Yetki</th>
+                    <th>Kayıt Tarihi</th>
+                    <th>Son Login Tarihi</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (var i in Model)
+                {
+                    DateTime biggest = i.dates.Max(r => r.Date);
+                    KisiselBlog.Models.Dates regist = i.dates.Where(r => r.DateName == "Registration").FirstOrDefault();
+                    <tr>
+                        <td>@i.Name</td>
+                        <td>@i.Surname</td>
+                        <td>@i.NickName</td>
+                        <td>@i.Email</td>
+                        <td>@i.roles.RoleName</td>
+                        <td>@regist.Date.ToString()</td>
+                        <td>@biggest.ToString()</td>
+                    </tr>
+                }
+
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

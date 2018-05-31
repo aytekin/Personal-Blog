@@ -29,11 +29,158 @@ namespace KisiselBlog.Controllers
             return View();
         }
 
+        #region ParolaChange GET
+        public ActionResult Parola(int id)
+        {
+            Users query = db.users.Where(r => r.UserID == id).FirstOrDefault();
+
+            if (Session["aktif"] != null && query != null)
+            {
+                return View();
+            }
+            else
+                return RedirectToAction("GirisYap");
+        }
+        #endregion
+
+
+        #region ParolaChange 
+        [HttpPost]
+        public ActionResult Parola(string oldPass,string Password)
+        {
+            string aktif = Session["aktif"].ToString();
+            Users query = db.users.Where(r => r.NickName == aktif).FirstOrDefault();
+
+            Security.Sha1 security = new Sha1();
+            string tempPass = security.encoder(oldPass);
+
+            if (query.Password != tempPass && query != null)
+            {
+                ViewBag.PassDntMatch = "Mevcut Parolanız Hatalıdır";
+                return RedirectToAction("Parola", query.UserID);
+            }
+            else if (Session["aktif"] != null && query != null)
+            {
+
+                try
+                {
+                    query.Password = security.encoder(Password);
+                    db.SaveChanges();
+                    ViewBag.PassSuccess = "Parolanız başarıyla değiştirilmiştir";
+                   
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+                return RedirectToAction("Profil");
+            }
+            else
+            {
+               return RedirectToAction("GirisYap");
+            }
+                
+        }
+        #endregion
+
+        #region Profil Düzenle
+        [HttpGet]
+        public ActionResult Duzenle(int id)
+        {
+            if(Session["aktif"] != null && id > 0)
+            {
+                Users query = db.users.Where(r => r.UserID == id).FirstOrDefault();
+                return View(query);
+            }
+            return RedirectToAction("GirisYap");
+        }
+        #endregion
+
+        #region Profil Düzenler POST
+        [HttpPost]
+        public ActionResult Duzenle(Users u)
+        {
+            if (Session["aktif"] != null)
+            {
+                var NickNameControl = db.users.Where(x => x.NickName == u.NickName);
+                var EmailContol = db.users.Where(x => x.Email == u.Email);
+                
+                
+                int cnt = 0;
+                if (EmailContol != null) cnt = 1;
+                if (NickNameControl == null && EmailContol == null)
+                {
+                    try
+                    {
+                        Users user = new Users();
+
+                        //formdan gelen model bir user nesnesine yuklendi
+                        user.Name = u.Name;
+                        user.Surname = u.Surname;
+                        user.NickName = u.NickName;
+                        user.Email = u.Email;
+                       
+                        //user nesnesinin veri tabanına güncellemesi gerçekleştirildi
+                      
+                        db.SaveChanges();
+
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+
+                  
+
+                    return RedirectToAction("Profil");
+
+
+                }
+                else
+                {
+                    //nickName ve email ayırt edici ozellik oldugundan girilen bilgilerle eslesen kayıt veri tabanında varsa hata verecek
+                    if (cnt == 1)
+                        ViewBag.email = "Girdiğiniz E-Mail Adresi Kayıtlıdır";
+                    else
+                        ViewBag.nickName = "Kullanıcı Adı Zaten Kullanılmaktadır";
+                    return View();
+                }
+            }
+            else
+                return RedirectToAction("GirisYap");
+        }
+        #endregion
+
+        #region UserProfil
+
+        public ActionResult Profil()
+        {
+            if(Session["aktif"] != null)
+            {
+                string nick = Session["aktif"].ToString();
+
+                Users query = db.users.Where(x => x.NickName == nick).FirstOrDefault();
+
+                if (query != null)
+                    return View(query);
+                else
+                    return View();
+
+            }
+            return RedirectToAction("Index");
+        }
+        #endregion
+
         #region Giris yap GET
         [HttpGet]
         public ActionResult GirisYap()
         {
-            return View();
+            if (Session["aktif"] == null)
+                return View();
+            else
+                return RedirectToAction("Profil");
         }
 
         #endregion
@@ -42,18 +189,75 @@ namespace KisiselBlog.Controllers
         [HttpPost]
         public ActionResult GirisYap(string nickName,string pass)
         {
-            return View();
+            if (Session["aktif"] == null)
+            {
+                Users query = db.users.Where(x => x.NickName == nickName).FirstOrDefault();
+
+                if (query != null)
+                {
+                    Sha1 security = new Sha1();
+                    if (security.encoder(pass) == query.Password && nickName == query.NickName)
+                    {
+                        Dates d = new Dates();
+                        d.DateName = "Login";
+                        d.Date = DateTime.Now;
+                        query.dates.Add(d);
+                        try
+                        {
+                            db.SaveChanges();
+                        }
+                        catch(Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                       
+
+                        this.Session["aktif"] = query.NickName;
+                        this.Session["Email"] = query.Email;
+                        this.Session["surname"] = query.Surname;
+                        return RedirectToAction("Index");
+
+                    }
+                    else
+                    {
+                        ViewBag.parola = "Kullanıcı Adı ya da Parola Hatalıdır";
+                        ViewBag.nick = nickName;
+                        return View();
+                    }
+                }
+                else
+                {
+                    ViewBag.parola = "Kullanıcı Adı ya da Parola Hatalıdır";
+                    ViewBag.nick = nickName;
+                    return View();
+                }
+            }
+            else
+                return RedirectToAction("Profil");
+                
+           
         }
         #endregion
 
+        #region Çıkış yap
 
+        public ActionResult CikisYap()
+        {
+            Session.Abandon();
+            return RedirectToAction("Index");
+        }
+
+        #endregion
 
 
         #region KayitOl GET
         [HttpGet]
         public ActionResult KayitOl()
         {
-            return View();
+            if (Session["aktif"] == null)
+                return View();
+            else
+                return RedirectToAction("Profil");
         }
         #endregion
 
@@ -62,57 +266,70 @@ namespace KisiselBlog.Controllers
         [HttpPost]
         public ActionResult KayitOl(Users u)
         {
-            var NickNameControl = db.users.Where(x => x.NickName == u.NickName).FirstOrDefault();
-            var EmailContol = db.users.Where(x => x.Email == u.Email).FirstOrDefault();
-            Roles rolequery = db.roles.Where(x => x.RoleName == "User").FirstOrDefault();
-
-            int cnt = 0;
-            if (EmailContol != null) cnt = 1;
-            if(NickNameControl == null || EmailContol == null)
+            if (Session["aktif"] == null)
             {
-                Users user = new Users();
-                Sha1 security = new Sha1();
-                string pass = security.encoder(u.Password); //sifre hashlendi
-
-               
-                try
+                var NickNameControl = db.users.Where(x => x.NickName == u.NickName).FirstOrDefault();
+                var EmailContol = db.users.Where(x => x.Email == u.Email).FirstOrDefault();
+                Roles rolequery = db.roles.Where(x => x.RoleName == "User").FirstOrDefault();
+                
+                int cnt = 0;
+                if (EmailContol != null) cnt = 1;
+                if (NickNameControl == null && EmailContol == null)
                 {
-                    //formdan gelen model bir user nesnesine yuklendi
-                    user.Name = u.Name;
-                    user.Surname = "Erlale"; //  u.Surname;
-                    user.NickName = u.NickName;
-                    user.Email = u.Email;
-                    user.Password = pass;
-                    user.LastLoginDate = DateTime.Now;
-                    user.RoleID = rolequery.RoleID;
-                    user.roles = rolequery;
+                    Users user = new Users();
+                    Dates d = new Dates();
+                    Sha1 security = new Sha1();
+                    string pass = security.encoder(u.Password); //sifre hashlendi
 
-                    //user nesnesinin veri tabanına kaydı gerçekleştirildi
-                    db.users.Add(user);
-                    db.SaveChanges();
+
+                    try
+                    {
+                        //formdan gelen model bir user nesnesine yuklendi
+                        user.Name = u.Name;
+                        user.Surname = u.Surname;
+                        user.NickName = u.NickName;
+                        user.Email = u.Email;
+                        user.Password = pass;
+                        user.RoleID = rolequery.RoleID;
+                        user.roles = rolequery;
+                        d.user = user;
+                        d.UserID = user.UserID;
+                        d.DateName = "Registration";
+                        d.Date = DateTime.Now;
+                        db.dates.Add(d);
+                        user.dates.Add(d);
+
+                        //user nesnesinin veri tabanına kaydı gerçekleştirildi
+                        db.users.Add(user);
+                        db.SaveChanges();
+
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+
+                    //kayıt yapıldıktan sonra login islemi gerceklestiriliyor
+                    GirisYap(u.NickName, u.Password);
+
+                    return RedirectToAction("Index");
+
 
                 }
-                catch (Exception e)
+                else
                 {
-                    Console.WriteLine(e.Message); 
+                    //nickName ve email ayırt edici ozellik oldugundan girilen bilgilerle eslesen kayıt veri tabanında varsa hata verecek
+                    if (cnt == 1)
+                        ViewBag.email = "Girdiğiniz E-Mail Adresi Kayıtlıdır";
+                    else
+                        ViewBag.nickName = "Kullanıcı Adı Zaten Kullanılmaktadır";
+                    return View();
                 }
-
-                //kayıt yapıldıktan sonra login islemi gerceklestiriliyor
-                GirisYap(u.NickName, u.Password);
-
-                return RedirectToAction("Index");
-
-
             }
             else
-            {
-                //nickName ve email ayırt edici ozellik oldugundan girilen bilgilerle eslesen kayıt veri tabanında varsa hata verecek
-                if (cnt == 0)
-                    ViewBag.email = "E-Mail Adresi Zaten Kullanılmaktadır.";
-                else
-                    ViewBag.nickName = "Kullanıcı Adı Zaten Kullanılmaktadır.";
-                return View();
-            }
+                return RedirectToAction("Profil");
+
+            
 
            
         }

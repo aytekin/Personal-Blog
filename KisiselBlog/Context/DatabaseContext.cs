@@ -20,6 +20,8 @@ namespace KisiselBlog.Context
         public DbSet<Comments> comments { get; set; }
         public DbSet<Images> images { get; set; }
         public DbSet<Articles> articles { get; set; }
+        public DbSet<Dates> dates { get; set; }
+        public DbSet<Categories> categories { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)//Kayit(s) Falan oluşturmasını engellemek için ezdirme yaptık
         {

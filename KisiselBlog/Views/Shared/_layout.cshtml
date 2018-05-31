@@ -1,7 +1,7 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +25,7 @@
 
 </head>
 
-<body>
+<body @RenderSection("bg", false)>
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg head navbar-dark fixed-top">
@@ -53,12 +53,29 @@
                     <li class="nav-item bg">
                         <a class="nav-link" href="@Url.Action("Hakkimizda","Home")"><i class="fas fa-info-circle"></i>&nbsp;Hakkımda</a>
                     </li>
-                    <li class="nav-item bg">
-                        <a class="nav-link" href="@Url.Action("KayitOl","Home")"><small>Kayıt Ol</small></a>
-                    </li>
-                    <li class="nav-item bg">
-                       <button onclick="window.location.href='@Url.Action("GirisYap","Home")'" class="btn btn-outline-success btn-sm" type="button" >Giriş Yap</button>
-                    </li>
+                    @if (Session["aktif"] == null)
+                    {
+                        <li class="nav-item bg pl-3">
+                            <a class="nav-link" href="@Url.Action("KayitOl","Home")"><small>Kayıt Ol</small></a>
+                        </li>
+                        <li class="nav-item bg">
+                            <button onclick="window.location.href='@Url.Action("GirisYap","Home")'" class="btn btn-outline-success " type="button">Giriş Yap</button>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item dropdown pl-3">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-user"></i>&nbsp; @Session["aktif"]
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item text-primary" href="@Url.Action("Profil","Home")"><i class="fa fa-fw fa-user-circle"></i> Profilim</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" data-toggle="modal" data-target="#exampleModal" href=""><i class="fa fa-fw fa-power-off"></i> Çıkış Yap</a>
+                            </div>
+                        </li>
+                    }
+
                 </ul>
             </div>
         </div>
@@ -72,7 +89,24 @@
 
     </div>
 
-
+    <!-- Logout Modal-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Çıkış Yapmak İstediğine Emin misin?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Eğer çıkış'a tıklarsan oturum kapatılacaktır</div>
+                <div class="modal-footer">
+                    <button class="btn btn-warning text-white type="button" data-dismiss="modal">İptal</button>
+                    <a class="btn btn-danger" href="@Url.Action("CikisYap","Home")">Çıkış</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer class="py-3 foot">
 
@@ -93,13 +127,16 @@
     </footer>
 
 
-    <!-- Bootstrap core JavaScript -->
-    <script href="~/Content/vendor/jquery/jquery.min.js"></script>
-    <script href="~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
 
 </html>
+
+<!-- Bootstrap core JavaScript -->
+<script src="~/Content/vendor/jquery/jquery.min.js"></script>
+<script src="~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/Content/vendor/bootstrap/js/bootstrap.min.js"></script>
+
 <script>
     function testAnim(x) {
         $('#animationSandbox').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {

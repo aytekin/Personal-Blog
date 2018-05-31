@@ -18,16 +18,16 @@ namespace KisiselBlog.Models
         public string Surname { get; set; }
         [StringLength(15), Required]
         public string NickName { get; set; }
-        [StringLength(32), Required]
+        [StringLength(64), Required]
         public string Email { get; set; }
         [StringLength(45),Required]
         public string Password { get; set; }
-        public DateTime LastLoginDate { get; set; }
         [StringLength(64)]
         public string PPPath {get; set;}
         [StringLength(256)]
         public string AboutUser { get; set; }
         
+        public virtual ICollection<Dates> dates { get; set; }
         public int RoleID { get; set; }
         public virtual Roles roles { get; set; }
 

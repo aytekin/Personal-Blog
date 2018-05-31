@@ -95,9 +95,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\animate.min.css" />
     <Content Include="Content\css\blog-post.css" />
     <Content Include="Content\media\img\bigdata.jpg" />
+    <Content Include="Content\Site.css" />
     <Content Include="Content\vendor\bootstrap\css\bootstrap-grid.css" />
     <Content Include="Content\vendor\bootstrap\css\bootstrap-grid.min.css" />
     <Content Include="Content\vendor\bootstrap\css\bootstrap-reboot.css" />
@@ -108,17 +111,73 @@
     <Content Include="Content\vendor\bootstrap\js\bootstrap.bundle.min.js" />
     <Content Include="Content\vendor\bootstrap\js\bootstrap.js" />
     <Content Include="Content\vendor\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\vendor\jquery-easing\jquery.easing.compatibility.js" />
+    <Content Include="Content\vendor\jquery-easing\jquery.easing.js" />
+    <Content Include="Content\vendor\jquery-easing\jquery.easing.min.js" />
     <Content Include="Content\vendor\jquery\jquery.js" />
     <Content Include="Content\vendor\jquery\jquery.min.js" />
     <Content Include="Content\vendor\jquery\jquery.slim.js" />
     <Content Include="Content\vendor\jquery\jquery.slim.min.js" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Areas\User\Views\User\Kullanicilar.cshtml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="UserContent\blank.html" />
+    <Content Include="UserContent\cards.html" />
+    <Content Include="UserContent\charts.html" />
+    <Content Include="Content\css\sb-admin.css" />
+    <Content Include="Content\css\sb-admin.min.css" />
+    <Content Include="UserContent\forgot-password.html" />
+    <Content Include="UserContent\index.html" />
+    <Content Include="Content\vendor\js\sb-admin-charts.js" />
+    <Content Include="Content\vendor\js\sb-admin-charts.min.js" />
+    <Content Include="Content\vendor\js\sb-admin-datatables.js" />
+    <Content Include="Content\vendor\js\sb-admin-datatables.min.js" />
+    <Content Include="Content\vendor\js\sb-admin.js" />
+    <Content Include="Content\vendor\js\sb-admin.min.js" />
+    <Content Include="UserContent\login.html" />
+    <Content Include="UserContent\navbar.html" />
+    <Content Include="UserContent\register.html" />
+    <Content Include="UserContent\tables.html" />
+    <Content Include="UserContent\vendor\bootstrap\css\bootstrap-grid.css" />
+    <Content Include="UserContent\vendor\bootstrap\css\bootstrap-grid.min.css" />
+    <Content Include="UserContent\vendor\bootstrap\css\bootstrap-reboot.css" />
+    <Content Include="UserContent\vendor\bootstrap\css\bootstrap-reboot.min.css" />
+    <Content Include="UserContent\vendor\bootstrap\css\bootstrap.css" />
+    <Content Include="UserContent\vendor\bootstrap\css\bootstrap.min.css" />
+    <Content Include="UserContent\vendor\bootstrap\js\bootstrap.bundle.js" />
+    <Content Include="UserContent\vendor\bootstrap\js\bootstrap.bundle.min.js" />
+    <Content Include="UserContent\vendor\bootstrap\js\bootstrap.js" />
+    <Content Include="UserContent\vendor\bootstrap\js\bootstrap.min.js" />
+    <Content Include="UserContent\vendor\chart.js\Chart.bundle.js" />
+    <Content Include="UserContent\vendor\chart.js\Chart.bundle.min.js" />
+    <Content Include="UserContent\vendor\chart.js\Chart.js" />
+    <Content Include="UserContent\vendor\chart.js\Chart.min.js" />
+    <Content Include="UserContent\vendor\datatables\dataTables.bootstrap4.css" />
+    <Content Include="UserContent\vendor\datatables\dataTables.bootstrap4.js" />
+    <Content Include="UserContent\vendor\datatables\jquery.dataTables.js" />
+    <Content Include="Content\vendor\font-awesome\css\font-awesome.css" />
+    <Content Include="Content\vendor\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\vendor\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="UserContent\vendor\jquery-easing\jquery.easing.compatibility.js" />
+    <Content Include="UserContent\vendor\jquery-easing\jquery.easing.js" />
+    <Content Include="UserContent\vendor\jquery-easing\jquery.easing.min.js" />
+    <Content Include="UserContent\vendor\jquery\jquery.js" />
+    <Content Include="UserContent\vendor\jquery\jquery.min.js" />
+    <Content Include="UserContent\vendor\jquery\jquery.slim.js" />
+    <Content Include="UserContent\vendor\jquery\jquery.slim.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\User\Controllers\UserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Context\DatabaseContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -156,14 +215,20 @@
     <Compile Include="Migrations\201805282114229_optionals-oc.Designer.cs">
       <DependentUpon>201805282114229_optionals-oc.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805301723092_dates-oc.cs" />
+    <Compile Include="Migrations\201805301723092_dates-oc.Designer.cs">
+      <DependentUpon>201805301723092_dates-oc.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Articles.cs" />
     <Compile Include="Models\Categories.cs" />
     <Compile Include="Models\Comments.cs" />
+    <Compile Include="Models\Dates.cs" />
     <Compile Include="Models\Images.cs" />
     <Compile Include="Models\Roles.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\SessionModel.cs" />
     <Compile Include="Security\Sha1.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +241,14 @@
     <Content Include="Content\vendor\bootstrap\js\bootstrap.min.js.map" />
     <Content Include="Content\vendor\jquery\jquery.min.map" />
     <Content Include="Content\vendor\jquery\jquery.slim.min.map" />
+    <Content Include="Areas\User\Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Areas\User\Views\Shared\_UserLayout.cshtml" />
+    <Content Include="Areas\User\Views\User\Profil.cshtml" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\_layout.cshtml" />
     <Content Include="Views\_viewstart.cshtml" />
@@ -184,6 +257,82 @@
     <Content Include="Views\Home\Gonderiler.cshtml" />
     <Content Include="Views\Home\KayitOl.cshtml" />
     <Content Include="Views\Home\GirisYap.cshtml" />
+    <Content Include="UserContent\pug\blank.pug" />
+    <Content Include="UserContent\pug\cards.pug" />
+    <Content Include="UserContent\pug\charts.pug" />
+    <Content Include="UserContent\pug\forgot-password.pug" />
+    <Content Include="UserContent\pug\includes\css\core.pug" />
+    <Content Include="UserContent\pug\includes\css\custom.pug" />
+    <Content Include="UserContent\pug\includes\footer.pug" />
+    <Content Include="UserContent\pug\includes\js\core.pug" />
+    <Content Include="UserContent\pug\includes\js\custom.pug" />
+    <Content Include="UserContent\pug\includes\modals\logout.pug" />
+    <Content Include="UserContent\pug\includes\navbar.pug" />
+    <Content Include="UserContent\pug\includes\scroll-to-top.pug" />
+    <Content Include="UserContent\pug\index.pug" />
+    <Content Include="UserContent\pug\login.pug" />
+    <Content Include="UserContent\pug\navbar.pug" />
+    <Content Include="UserContent\pug\register.pug" />
+    <Content Include="UserContent\pug\tables.pug" />
+    <Content Include="UserContent\scss\navbar\_navbar_colors.scss" />
+    <Content Include="UserContent\scss\navbar\_navbar_fixed.scss" />
+    <Content Include="UserContent\scss\navbar\_navbar_global.scss" />
+    <Content Include="UserContent\scss\navbar\_navbar_static.scss" />
+    <Content Include="UserContent\scss\navbar\_navbar_toggle.scss" />
+    <Content Include="UserContent\scss\sb-admin.scss" />
+    <Content Include="UserContent\scss\_cards.scss" />
+    <Content Include="UserContent\scss\_footer.scss" />
+    <Content Include="UserContent\scss\_global.scss" />
+    <Content Include="UserContent\scss\_login.scss" />
+    <Content Include="UserContent\scss\_mixins.scss" />
+    <Content Include="UserContent\scss\_utilities.scss" />
+    <Content Include="UserContent\scss\_variables.scss" />
+    <Content Include="UserContent\vendor\bootstrap\css\bootstrap.css.map" />
+    <Content Include="UserContent\vendor\bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="UserContent\vendor\bootstrap\js\bootstrap.bundle.js.map" />
+    <Content Include="UserContent\vendor\bootstrap\js\bootstrap.bundle.min.js.map" />
+    <Content Include="UserContent\vendor\bootstrap\js\bootstrap.js.map" />
+    <Content Include="UserContent\vendor\bootstrap\js\bootstrap.min.js.map" />
+    <Content Include="Content\vendor\font-awesome\css\font-awesome.css.map" />
+    <Content Include="Content\vendor\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\vendor\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\vendor\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\vendor\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\vendor\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Content\vendor\font-awesome\less\animated.less" />
+    <Content Include="Content\vendor\font-awesome\less\bordered-pulled.less" />
+    <Content Include="Content\vendor\font-awesome\less\core.less" />
+    <Content Include="Content\vendor\font-awesome\less\fixed-width.less" />
+    <Content Include="Content\vendor\font-awesome\less\font-awesome.less" />
+    <Content Include="Content\vendor\font-awesome\less\icons.less" />
+    <Content Include="Content\vendor\font-awesome\less\larger.less" />
+    <Content Include="Content\vendor\font-awesome\less\list.less" />
+    <Content Include="Content\vendor\font-awesome\less\mixins.less" />
+    <Content Include="Content\vendor\font-awesome\less\path.less" />
+    <Content Include="Content\vendor\font-awesome\less\rotated-flipped.less" />
+    <Content Include="Content\vendor\font-awesome\less\screen-reader.less" />
+    <Content Include="Content\vendor\font-awesome\less\stacked.less" />
+    <Content Include="Content\vendor\font-awesome\less\variables.less" />
+    <Content Include="Content\vendor\font-awesome\scss\font-awesome.scss" />
+    <Content Include="Content\vendor\font-awesome\scss\_animated.scss" />
+    <Content Include="Content\vendor\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="Content\vendor\font-awesome\scss\_core.scss" />
+    <Content Include="Content\vendor\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="Content\vendor\font-awesome\scss\_icons.scss" />
+    <Content Include="Content\vendor\font-awesome\scss\_larger.scss" />
+    <Content Include="Content\vendor\font-awesome\scss\_list.scss" />
+    <Content Include="Content\vendor\font-awesome\scss\_mixins.scss" />
+    <Content Include="Content\vendor\font-awesome\scss\_path.scss" />
+    <Content Include="Content\vendor\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="Content\vendor\font-awesome\scss\_screen-reader.scss" />
+    <Content Include="Content\vendor\font-awesome\scss\_stacked.scss" />
+    <Content Include="Content\vendor\font-awesome\scss\_variables.scss" />
+    <Content Include="UserContent\vendor\jquery\jquery.min.map" />
+    <Content Include="UserContent\vendor\jquery\jquery.slim.min.map" />
+    <Content Include="Views\Home\Profil.cshtml" />
+    <Content Include="Views\Home\Duzenle.cshtml" />
+    <Content Include="Views\Home\Parola.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -194,6 +343,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\User\Models\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201805281749506_baslangic.resx">
@@ -219,6 +369,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805282114229_optionals-oc.resx">
       <DependentUpon>201805282114229_optionals-oc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805301723092_dates-oc.resx">
+      <DependentUpon>201805301723092_dates-oc.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

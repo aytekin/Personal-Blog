@@ -1,135 +1,70 @@
 ﻿
-@{
-    ViewBag.Title = "KayitOl";
+@section bg{
+    class="bg-dark"
 }
-
-<style>
-    .error {
-        color: red;
-    }
-
-    .backgr {
-        background-color: rgba(200, 214, 229,0.2);
-        padding: 20px 20px 50px 20px;
-        border: 3px solid rgba(15, 18, 15,0.3);
-        border-radius: 20px 20px;
-    }
-
-    h2 {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    }
-
-    hr {
-        border: none;
-        height: 2px;
-        /* Set the hr color */
-        background-color: rgba(0, 0, 0, 0.56); /* Modern Browsers */
-    }
-
-    .err {
-        color: #ffffff;
-        background-color: #EA2027;
-        padding: 2px 2px 2px 2px;
-        border-radius: 10px 10px;
-    }
-</style>
+<div class="container animated zoomIn" >
+    <div class="card card-register mx-auto col-md-7 offset-2 mt-5">
+        <div align="center" class="card-header">   <h2><i class="fas fa-code"></i>&nbsp;Kayıt Ol</h2> </div>
+        <div class="card-body">
+            @using (Html.BeginForm("KayitOl", "Home", FormMethod.Post,
+                new { enctype = "multipart/form-data" }))
+            {
 
 
-<br>
-
-<div class="container animated zoomIn" id="islem" align="center">
-    <div class="col-md-5 backgr">
-        <div>
-            <h1>
-                <i class="fas fa-code"></i>
-
-            </h1>
-
-
-            <h2 align="center">Kayıt Ol</h2><hr>
-            <form align="center" id="registForm" method="POST" autocomplete="off">
-                @using (Html.BeginForm("GirisYap","Home", FormMethod.Post,
-                    new { enctype = "multipart/form-data" }))
-                {
-
-                           <div class="form-group">
-                        <label for="userName"><i class="fas fa-user"></i> &nbsp; Ad ve Soyad</label>
-                        <input required="required" type="text" id="Name" class="form-control required" name="Name" placeholder="Ad ve Soyad" />
-                    </div>
-                    <div class="form-group">
-                        <label for="userNickName"><i class="fas fa-user-circle"></i> &nbsp; Kullanıcı Adı</label>
-                        <input required="required" type="text" id="NickName" class="form-control required" name="NickName" placeholder="Kullanıcı Adı" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="userEmail"><i class="fas fa-envelope"></i>&nbsp;Email Adresi</label>
-                        <input required="required" autocomplete="on" type="email" id="Email" class="form-control" aria-describedby="emailHelp" name="Email" placeholder="Email Adresi">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password"><i class="fas fa-key"></i> &nbsp; Parola&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                        <input required="required" type="password" id="Password" class="form-control" name="Password" placeholder="Parola" />
-                    </div>
-                    <div class="form-group">
-                        <label for="password"><i class="fas fa-key"></i> &nbsp; Parola Tekrar</label>
-                        <input required="required" type="password" id="Password1" class="form-control" name="Password" placeholder="Parola Tekrar" />
-                    </div>
-                    <div class="err" id="pcheck">
-                        <span><i class="fas fa-exclamation-triangle"></i> &nbsp; Parolalar Uyuşmuyor</span>
-                    </div><br>
-                    <div class="row">
-                        <div class="col-md-5" align="center" style="margin-top:5px;">
-                            <div class="custom-control custom-checkbox ">
-                                <input type="checkbox" class="custom-control-input" id="confirm">
-                                <label class="custom-control-label" for="confirm">Beni Hatırla</label>
-                            </div>
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <label for="exampleInputName">İsminiz</label>
+                            <input class="form-control" id="Name" type="text" name="Name" required="required">
                         </div>
-                        <div class="col-md-3 offset-2" align="center">
-                            <button align="center" type="submit" id="send" class="btn btn-success active"><i class="fas fa-plus"></i>&nbsp;&nbsp;Kaydet</button>
-
+                        <div class="col-md-6">
+                            <label for="exampleInputLastName">Soyisminiz</label>
+                            <input class="form-control" id="Surname" name="Surname" type="text" required="required" placeholder="Soyisminiz">
                         </div>
                     </div>
-            
-                 }
-                
-             
+                </div>
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <label for="exampleInputEmail1">Email Adresiniz</label>
+                            <input class="form-control" id="Email" type="email" name="Email" required="required" aria-describedby="emailHelp" placeholder="Email Adresiniz">
+                            @if (ViewBag.email != null)
+                            {
+                                <label style="color:darkred;">@ViewBag.email</label>
+                            }
+                        </div>
+                        <div class="col-md-6">
+                            <label for="exampleInputName">Kullanıcı Adınız</label>
+                            <input class="form-control" id="NickName" name="NickName" type="text" required="required" placeholder="Kullanıcı Adınız">
+                            @if (ViewBag.nickName != null)
+                            {
+                                <label style="color:darkred;">@ViewBag.nickName</label>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <label for="exampleInputPassword1">Parolanız</label>
+                            <input class="form-control" id="Password" name="Password" type="password" required="required" placeholder="Parolanız">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="exampleConfirmPassword">Parola Tekrar</label>
+                            <input class="form-control" id="Password1" name="Password1" type="password" required="required" placeholder="Parola Tekrar">
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-block" type="submit">Kayıt Ol</button>
+            }
+
+
+            <div class="text-center">
+                <a class="d-block small mt-3" href="login.html">Giriş Yap</a>
+                <a class="d-block small" href="forgot-password.html">Parolamı Unuttum</a>
+            </div>
         </div>
     </div>
 </div>
-
-<br />
-<br />
-<script type="text/javascript">
-    $('.err').hide();
-    $("#send").prop('disabled', true);
-    $('#Password').on('input', function () {
-        var parola = $('#Password').val();
-        var parola1 = $('#Password1').val();
-        if (parola1.length > 0 && parola1 != parola) {
-            $('.err').show();
-            $("#send").prop('disabled', true);
-        }
-        else {
-            $('.err').hide();
-            $("#send").prop('disabled', false);
-        }
-        if (parola1.length < 1) {
-            $("#send").prop('disabled', true);
-        }
-    })
-    $('#Password1').on('input', function () {
-        var parola = $('#Password').val();
-        var parola1 = $('#Password1').val();
-        if (parola.length > 0 && parola1 != parola) {
-            $('.err').show();
-            $("#send").prop('disabled', true);
-        }
-        else {
-            $('.err').hide();
-            $("#send").prop('disabled', false);
-        }
-        if (parola.length < 1) {
-            $("#send").prop('disabled', true);
-        }
-    })
-</script>
+<br /><br /><br /><br />

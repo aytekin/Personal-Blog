@@ -1,0 +1,72 @@
+﻿@model KisiselBlog.Models.Users
+
+@{
+    ViewBag.Title = "Profil";
+
+    var pppsrc = "";
+
+    if (Model.PPPath == null)
+    {
+        pppsrc = "https://www.atomix.com.au/media/2015/06/atomix_user31.png";
+    }
+    else
+    {
+        pppsrc = Model.PPPath;
+    }
+
+    DateTime biggest = Model.dates.Max(r => r.Date);
+    KisiselBlog.Models.Dates regist = Model.dates.Where(r => r.DateName == "Registration").FirstOrDefault();
+
+    var auth = "";
+    if (Model.roles.RoleName == "User")
+    {
+        auth = "Sistem Kullanıcısı";
+    }
+}
+<br />
+@if (ViewBag.PassSuccess != null)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Başarılı!</strong> @ViewBag.PassSuccess 
+    </div>
+}
+
+<div class="card mb-3">
+    <div class="card-header">
+        <nav class="nav nav-pills">
+            <a class="nav-link active" href="#">Profil</a>
+            <a class="nav-link" href="@Url.Action("Duzenle","Home",new { id = Model.UserID })">Düzenle</a>
+            <a class="nav-link" href="@Url.Action("Parola","Home",new { id = Model.UserID })">Parola Değiştir</a>
+        </nav>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-3" align="center">
+            <div class="mx-auto ml-10 mt-2">
+                <img src="@pppsrc" width="200px" height="200px" class="rounded" alt="..."><br />
+                <label for="exampleFormControlTextarea1">Profil Resmini Güncelle</label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="validatedCustomFile" required>
+                    <label class="custom-file-label" for="validatedCustomFile">Resim Seç</label>
+                    <div class="invalid-feedback">Example invalid custom file feedback</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5 ofset-2 mt-2">
+
+            <div class="alert alert-info" role="alert">
+                <h6><strong>Adı Soyadı:</strong>&emsp;@Model.Name @Model.Surname</h6>
+                <h6><strong>Kullanıcı Adı:</strong>&emsp;@Model.NickName</h6>
+                <h6><strong>Email:</strong>&emsp;@Model.Email</h6>
+                <h6><strong>Sisteme Kayıt Tarihi:</strong>&emsp;@regist.Date.ToString()</h6>
+                <h6><strong>Kullanıcı Yetkisi:</strong>&emsp;@auth </h6>
+            </div>
+
+
+        </div>
+    </div>
+
+    <br />
+    <div class="card-footer small text-muted"><b>Sisteme Son Giriş Tarihi @biggest.ToString()</b></div>
+</div>
