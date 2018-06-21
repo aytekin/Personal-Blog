@@ -4,8 +4,13 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-blog-post/blob/master/LICENSE)
  */
 
+html, body {
+    height: 100%;
+}
+
 body {
-  padding-top: 54px;
+    display: flex;
+    flex-direction: column;
 }
 
 @media (min-width: 992px) {
@@ -16,15 +21,12 @@ body {
 .head {
     background-color: #401F7C;
 }
-.foot{
-  background-color: #401F7C;
+.foot {
+    background-color: #401F7C;
+}
 
-}
-.bg:hover{
- 
-}
 /* navbar uzerindeki dropdown menunun tıklanmadan acılması icin */
-.dropdown:hover > .dropdown-menu{
+ .dropdown:hover > .dropdown-menu{
   display: block;
 }
 

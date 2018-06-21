@@ -1,0 +1,53 @@
+﻿
+@{
+    Layout = null;
+    //gelen son 5 makale listesi viewbagden normal list e ceviriliyor
+    List<KisiselBlog.Models.Articles> lastfivelist = new List<KisiselBlog.Models.Articles>();
+    if (ViewBag.links != null)
+    {
+
+
+        foreach (var i in ViewBag.links)
+        {
+            lastfivelist.Add(i);
+        }
+    }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Error 404</title>
+    <link href="~/Content/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-dark">
+    <!-- Page Content -->
+    <div class="container">
+        <!-- Page Heading/Breadcrumbs -->
+        <h1 class="mt-4 mb-3 text-center text-white" >
+            <small>Aradığınız Sayfa Bulunamadı!</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index","Home")">Anasayfa</a>
+            </li>
+            <li class="breadcrumb-item active">404</li>
+        </ol>
+        <div class="jumbotron">
+            <h1 class="text-center display-1">404</h1>
+            <p class="text-center">Aradığınız sayfa bulunamadı. Buradan yola çıkmanız için bazı yararlı bağlantılar:</p>
+            <center>
+                @foreach (var i in lastfivelist)
+                {
+                    <a href="@Url.Action(i.LinkAdress,"Makaleler")">@i.Header.ToUpper()</a><br />
+                }
+            </center>
+           
+        </div>
+        <!-- /.jumbotron -->
+    </div>
+
+</body>
+</html>

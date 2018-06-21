@@ -24,7 +24,12 @@ namespace KisiselBlog
             routes.MapRoute("profilduzenle", "Kullanıcı/Duzenle/{id}", new {controller = "Home", action = "Duzenle"  });
             routes.MapRoute("paroladegistir", "Parola/{id}", new {controller = "Home", action = "Parola"  });
             routes.MapRoute("adminDash", "Admin", new { controller = "User", action = "Profil", }).DataTokens.Add("area", "User");
-            routes.MapRoute("adminkullanicilar", "Admin/Users", new { controller = "User", action = "Kullanicilar", }).DataTokens.Add("area", "User");
+            routes.MapRoute("kullanicilar", "Admin/Users", new { controller = "User", action = "Kullanicilar", }).DataTokens.Add("area", "User");
+            routes.MapRoute("makaleEkle", "Admin/MakaleEkle", new { controller = "User", action = "MakaleEkle", }).DataTokens.Add("area", "User");
+            routes.MapRoute("kategoriEkle", "Admin/KategoriEkle", new { controller = "User", action = "KategoriEkle", }).DataTokens.Add("area", "User");
+            routes.MapRoute("hakkimizdaadmin", "Admin/Hakkimizda", new { controller = "User", action = "HakkimizdaEkle", }).DataTokens.Add("area", "User");
+            routes.MapRoute("makaleler", "Makaleler/{Link}", new { controller = "Home", action = "Makaleler", });
+            routes.MapRoute("error404", "Error404", new { controller = "Home", action = "Error404", });
 
 
             routes.MapRoute(

@@ -99,7 +99,6 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\animate.min.css" />
     <Content Include="Content\css\blog-post.css" />
-    <Content Include="Content\media\img\bigdata.jpg" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\vendor\bootstrap\css\bootstrap-grid.css" />
     <Content Include="Content\vendor\bootstrap\css\bootstrap-grid.min.css" />
@@ -123,6 +122,9 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\User\Views\User\Kullanicilar.cshtml" />
+    <Content Include="Areas\User\Views\User\MakaleEkle.cshtml" />
+    <Content Include="Areas\User\Views\User\KategoriEkle.cshtml" />
+    <Content Include="Areas\User\Views\User\HakkimizdaEkle.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -178,6 +180,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\User\Controllers\UserController.cs" />
+    <Compile Include="Areas\User\Models\ViewModels.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Context\DatabaseContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -219,7 +222,16 @@
     <Compile Include="Migrations\201805301723092_dates-oc.Designer.cs">
       <DependentUpon>201805301723092_dates-oc.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806201618455_deleteImages.cs" />
+    <Compile Include="Migrations\201806201618455_deleteImages.Designer.cs">
+      <DependentUpon>201806201618455_deleteImages.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806201856200_aboutPageinfo.cs" />
+    <Compile Include="Migrations\201806201856200_aboutPageinfo.Designer.cs">
+      <DependentUpon>201806201856200_aboutPageinfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AboutPage.cs" />
     <Compile Include="Models\Articles.cs" />
     <Compile Include="Models\Categories.cs" />
     <Compile Include="Models\Comments.cs" />
@@ -333,6 +345,10 @@
     <Content Include="Views\Home\Duzenle.cshtml" />
     <Content Include="Views\Home\Parola.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Shared\_PartialViewMakaleler.cshtml" />
+    <Content Include="Views\Home\Makaleler.cshtml" />
+    <Content Include="Views\Home\Error404.cshtml" />
+    <Content Include="Views\Shared\_AuthourPartialView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -343,7 +359,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\User\Models\" />
+    <Folder Include="Content\media\about\" />
+    <Folder Include="Content\media\img\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201805281749506_baslangic.resx">
@@ -372,6 +389,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805301723092_dates-oc.resx">
       <DependentUpon>201805301723092_dates-oc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806201618455_deleteImages.resx">
+      <DependentUpon>201806201618455_deleteImages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806201856200_aboutPageinfo.resx">
+      <DependentUpon>201806201856200_aboutPageinfo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

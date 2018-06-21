@@ -1,14 +1,7 @@
 ﻿@{
     ViewBag.Title = "Parola";
 }
-<style>
-  .err {
-        color: #ffffff;
-        background-color: #EA2027;
-        padding: 2px 2px 2px 2px;
-        border-radius: 10px 10px;
-    }
-</style>
+
 <div class="container">
     <div class="card card-login col-md-4 mx-auto mt-5">
         <div class="card-header">Parola Değiştir</div>
@@ -28,10 +21,10 @@
                     <label for="exampleInputPassword1">Yeni Parolanız Tekrar</label>
                     <input class="form-control" required="required" id="Password1" type="password" placeholder="Yeni Parolanız Tekrar">
                 </div>
-                <div class="err" id="pcheck">
+                <div class="err text-danger" id="pcheck">
                     <span><i class="fas fa-exclamation-triangle"></i> &nbsp; Parolalar Uyuşmuyor</span>
                 </div><br>
-                <button class="btn btn-block btn-primary"  type="submit">Kaydet</button>
+                <button class="btn btn-block btn-primary" id="send" type="submit">Kaydet</button>
 
             }
         </div>

@@ -22,12 +22,40 @@ namespace KisiselBlog.Controllers
 
         public ActionResult Hakkimizda()
         {
-            return View();
+            AboutPage item = db.aboutInfo.FirstOrDefault();
+            ViewBag.userList = db.users.Where(r => r.roles.RoleName != "User").ToList();
+            return View(item);
         }
         public ActionResult Gonderiler()
         {
             return View();
         }
+
+        #region 404 Page
+        public ActionResult Error404()
+        {
+            var lastFiveArticle = (from a in db.articles
+                                   orderby a.PostedDate descending
+                                   select a).Take(3);
+            ViewBag.links = lastFiveArticle.ToList();
+            return View();
+        }
+        #endregion
+
+        #region Makaleler
+        public ActionResult Makaleler(string Link)
+        {
+            Articles art = db.articles.Where(a => a.LinkAdress == Link).FirstOrDefault();
+            var lastFiveArticle = (from a in db.articles
+                                   orderby a.PostedDate descending
+                                   select a).Take(3);
+            ViewBag.last = lastFiveArticle.ToList();
+            if (art != null)
+                return View(art);
+            else
+                return RedirectToAction("Error404");
+        }
+        #endregion
 
         #region ParolaChange GET
         public ActionResult Parola(int id)
@@ -42,7 +70,6 @@ namespace KisiselBlog.Controllers
                 return RedirectToAction("GirisYap");
         }
         #endregion
-
 
         #region ParolaChange 
         [HttpPost]
@@ -196,12 +223,15 @@ namespace KisiselBlog.Controllers
                 if (query != null)
                 {
                     Sha1 security = new Sha1();
-                    if (security.encoder(pass) == query.Password && nickName == query.NickName)
+                    string password = security.encoder(pass);
+                    if (password == query.Password && nickName == query.NickName)
                     {
                         Dates d = new Dates();
                         d.DateName = "Login";
                         d.Date = DateTime.Now;
-                        query.dates.Add(d);
+                        d.user = query;
+                        db.dates.Add(d);
+                        db.SaveChanges();
                         try
                         {
                             db.SaveChanges();
@@ -249,7 +279,6 @@ namespace KisiselBlog.Controllers
 
         #endregion
 
-
         #region KayitOl GET
         [HttpGet]
         public ActionResult KayitOl()
@@ -260,7 +289,6 @@ namespace KisiselBlog.Controllers
                 return RedirectToAction("Profil");
         }
         #endregion
-
 
         #region KayıtOl POST
         [HttpPost]
@@ -293,11 +321,11 @@ namespace KisiselBlog.Controllers
                         user.RoleID = rolequery.RoleID;
                         user.roles = rolequery;
                         d.user = user;
-                        d.UserID = user.UserID;
                         d.DateName = "Registration";
                         d.Date = DateTime.Now;
                         db.dates.Add(d);
                         user.dates.Add(d);
+                        
 
                         //user nesnesinin veri tabanına kaydı gerçekleştirildi
                         db.users.Add(user);

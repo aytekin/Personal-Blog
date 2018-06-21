@@ -1,7 +1,66 @@
-﻿
+﻿@model KisiselBlog.Models.AboutPage
 @{
     ViewBag.Title = "Hakkimizda";
 }
 
-<h2>Hakkimizda</h2>
+<!-- Page Content -->
+<div class="container">
 
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">
+       Hakkımızda
+    </h1>
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="@Url.Action("Index","Home")">Ana Sayfa</a>
+        </li>
+        <li class="breadcrumb-item active">Hakkimizda</li>
+    </ol>
+
+    <!-- Intro Content -->
+    <div class="row animated bounceInLeft">
+        <div class="col-lg-6">
+            <img class="img-fluid rounded mb-4" src="@Url.Content(Model.imagePath)" alt="Biz Kimiz?">
+        </div>
+        <div class="col-lg-6">
+            <h2>@Model.Header</h2>
+            <p>@Model.About</p>
+            <h3>
+            <a href=""><i class="fa fa-fw fa-address-book"></i></a>
+            <a href=""><i class="fa fa-fw fa-american-sign-language-interpreting"></i></a>
+            </h3>
+
+            
+        </div>
+    </div>
+    <!-- /.row -->
+    <!-- Team Members -->
+    <h2>Yazarlar</h2>
+
+    <div class="row">
+
+        @if (ViewBag.userList != null)
+        {
+            List<KisiselBlog.Models.Users> list = new List<KisiselBlog.Models.Users>();
+            list = ViewBag.userList;
+            foreach (var item in list)
+            {
+                @Html.Partial("_AuthourPartialView", item);
+                <br />
+            }
+
+        }
+
+    </div>
+    <!-- /.row -->
+    <!-- Our Customers -->
+   
+    <!-- /.row -->
+
+</div>
+<!-- /.container -->
+<br />
+<br />
+<br />
+<br />

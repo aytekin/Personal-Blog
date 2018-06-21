@@ -23,13 +23,14 @@ namespace KisiselBlog.Models
         public DateTime PostedDate { get; set; }
         [StringLength(5000), Required]
         public string Text { get; set; }
+        [StringLength(180), Required]
+        public string PhotoPath { get; set; }
         [Required]
         public Boolean Status { get; set; }
 
         public int UserID { get; set; }
         public virtual Users author { get; set; }
 
-        public ICollection<Images> images { get; set; }
         public ICollection<Comments> comments { get; set; }
         public ICollection<Categories> category { get; set; }
     }

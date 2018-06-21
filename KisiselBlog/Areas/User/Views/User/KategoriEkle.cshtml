@@ -1,0 +1,68 @@
+﻿@using KisiselBlog.Models
+@model IEnumerable<Categories>
+@{
+    ViewBag.Title = "KategoriEkle";
+    Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
+}
+<center>
+    <div class="container mx-auto mt-3">
+        <div class="row" align="center">
+            <div class="col-md-3 offset-1">
+                
+                <div class="container mx-auto">
+                    <div class="row">
+                        <div class="mt-xl-auto mt-5" >
+                            @using (Html.BeginForm("KategoriEkle", "User", FormMethod.Post, new { enctype = "multipart/form-data"}))
+                            {
+                                <input class="form-control" type="text" name="CategoryName" placeholder="Kategori İsmi Giriniz" id="CategoryName" />
+                                <button type="submit" class="btn btn-sm btn-primary">Ekle</button>
+                            }
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 ofset-2">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Kategori Adı</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    foreach (var i in Model)
+                                    {
+
+                                        <tr>
+                                            <td>@i.CategoryName</td>
+                                        </tr>
+                                    }
+
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>Kategori Bulunmamaktadır.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</center>
+ 
+
+
+
+
+
+
+
+
