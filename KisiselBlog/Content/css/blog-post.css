@@ -24,7 +24,186 @@ body {
 .foot {
     background-color: #401F7C;
 }
+@media (max-width: 767px) {
+    .mt-xs-1 {
+        margin-top:10px;
+    } 
+	.mt-xs-2 {
+        margin-top:20px;
+    } 
+	.mt-xs-3 {
+        margin-top:30px;
+    } 
+	.mt-xs-4 {
+        margin-top:40px;
+    } 
+	.mt-xs-5 {
+        margin-top:50px;
+    }
+}
 
+@media (max-width: 768px) {
+    .mbot-sm-100 {
+        margin-bottom: 100px;
+    }
+
+    .mbot-sm-75 {
+        margin-bottom: 75px;
+    }
+
+    .mbot-sm-70 {
+        margin-bottom: 70px;
+    }
+
+    .mbot-sm-50 {
+        margin-bottom: 50px;
+    }
+
+    .mbot-sm-25 {
+        margin-bottom: 25px;
+    }
+
+    .mbot-sm-15 {
+        margin-bottom: 15px;
+    }
+
+    .mbot-sm-10 {
+        margin-bottom: 10px;
+    }
+
+    .mbot-sm-0 {
+        margin-bottom: 0px;
+    }
+    .mtop-sm-150 {
+        margin-top: 150px;
+    }
+    .mtop-sm-300 {
+        margin-top: 300px;
+    }
+    .mtop-sm-100 {
+        margin-top: 100px;
+    }
+
+    .mtop-sm-75 {
+        margin-top: 75px;
+    }
+
+    .mtop-sm-70 {
+        margin-top: 70px;
+    }
+
+    .mtop-sm-50 {
+        margin-top: 50px;
+    }
+
+    .mtop-sm-25 {
+        margin-top: 25px;
+    }
+
+    .mtop-sm-15 {
+        margin-top: 15px;
+    }
+
+    .mtop-sm-10 {
+        margin-top: 10px;
+    }
+
+    .mtop-sm-0 {
+        margin-top: 0px;
+    }
+
+    .ptop-sm-100 {
+        padding-top: 100px;
+    }
+
+    .ptop-sm-75 {
+        padding-top: 75px;
+    }
+
+    .ptop-sm-70 {
+        padding-top: 70px;
+    }
+
+    .ptop-sm-50 {
+        padding-top: 50px;
+    }
+
+    .ptop-sm-25 {
+        padding-top: 25px;
+    }
+
+    .ptop-sm-15 {
+        padding-top: 15px;
+    }
+
+    .ptop-sm-10 {
+        padding-top: 10px;
+    }
+
+    .ptop-sm-10 {
+        padding-top: 0px;
+    }
+
+    .pbot-sm-100 {
+        padding-bottom: 100px;
+    }
+
+    .pbot-sm-75 {
+        padding-bottom: 75px;
+    }
+
+    .pbot-sm-70 {
+        padding-bottom: 70px;
+    }
+
+    .pbot-sm-50 {
+        padding-bottom: 50px;
+    }
+
+    .pbot-sm-25 {
+        padding-bottom: 25px;
+    }
+
+    .pbot-sm-15 {
+        padding-bottom: 15px;
+    }
+
+    .pbot-sm-10 {
+        padding-bottom: 10px;
+    }
+
+    .pbot-sm-10 {
+        padding-bottom: 0px;
+    }
+
+    .h-sm-25vh {
+        height: 25vh;
+    }
+
+    .h-sm-33vh {
+        height: 33vh;
+    }
+
+    .h-sm-50vh {
+        height: 50vh;
+    }
+
+    .h-sm-75vh {
+        height: 75vh;
+    }
+
+    .h-sm-80vh {
+        height: 80vh;
+    }
+
+    .h-sm-90vh {
+        height: 90vh;
+    }
+
+    .h-sm-100vh {
+        height: 100vh;
+    }
+}
 /* navbar uzerindeki dropdown menunun tıklanmadan acılması icin */
  .dropdown:hover > .dropdown-menu{
   display: block;

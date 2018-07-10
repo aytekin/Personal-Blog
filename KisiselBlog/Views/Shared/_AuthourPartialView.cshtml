@@ -1,6 +1,6 @@
 ﻿@model KisiselBlog.Models.Users
 
-@{ 
+@{
     string rol = "";
     if (Model.roles.RoleName == "Admin")
     {
@@ -11,24 +11,35 @@
         rol = "Yazar";
     }
     int makalesayisi = 0;
-    if(Model.articles != null)
+    if (Model.articles != null)
     {
         makalesayisi = Model.articles.Count;
     }
+    string path = "";
+    if (string.IsNullOrEmpty(Model.PPPath))
+    {
+        path = "http://storey-lines.com/wp-content/uploads/2013/04/writer.jpg";
+    }
+    else
+    {
+        path = Model.PPPath;
+    }
 }
 
-<div class="col-lg-4 mt-5 animated tada">
-    <div class="card h-75 text-center">
-        <img class="card-img-top" src="http://placehold.it/750x450" alt="">
-        <div class="card-body">
-            <h4 class="card-title">@Model.Name @Model.Surname</h4>
-            <h6 class="card-subtitle mb-2 text-muted">@rol</h6><hr />
-            <h6 class="card-subtitle mb-2 text-capitalize"><small>@makalesayisi Makale paylaşımı</small></h6>
-            
-            <p class="card-text">giat odio officiis odit.giat odio officiis odit.giat odio officiis odit.giat odio officiis odit.giat odio officiis odit.giat odio officiis odit.giat odio officiis odit.</p>
-        </div>
-        <div class="card-footer">
-            <a href="mailto:@Model.Email">Mail Gönder</a>
+
+
+    <div class="col-lg-4 mt-5 animated tada">
+        <div class="card h-75 text-center">
+            <img class="rounded-circle img-fluid d-block mx-auto" width="200px" height="200px" src="@Url.Content(path)" alt="@Model.NickName">
+            <div class="card-body">
+                <h5 class="card-title text-primary">@Model.Name @Model.Surname</h5>
+                <h6 class="card-subtitle mb-2 text-muted">@rol</h6><hr />
+                <h6 class="card-subtitle mb-2 text-capitalize"><small>@makalesayisi Makale paylaşımı</small></h6><hr />
+
+                <p class="card-text">@Model.AboutUser</p>
+            </div>
+           <div class="card-footer">
+                <a href="mailto:@Model.Email">Mail Gönder</a>
+            </div>
         </div>
     </div>
-</div>

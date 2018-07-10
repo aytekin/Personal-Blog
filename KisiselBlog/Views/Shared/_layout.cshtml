@@ -2,8 +2,6 @@
     Layout = null;
 }
 
-<br />
-<br />
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,15 +21,17 @@
     <link href="~/Content/css/blog-post.css" rel="stylesheet">
     <link href="~/Content/css/animate.min.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="~/Content/js/numscroller-1.0.js"></script>
+    @RenderSection("Head", false)
 
 </head>
 
 <body @RenderSection("bg", false)>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg head navbar-dark fixed-top">
+    <nav class="navbar bg-light navbar-expand-lg head navbar-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="@Url.Action("Index","Home")">
+            <a style="color: #401F7C;" class="navbar-brand" href="@Url.Action("Index","Home")">
                 <i class="fas fa-code"></i>
                 Yazılım Ve Teknoloji
             </a> &nbsp;
@@ -40,24 +40,16 @@
             </button>
             <div class=" collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-tags"></i>&nbsp;Kategoriler
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">ge</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
+                    <li class="nav-item bg">
+                        <a class="nav-link text-danger" href="@Url.Action("Gonderiler","Home")"><i class="fas fa-file-alt"></i>&nbsp;Makaleler</a>
                     </li>
                     <li class="nav-item bg">
-                        <a class="nav-link" href="@Url.Action("Hakkimizda","Home")"><i class="fas fa-info-circle"></i>&nbsp;Hakkımda</a>
+                        <a class="nav-link text-warning" href="@Url.Action("Hakkimizda","Home")"><i class="fas fa-info-circle"></i>&nbsp;Hakkımızda</a>
                     </li>
                     @if (Session["aktif"] == null)
                     {
-                        <li class="nav-item bg pl-3">
-                            <a class="nav-link" href="@Url.Action("KayitOl","Home")"><small>Kayıt Ol</small></a>
+                        <li class="nav-item bg pl-3 mr-1">
+                            <button onclick="window.location.href='@Url.Action("KayitOl","Home")'" class="btn btn-outline-primary " type="button">Kayıt Ol</button>
                         </li>
                         <li class="nav-item bg">
                             <button onclick="window.location.href='@Url.Action("GirisYap","Home")'" class="btn btn-outline-success " type="button">Giriş Yap</button>
@@ -66,7 +58,7 @@
                     else
                     {
                         <li class="nav-item dropdown pl-3">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a style="color: #EE5A24;" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-user"></i>&nbsp; @Session["aktif"]
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -109,16 +101,17 @@
         </div>
     </div>
 
-    <footer class="py-3 foot">
+    <footer class="py-3 bg-light">
 
         <div class="row">
             <div class="col-md-3">
-                <p class="m-0 text-center text-white">Copyright &copy; aytekinerlale.com 2018</p>
+                <p class="m-0 text-center">Copyright &copy; aytekinerlale.com 2018</p>
 
             </div>
-            <div class="col-md-4 offset-5 text-center">
-                <a href="mailto:aytekinerlale@gmail.com">
-                    <p class="text-center text-white">Designed by Aytekin Erlale</p>
+            <div class="col-md-4 offset-5 col-sm-12 text-center">
+                Designed by
+                <a class="text-success" href="mailto:aytekinerlale@gmail.com">
+                    Aytekin Erlale
                 </a>
             </div>
         </div>
@@ -138,9 +131,7 @@
 <script src="~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="~/Content/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="~/Content/vendor/bootstrap/js/bootstrap.bundle.js"></script>
-<script src="~/Content/vendor/jquery/jquery.min.js"></script>
 
-<script src="~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Core plugin JavaScript-->
 <script src="~/Content/vendor/jquery-easing/jquery.easing.min.js"></script>
 

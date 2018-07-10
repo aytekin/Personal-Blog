@@ -9,7 +9,7 @@
 
 <div class="card-body">
     <div class="table-responsive">
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <table class="table text-info" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr>
                     <th>Adı</th>
@@ -19,33 +19,35 @@
                     <th>Yetki</th>
                     <th>Kayıt Tarihi</th>
                     <th>Son Login Tarihi</th>
+                    <th class="text-danger">Sil</th>
                 </tr>
             </thead>
-            <tfoot>
-                <tr>
-                    <th>Adı</th>
-                    <th>Soyadı</th>
-                    <th>Kullanıcı Adı</th>
-                    <th>Email</th>
-                    <th>Yetki</th>
-                    <th>Kayıt Tarihi</th>
-                    <th>Son Login Tarihi</th>
-                </tr>
-            </tfoot>
-            <tbody>
+     
+            <tbody class="text-dark">
                 @foreach (var i in Model)
                 {
                     DateTime biggest = i.dates.Max(r => r.Date);
                     KisiselBlog.Models.Dates regist = i.dates.Where(r => r.DateName == "Registration").FirstOrDefault();
-                    <tr>
-                        <td>@i.Name</td>
-                        <td>@i.Surname</td>
-                        <td>@i.NickName</td>
-                        <td>@i.Email</td>
-                        <td>@i.roles.RoleName</td>
-                        <td>@regist.Date.ToString()</td>
-                        <td>@biggest.ToString()</td>
-                    </tr>
+                <tr>
+                    <td>@i.Name</td>
+                    <td>@i.Surname</td>
+                    <td>@i.NickName</td>
+                    <td>@i.Email</td>
+                    <td>@i.roles.RoleName</td>
+                    <td>@regist.Date.ToString()</td>
+                    <td>@biggest.ToString()</td>
+                   
+                    
+                    <td >
+      
+                        <a href="@Url.Action("KullaniciSil", "User", new { id = i.UserID })">
+                            <button  class="btn btn-danger btn-sm">
+                               <i class="fa fa-fw fa-trash-o" aria-hidden="true"></i>
+                            </button>
+                        </a>
+                    </td>
+                    
+                </tr>
                 }
 
 

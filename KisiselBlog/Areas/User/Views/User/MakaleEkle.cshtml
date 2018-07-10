@@ -12,19 +12,22 @@
         <div class="col-md-8 offset-2">
             <div align="center">
                 <h2>Makale Ekle</h2><br>
-                @using (Html.BeginForm("MakaleEkle", "User", FormMethod.Post,new { enctype = "multipart/form-data" }))
+                <a class="btn btn-warning text-white" data-toggle="modal" data-target=".bd-example-modal-lg">Makale Ekleme Rehberi</a>
+                <br />
+                <br />
+                @using (Html.BeginForm("MakaleEkle", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                           
+
                             <label for="baslik">Konu Başlığı</label>
 
                             <input type="text" class="form-control" id="baslik" name="Head" placeholder="Konu Başlığı">
-                            @Html.ValidationMessage("Head","", new { @class = "text-danger" })
+                            @Html.ValidationMessage("Head", "", new { @class = "text-danger" })
                         </div>
                         <div class="form-group col-md-6">
                             <label for="Link">Sayfa Linki</label>
-                            <input type="text"  class="form-control" id="Link" name="Link" placeholder="Sayfa Linki">
+                            <input type="text" class="form-control" id="Link" name="Link" readonly placeholder="Sayfa Linki">
                         </div>
                     </div>
 
@@ -55,12 +58,12 @@
                                 <label class="custom-file-label" for="validatedCustomFile">Resim Seç</label>
                                 <div class="invalid-feedback">feedback</div>
                             </div>
-                            
+
                         </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Yayınla</button>
-                 }
+                }
 
 
             </div>
@@ -70,13 +73,106 @@
 
 </div>
 
+<!-- Makale Ekleme Rehberi Modal  -->
+
+<div class="modal fade exampleModalCenter bd-example-modal-lg" width="50%" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Ekleme Rehberinin genis divi  -->
+            <div class="container ml-5">
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="text-center mr-5"><h6 class="text-danger">Makale Ekleme Rehberi</h6></div>
+                    </div>
+                    <div class="col-md-1 offset-6">
+                        <div align="right"><button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button></div>
+                    </div>
+                </div><hr />
+                <p class="text-primary"><b>GİRDİ ALANLARI VE İP UÇLARI</b></p>
+                <div class="row ml-1">
+                    <ol>
+                        <li>
+                            <p class="text-muted">Konu başlığı kısmı makalenin başlığını oluşturmaktadır</p>
+                        </li>
+                        <ol type="i">
+                            <li>
+                                <p class="text-muted">
+                                    Konu başlığı makale ile alakalı olmasına özen gösterin.
+                                </p>
+                            </li>
+                            <li>
+                                <p class="text-muted">
+                                    Özel karakter olarak yalnızca "?" kullanabilirsiniz
+                                </p>
+                            </li>
+                            <li>
+                                <p class="text-muted">
+                                    Aynı makale başlığına sahip başka bir makale olmadından emin olun<br /> aksi taktirde makalenizin kaydı alınsa dahi otomatikmen reddedilir.
+                                </p>
+                            </li>
+                        </ol>
+                        <li>
+                            <p class="text-muted">Makale linki makale başlığına göre otomatik oluşturulmaktadır.</p>
+                        </li>
+                        <li>
+                            <p class="text-muted">İçerik Kısmı makalenin gövde kısmıdır</p>
+                        </li>
+                        <ol type="i">
+                            <li>
+                                <p class="text-danger">
+                                    Bu kısımda yazının/makalenin içeriğinin şahsınıza ait tecrübe ve bilgi birikiminizden<br /> yararlanarak kendi özgün cümlelerinizle yazılmış olması bizim için önemlidir ve zorunludur.
+                                </p>
+                            </li>
+                            <li>
+                                <p class="text-muted">
+                                    İçeriğinizi eklerken alt kısımda bulunan yazı fontlarını ve yazım şekillerini dikkate almanız <br />yazı içeriğinizin okunaklı ve anlaşılır olmasını sağlar.
+                                </p>
+                            </li>
+                        </ol>
+                        <li>
+                            <p class="text-muted">Bir makale birdan fazla kategoriye eklenebilir.(En Fazla 5)</p>
+                        </li>
+                        <li>
+                            <p class="text-muted">Resim makalenin en üst kısmında bulunacaktır</p>
+                        </li>
+                        <ol type="i">
+                            <li>
+                                <p class="text-muted">
+                                    Resimin Konu ile alakalıi,dikkat çekici ve merak uyandırıcı olması önemlidir.
+                                </p>
+                            </li>
+                            <li>
+                                <p class="text-muted">
+                                    Resimin seçimi yaparken yüksek kalitede bir fotoğraf kullanmaya özen gösteriniz
+                                </p>
+                            </li>
+                        </ol>
+
+                    </ol>
+                    <h6 class="text-center">Kurallara uyduğunuz ve bize katlandığınız için teşekkürler</h6>
+                </div>
+
+
+
+
+            </div><hr />
+
+            <div class="modal-footer">
+                <button class="btn btn-danger" type="button" data-dismiss="modal">Rehberi Kapat</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $('#baslik').on('input', function () {
-        var str = "" ,baslik = $('#baslik').val();
+        var str = "", baslik = $('#baslik').val();
         str = baslik.replace(/ /g, "-"); //replace all demek
         document.getElementById("Link").value = str; //DOM
     });
 
-    
+
 </script>
 

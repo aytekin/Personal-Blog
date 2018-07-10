@@ -1,0 +1,26 @@
+﻿@model KisiselBlog.Models.Articles
+@{ 
+    string summary = "";
+    if(summary.Length > 150)
+    {
+        summary = Model.Text.Substring(0, 150);
+    }
+    else
+    {
+        summary = Model.Text;
+    }
+     
+}
+<div class="card mb-5 col-md-6 animated bounceIn">
+    <img class="card-img-top" src="@Url.Content(Model.PhotoPath)" alt="@Model.Header">
+    <div class="card-body">
+        <h5 class="card-title text-primary" >@Model.Header.ToUpper()</h5>
+        <p class="card-text">@Html.Raw(summary)...  <br /><a href="@Url.Action(Model.LinkAdress,"Makaleler")" >Devamını Oku &rarr;</a> </p>
+    </div>
+    <div class="card-footer text-muted">
+        <small>
+            @Model.PostedDate.ToString() tarihinde
+            <a href="mailto:@Model.author.Email">@Model.author.Name @Model.author.Surname</a> tarafından yayınlandı
+        </small> 
+    </div>
+</div>

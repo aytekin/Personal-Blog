@@ -2,69 +2,200 @@
 @section bg{
     class="bg-dark"
 }
-<div class="container animated zoomIn" >
-    <div class="card card-register mx-auto col-md-7 offset-2 mt-5">
-        <div align="center" class="card-header">   <h2><i class="fas fa-code"></i>&nbsp;Kayıt Ol</h2> </div>
-        <div class="card-body">
-            @using (Html.BeginForm("KayitOl", "Home", FormMethod.Post,
-                new { enctype = "multipart/form-data" }))
-            {
+@section Head{
 
+    <style>
+        body {
+            background-image: url("../Content/media/bg-image/bg-image.jpg");
+            background-repeat: no-repeat;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+        hr {
+            display: block;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+            margin-left: auto;
+            margin-right: auto;
+            border-style: inset;
+            border-width: 2px;
+            background-color: rgba(66,139,202);
+        }
+        
 
-                <div class="form-group">
-                    <div class="form-row">
-                        <div class="col-md-6">
-                            <label for="exampleInputName">İsminiz</label>
-                            <input class="form-control" id="Name" type="text" name="Name" required="required">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="exampleInputLastName">Soyisminiz</label>
-                            <input class="form-control" id="Surname" name="Surname" type="text" required="required" placeholder="Soyisminiz">
+    </style>
+}
+@model KisiselBlog.Models.Users
+
+@{
+    string name, surname, email, nickname, mesaj;
+    name = surname = email = nickname = "";
+    mesaj = "free";
+    if (Model != null)
+    {
+        name = Model.Name;
+        surname = Model.Surname;
+        if (ViewBag.Hata == null)
+        {
+            nickname = Model.NickName;
+        }
+        if (ViewBag.Hata2 == null)
+        {
+            email = Model.Email;
+        }
+        mesaj = "change";
+    }
+}
+
+<div style="margin-top:65px; position: relative;" class="container animated zoomIn" id="containerr" align="center">
+    @if (ViewBag.Hata2 != null)
+    {
+        <div class="row">
+            <div class="col-md-6 col-xs-12 mt-xs-2 offset-md-3 mt-xl-2">
+                <div class="pl-5 pr-5 alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Hata!</strong> @ViewBag.Hata2
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    }
+    @if (ViewBag.Hata != null)
+    {
+        <div class="row">
+            <div class="col-md-6 col-xs-12 mt-xs-2 offset-md-3 mt-xl-2">
+                <div class="pl-5 pr-5 alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Hata!</strong> @ViewBag.Hata
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    }
+    <div class="row">
+        <div class="card bg-light card-register col-md-6 col-xs-12 offset-md-3 text-center">
+
+            <div class="card-body">
+                <h3 style="font-family:Arial;" class="text-center text-primary">Kayıt Ol</h3><hr /><br />
+                @using (Html.BeginForm("KayitOl", "Home", FormMethod.Post,
+                    new { enctype = "multipart/form-data" }))
+                {
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label class="" for="exampleInputName">İsminiz</label>
+                                @Html.TextBox("Name", name, new { @class = "form-control", placeholder = "İsminiz", type = "text", required = "required" })
+
+                            </div>
+                            <div class="col-md-6">
+                                <label for="exampleInputLastName">Soyisminiz</label>
+                                @Html.TextBox("Surname", surname, new { @class = "form-control", placeholder = "Soyisminiz", type = "text", required = "required" })
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="form-row">
-                        <div class="col-md-6">
-                            <label for="exampleInputEmail1">Email Adresiniz</label>
-                            <input class="form-control" id="Email" type="email" name="Email" required="required" aria-describedby="emailHelp" placeholder="Email Adresiniz">
-                            @if (ViewBag.email != null)
-                            {
-                                <label style="color:darkred;">@ViewBag.email</label>
-                            }
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label for="exampleInputEmail1">Email Adresiniz</label>
+                                @Html.TextBox("Email", email, new { @class = "form-control", placeholder = "Email Adresiniz", type = "email", required = "required" })
+
+                            </div>
+                            <div class="col-md-6">
+                                <label for="exampleInputName">Kullanıcı Adınız</label>
+                                @Html.TextBox("NickName", nickname, new { @class = "form-control", placeholder = "Kullanıcı Adınız", type = "text", required = "required" })
+
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label for="exampleInputName">Kullanıcı Adınız</label>
-                            <input class="form-control" id="NickName" name="NickName" type="text" required="required" placeholder="Kullanıcı Adınız">
-                            @if (ViewBag.nickName != null)
-                            {
-                                <label style="color:darkred;">@ViewBag.nickName</label>
-                            }
+
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label for="exampleInputPassword1">Parola</label>
+                                @Html.TextBox("Password", "", new { @class = "form-control", placeholder = "Parola", type = "password", required = "required" })
+
+                            </div>
+                            <div class="col-md-6">
+                                <label for="exampleConfirmPassword">Parola Tekrar</label>
+                                @Html.TextBox("Password1", "", new { @class = "form-control", placeholder = "Parola Tekrar", type = "password", required = "required" })
+
+                            </div>
                         </div>
                     </div>
+                    <div class="err text-danger" id="pcheck">
+                        <span><i class="fas fa-exclamation-triangle"></i> &nbsp; Parolalar Uyuşmuyor</span>
+                    </div><br>
+                    <button id="send" class="btn btn-primary btn-block" type="submit">Kayıt Ol</button>
+                }
 
+
+                <div class="text-center">
+                    <a class="d-block small mt-3" href="@Url.Action("GirisYap","Home")">Giriş Yap</a>
+                    <a class="d-block small" href="forgot-password.html">Parolamı Unuttum</a>
                 </div>
-                <div class="form-group">
-                    <div class="form-row">
-                        <div class="col-md-6">
-                            <label for="exampleInputPassword1">Parolanız</label>
-                            <input class="form-control" id="Password" name="Password" type="password" required="required" placeholder="Parolanız">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="exampleConfirmPassword">Parola Tekrar</label>
-                            <input class="form-control" id="Password1" name="Password1" type="password" required="required" placeholder="Parola Tekrar">
-                        </div>
-                    </div>
-                </div>
-                <button class="btn btn-primary btn-block" type="submit">Kayıt Ol</button>
-            }
-
-
-            <div class="text-center">
-                <a class="d-block small mt-3" href="login.html">Giriş Yap</a>
-                <a class="d-block small" href="forgot-password.html">Parolamı Unuttum</a>
             </div>
         </div>
     </div>
+
 </div>
 <br /><br /><br /><br />
+
+<script type="text/javascript">
+
+    // A $( document ).ready() block.
+    $(document).ready(function () {
+        $(@mesaj).change(function () {
+            $('#containerr').removeClass("zoomIn").last().addClass("shake");
+        });
+
+    });
+
+
+</script>
+
+
+<script type="text/javascript">
+    $('.err').hide();
+    if ($('#Password').val().length > 0 && $('#Password1').val().length > 0) {
+        $("#send").prop('disabled', true);
+    }
+    $('#Password').on('input', function () {
+        var parola = $('#Password').val();
+        var parola1 = $('#Password1').val();
+        if (parola1.length > 0 && parola1 != parola) {
+            $('.err').show();
+            $("#send").prop('disabled', true);
+        }
+        else {
+            $('.err').hide();
+            $("#send").prop('disabled', false);
+        }
+        if (parola1.length < 1) {
+            $("#send").prop('disabled', true);
+        }
+    })
+    $('#Password1').on('input', function () {
+        var parola = $('#Password').val();
+        var parola1 = $('#Password1').val();
+        if (parola.length > 0 && parola1 != parola) {
+            $('.err').show();
+            $("#send").prop('disabled', true);
+        }
+        else {
+            $('.err').hide();
+            $("#send").prop('disabled', false);
+        }
+        if (parola.length < 1) {
+            $("#send").prop('disabled', true);
+        }
+    })
+</script>

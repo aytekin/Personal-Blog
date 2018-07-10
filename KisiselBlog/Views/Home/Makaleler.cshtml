@@ -28,7 +28,7 @@
     <div class="row">
 
         <!-- Post Content Column -->
-        <div class="col-lg-9 animated bounceInLeft">
+        <div class="col-lg-8 animated bounceInLeft">
 
             <!-- Title -->
             <h2 class="mt-4 text-center">@Model.Header.ToUpper()</h2>
@@ -53,7 +53,7 @@
 
             <!-- Preview Image -->
             <!-- Post Content -->
-            <p class="lead">@Model.Text</p>
+            <p >@Html.Raw(Model.Text)</p>
 
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus.</p>
 
@@ -118,7 +118,7 @@
         </div>
             
         <!-- Sidebar Widgets Column -->
-        <div class="col-md-3 animated bounceInRight" >
+        <div class="col-md-4 animated bounceInRight" >
 
             <!-- Search Widget -->
             <!-- Categories Widget -->

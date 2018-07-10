@@ -2,6 +2,7 @@
 using KisiselBlog.Models;
 using KisiselBlog.Security;
 using System;
+using KisiselBlog.Models.ViewModels;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
@@ -14,22 +15,47 @@ namespace KisiselBlog.Controllers
     {
         DatabaseContext db = new DatabaseContext();
         // GET: Home
+
+        #region Anasayfa
         public ActionResult Index()
         {
             ViewBag.year = DateTime.Now.Year;
             return View();
         }
 
+        #endregion
+
+        #region Hakkimizda 
         public ActionResult Hakkimizda()
         {
             AboutPage item = db.aboutInfo.FirstOrDefault();
             ViewBag.userList = db.users.Where(r => r.roles.RoleName != "User").ToList();
             return View(item);
         }
+
+        #endregion
+
+        #region GONDERILER
+        [HttpGet]
         public ActionResult Gonderiler()
         {
-            return View();
+            List<Articles> itemList = new List<Articles>();
+            itemList = db.articles.ToList();
+            return View(itemList);
         }
+
+        #endregion
+        
+        #region GONDERILER POST
+        [HttpPost]
+        public ActionResult Gonderiler(SortingViewModel sorting)
+        {
+            List<Articles> itemList = new List<Articles>();
+            itemList = db.articles.ToList();
+            return View(itemList);
+        }
+
+        #endregion
 
         #region 404 Page
         public ActionResult Error404()
@@ -214,10 +240,15 @@ namespace KisiselBlog.Controllers
 
         #region GirisYap POST
         [HttpPost]
-        public ActionResult GirisYap(string nickName,string pass)
+        public ActionResult GirisYap(LoginViewModel model)
         {
+           
             if (Session["aktif"] == null)
             {
+                string nickName, pass;
+                nickName = pass = "";
+                pass = model.pass;
+                nickName = model.nickName;
                 Users query = db.users.Where(x => x.NickName == nickName).FirstOrDefault();
 
                 if (query != null)
@@ -251,15 +282,13 @@ namespace KisiselBlog.Controllers
                     else
                     {
                         ViewBag.parola = "Kullanıcı Adı ya da Parola Hatalıdır";
-                        ViewBag.nick = nickName;
-                        return View();
+                        return View(model);
                     }
                 }
                 else
                 {
                     ViewBag.parola = "Kullanıcı Adı ya da Parola Hatalıdır";
-                    ViewBag.nick = nickName;
-                    return View();
+                    return View(model);
                 }
             }
             else
@@ -284,7 +313,10 @@ namespace KisiselBlog.Controllers
         public ActionResult KayitOl()
         {
             if (Session["aktif"] == null)
-                return View();
+            {
+                Users u = null;
+                return View(u);
+            }
             else
                 return RedirectToAction("Profil");
         }
@@ -300,9 +332,19 @@ namespace KisiselBlog.Controllers
                 var EmailContol = db.users.Where(x => x.Email == u.Email).FirstOrDefault();
                 Roles rolequery = db.roles.Where(x => x.RoleName == "User").FirstOrDefault();
                 
-                int cnt = 0;
-                if (EmailContol != null) cnt = 1;
-                if (NickNameControl == null && EmailContol == null)
+                if (EmailContol != null)
+                {
+                    string message = "Girdiğiniz E-mail adresi sisteme kayıtlıdır.\n Lütfen farklı bir e-mail adresi deneyiniz.";
+                    ViewBag.Hata2 = message;
+                    return View(u);
+                }
+                else if(NickNameControl != null)
+                {
+                    string message = "Girdiğiniz kullanıcı adı sisteme kayıtlıdır.\n Lütfen farklı bir kullanıcı adı deneyiniz.";
+                    ViewBag.Hata = message;
+                    return View(u);
+                }
+                else
                 {
                     Users user = new Users();
                     Dates d = new Dates();
@@ -338,21 +380,16 @@ namespace KisiselBlog.Controllers
                     }
 
                     //kayıt yapıldıktan sonra login islemi gerceklestiriliyor
-                    GirisYap(u.NickName, u.Password);
+                    KisiselBlog.Models.ViewModels.LoginViewModel login = new LoginViewModel();
+                    login.nickName = u.NickName;
+                    login.pass = u.Password;
+                    GirisYap(login);
 
                     return RedirectToAction("Index");
 
 
                 }
-                else
-                {
-                    //nickName ve email ayırt edici ozellik oldugundan girilen bilgilerle eslesen kayıt veri tabanında varsa hata verecek
-                    if (cnt == 1)
-                        ViewBag.email = "Girdiğiniz E-Mail Adresi Kayıtlıdır";
-                    else
-                        ViewBag.nickName = "Kullanıcı Adı Zaten Kullanılmaktadır";
-                    return View();
-                }
+               
             }
             else
                 return RedirectToAction("Profil");

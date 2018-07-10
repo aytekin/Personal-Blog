@@ -5,8 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Text.RegularExpressions;
 
 namespace KisiselBlog.Areas.User.Controllers
 {
@@ -19,6 +21,28 @@ namespace KisiselBlog.Areas.User.Controllers
         {
             return View();
         }
+
+        public ActionResult KullaniciSil(int id)
+        {
+            KisiselBlog.Models.Users u = db.users.Where(r => r.UserID == id).FirstOrDefault();
+            if (u != null)
+            {
+                try
+                {
+                    db.users.Remove(u);
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+
+                }  
+            }
+            return RedirectToAction("Kullanicilar");
+        }
+
+
+
+
         #region aboutPageInfo GET
         [HttpGet]
         public ActionResult HakkimizdaEkle()
@@ -42,32 +66,40 @@ namespace KisiselBlog.Areas.User.Controllers
         public ActionResult HakkimizdaEkle(AddAboutInfoModel model, HttpPostedFileBase imagePath)
         {
             // var nick = Session["aktif"].ToString();
-            try
+            if(model.About != null)
             {
-                AboutPage about = db.aboutInfo.FirstOrDefault();
-                if (about == null)
+                try
                 {
-                    AboutPage a = new AboutPage();
-                    a.About = model.About;
-                    a.Header = model.Header;
-                    a.imagePath = ImageAddAbout(imagePath);
-                    db.aboutInfo.Add(a);
+                    AboutPage about = db.aboutInfo.FirstOrDefault();
+                    if (about == null)
+                    {
+                        AboutPage a = new AboutPage();
+                        a.About = model.About;
+                        a.Header = model.Header;
+                        if (imagePath != null)
+                            a.imagePath = ImageAddAbout(imagePath);
+                        else
+                            a.imagePath = null; 
+                        db.aboutInfo.Add(a);
 
+                    }
+                    else
+                    {
+                        about.About = model.About;
+                        about.Header = model.Header;
+                        if (imagePath != null)
+                            about.imagePath = ImageAddAbout(imagePath);
+                    }
+                    db.SaveChanges();
                 }
-                else
+                catch (Exception e)
                 {
-                    about.About = model.About;
-                    about.Header = model.Header;
-                    about.imagePath = ImageAddAbout(imagePath);
+                    //exceptions
                 }
-                db.SaveChanges();
+                return RedirectToAction("Profil");
+
             }
-            catch(Exception e)
-            {
-                //exceptions
-            }
-           
-            return RedirectToAction("Profil");
+            return View();
         }
         #endregion
 
@@ -146,11 +178,13 @@ namespace KisiselBlog.Areas.User.Controllers
         {
           
               // var nick = Session["aktif"].ToString();
-                Users query = db.users.Where(r => r.UserID == 1).FirstOrDefault();
+                Users query = db.users.Where(r => r.UserID == 4).FirstOrDefault();
                 Articles art = new Articles();
                 art.PhotoPath = ImageAdd(ImagesPath);
                 art.Header = model.Head;
                 art.LinkAdress = model.Link;
+            
+                
                 art.Text = model.Text;
                 art.Status = false;
                 art.PostedDate = DateTime.Now;
@@ -161,6 +195,45 @@ namespace KisiselBlog.Areas.User.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Profil");
         
+        }
+        #endregion
+
+        #region MakaleCevirici
+        //gelen makaleyi bilgisayarın anlayacağı dile cevirme kısmı
+        //bkz:  ornegin *ads*  "ads" kalın harflerle yazılmalıdır kurallara göre
+        //bu fonksiyon *ads* yi <b>ads</b> ye çevirmektir.
+
+        private string MakaleCevir(string text)
+        {
+            var builder = new StringBuilder(text);  
+            int counter = 0;
+            
+            for (int i = 0; text[i] != '\0' ; i++)
+            {
+                counter = 0;
+                //italik
+                if (text[i] == '*' && text[i + 1] == '*')
+                {
+                    
+                }//kalin
+                else if (text[i] == '*')
+                {
+
+                }//kalin ve italik
+                else if (text[i] == '$' && text[i + 1] == '*')
+                {
+
+                }//link
+                else if (text[i] == '[')
+                {
+
+                }
+
+
+
+            }
+
+            return "";
         }
         #endregion
 
