@@ -1,7 +1,7 @@
 ﻿@model KisiselBlog.Models.Articles
 @{ 
     string summary = "";
-    if(summary.Length > 150)
+    if(Model.Text.Length > 150)
     {
         summary = Model.Text.Substring(0, 150);
     }
@@ -11,11 +11,11 @@
     }
      
 }
-<div class="card mb-5 col-md-6 animated bounceIn">
+<div class="mb-5 col-md-6 animated bounceIn" id="Posts">
     <img class="card-img-top" src="@Url.Content(Model.PhotoPath)" alt="@Model.Header">
     <div class="card-body">
-        <h5 class="card-title text-primary" >@Model.Header.ToUpper()</h5>
-        <p class="card-text">@Html.Raw(summary)...  <br /><a href="@Url.Action(Model.LinkAdress,"Makaleler")" >Devamını Oku &rarr;</a> </p>
+        <h5 class="card-title text-primary header" >@Model.Header.ToUpper()</h5>
+        <p class="card-text">@Html.Raw(summary)...<br /><a href="@Url.Action(Model.LinkAdress,"Makaleler")" >Devamını Oku &rarr;</a> </p>
     </div>
     <div class="card-footer text-muted">
         <small>

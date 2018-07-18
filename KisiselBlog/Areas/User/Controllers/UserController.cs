@@ -22,6 +22,68 @@ namespace KisiselBlog.Areas.User.Controllers
             return View();
         }
 
+        #region KullaniciYetkilendir
+        [HttpPost]
+        public ActionResult KullaniciYetki(AuthorizeModel model)
+        {
+            int id, roleid;
+            id = roleid = 0;
+            roleid =model.formrole;
+            id = model.userid;
+
+            Roles role = db.roles.Where(r => r.RoleID == roleid).FirstOrDefault();
+            Users user = db.users.Where(u => u.UserID == id).FirstOrDefault();
+            
+            if(role != null && user != null)
+            {
+                //rol ve kullanıcı hatasız geldiyse rolu esitliyoruz
+                try
+                {
+                    user.roles = role;
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
+            }
+            
+            return RedirectToAction("Kullanicilar");
+        }
+        #endregion
+
+        #region KullaniciOnayla
+        public ActionResult KullaniciOnayla(int id)
+        {
+            Users u = db.users.Where(r => r.UserID == id).FirstOrDefault();
+            Roles rolequery = db.roles.Where(x => x.RoleName == "Author").FirstOrDefault();
+
+            if (u != null)
+            {
+                if (u.authorRequest)
+                {
+                    try
+                    {
+                        u.RoleID = rolequery.RoleID;
+                        u.roles = rolequery;
+                        u.authorRequest = false;
+                        db.SaveChanges();
+
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+                }
+            }
+            return RedirectToAction("Kullanicilar");
+        }
+        #endregion
+
+        #region Delete User
+
         public ActionResult KullaniciSil(int id)
         {
             KisiselBlog.Models.Users u = db.users.Where(r => r.UserID == id).FirstOrDefault();
@@ -35,14 +97,68 @@ namespace KisiselBlog.Areas.User.Controllers
                 catch (Exception ex)
                 {
 
-                }  
+                }
             }
             return RedirectToAction("Kullanicilar");
         }
 
 
+        #endregion
+
+        #region Confirm Article
+
+        public ActionResult MakaleOnayla(int id)
+        {
+            KisiselBlog.Models.Articles u = db.articles.Where(r => r.ArticleID  == id).FirstOrDefault();
+            if (u != null)
+            {
+                try
+                {
+                    //makale onaylandı
+                    u.Status = true;
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return RedirectToAction("Makaleler");
+        }
 
 
+        #endregion
+
+        #region MakaleSil
+        public ActionResult MakaleSil(int id)
+        {
+            Articles delete = db.articles.Where(a => a.ArticleID == id).FirstOrDefault();
+            if(delete != null)
+            {
+                try
+                {
+                    db.articles.Remove(delete);
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction("Makaleler");
+        }
+        #endregion
+
+        #region Makaleler
+        //admin için makaleler onaylama vs
+        [HttpGet]
+        public ActionResult Makaleler()
+        {
+
+            return View(db.articles.OrderBy(r => r.Status).ToList());
+        }
+        #endregion
+        
         #region aboutPageInfo GET
         [HttpGet]
         public ActionResult HakkimizdaEkle()
@@ -85,7 +201,9 @@ namespace KisiselBlog.Areas.User.Controllers
                     }
                     else
                     {
-                        about.About = model.About;
+                        string about_text = "";
+                        about_text = model.About.Replace("\r\n", "<br/>");
+                        about.About = about_text;
                         about.Header = model.Header;
                         if (imagePath != null)
                             about.imagePath = ImageAddAbout(imagePath);
@@ -96,7 +214,7 @@ namespace KisiselBlog.Areas.User.Controllers
                 {
                     //exceptions
                 }
-                return RedirectToAction("Profil");
+                return RedirectToAction("HakkimizdaEkle");
 
             }
             return View();
@@ -107,11 +225,6 @@ namespace KisiselBlog.Areas.User.Controllers
         public ActionResult Kullanicilar()
         {
             var item = db.users.ToList();
-            foreach (var i in item)
-            {
-                DateTime d = i.dates.Max(r => r.Date);
-                Console.WriteLine(d.ToString());
-            }
             return View(item);
         }
 
@@ -126,12 +239,28 @@ namespace KisiselBlog.Areas.User.Controllers
         }
         #endregion
 
-        #region AddCategories GET
-        [HttpGet]
-        public ActionResult Kategoriler()
+        #region KategoriSil GET
+        public ActionResult KategoriSil(int id)
         {
-            
-            return View();
+            Categories c = db.categories.Where(r => r.CategoryID == id).FirstOrDefault();
+            if(c != null)
+            {
+                try
+                {
+                    db.categories.Remove(c);
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
+            }
+            else
+            {
+                ViewBag.idnull = "Silmek istediğiniz etiket bulunamadı";
+            }
+            return RedirectToAction("KategoriEkle");
         }
         #endregion
 
@@ -154,13 +283,13 @@ namespace KisiselBlog.Areas.User.Controllers
                 {
                     Console.WriteLine(e.Message);
                 }
-                return RedirectToAction("");
+                
             }
             else
             {
-                ViewBag.c = model.CategoryName.ToString() + "Kategori zaten mevcut";
+                ViewBag.c = model.CategoryName.ToString() + " etiketi zaten mevcut";
             }
-            return View();
+            return View(db.categories.ToList());
         }
         #endregion
 

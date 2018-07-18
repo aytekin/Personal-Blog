@@ -95,7 +95,9 @@ body {
     .mtop-sm-50 {
         margin-top: 50px;
     }
-
+    .mtop-sm-40 {
+        margin-top: 40px;
+    }
     .mtop-sm-25 {
         margin-top: 25px;
     }
@@ -172,7 +174,7 @@ body {
         padding-bottom: 10px;
     }
 
-    .pbot-sm-10 {
+    .pbot-sm-0 {
         padding-bottom: 0px;
     }
 
@@ -202,6 +204,78 @@ body {
 
     .h-sm-100vh {
         height: 100vh;
+    }
+
+
+
+    /* Mobil devices margin-right */
+
+
+    .mright-sm-100 {
+        margin-right: 100px;
+    }
+
+    .mright-sm-75 {
+        margin-right: 75px;
+    }
+
+    .mright-sm-70 {
+        margin-right: 70px;
+    }
+
+    .mright-sm-50 {
+        margin-right: 50px;
+    }
+
+    .mright-sm-25 {
+        margin-right: 25px;
+    }
+
+    .mright-sm-15 {
+        margin-right: 15px;
+    }
+
+    .mright-sm-10 {
+        margin-right: 10px;
+    }
+
+    .mright-sm-0 {
+        margin-right: 0px;
+    }
+
+    /* Mobil devices margin-left */
+
+
+    .pleft-sm-100 {
+        padding-left: 100px;
+    }
+
+    .pleft-sm-75 {
+        padding-left: 75px;
+    }
+
+    .pleft-sm-70 {
+        padding-left: 70px;
+    }
+
+    .pleft-sm-50 {
+        padding-left: 50px;
+    }
+
+    .pleft-sm-25 {
+        padding-left: 25px;
+    }
+
+    .pleft-sm-15 {
+        padding-left: 15px;
+    }
+
+    .pleft-sm-10 {
+        padding-left: 10px;
+    }
+
+    .pleft-sm-0 {
+        padding-left: 0px;
     }
 }
 /* navbar uzerindeki dropdown menunun tıklanmadan acılması icin */

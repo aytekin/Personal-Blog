@@ -1,0 +1,187 @@
+﻿@model IEnumerable<KisiselBlog.Models.Articles>
+@{
+    ViewBag.Title = "Makaleler";
+    Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
+}
+
+
+<div class="card mb-3">
+    <div class="card-header">
+        <h5 class="text-primary text-center"><i class="fa fa-write"></i>  Makaleler</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Makale Başlık</th>
+                        <th>Gönderi Tarihi</th>
+                        <th>Onay Durumu</th>
+                        <th>Yazar</th>
+                        <th>Yazar Email</th>
+                        <th></th>
+
+
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Makale Başlık</th>
+                        <th>Gönderi Tarihi</th>
+                        <th>Onay Durumu</th>
+                        <th>Yazar</th>
+                        <th>Yazar Email</th>
+                        <th></th>
+
+
+                    </tr>
+                </tfoot>
+                <tbody>
+
+                    @foreach (var i in Model)
+                    {
+                        string stats = "";
+                        if (i.Status)
+                        {
+                            stats = "Yayında";
+                        }
+                        else
+                        {
+                            stats = "Beklemede";
+                        }
+                        <tr>
+                            @if (i.Status)
+                            {
+                                <td>
+                                    <a target="_blank" rel="noopener noreferrer" href="@Url.Action(i.LinkAdress,"Makaleler",new {area="" })">@i.Header</a>
+
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @i.Header
+                                </td>
+                            }
+
+                            <td>@i.PostedDate</td>
+                            <td>@stats</td>
+                            <td>@i.author.NickName</td>
+                            <td>@i.author.Email</td>
+                            <td>
+                                @if (!i.Status)
+                                {
+                                    <a class="btn btn-success btn-sm text-white" href="@Url.Action("MakaleOnayla", "User", new { id = i.ArticleID })">
+                                        <i class="fa fa-fw fa-check-circle"></i>
+                                    </a>
+
+                                }
+
+                                <a class="btn btn-danger btn-sm text-white btn-delete" data-href="@Url.Action("MakaleSil", "User", new { id = i.ArticleID })" data-toggle="modal" data-target="#confirm-delete">
+                                    <i class="fa fa-fw fa-trash-o" aria-hidden="true"></i>
+                                </a>
+
+
+                                <button class="btn btn-primary btn-sm btn-article-show" data-id="@i.ArticleID" data-toggle="modal" data-target="#show-article">
+                                    <i class="fa fa-fw fa-tv" aria-hidden="true"></i>
+                                </button>
+
+                            </td>
+
+
+
+
+                        </tr>
+
+                    }
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+</div>
+
+<!-- Show Article Modal -->
+<div class="modal fade bd-example-modal-lg" id="show-article" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-body"> 
+                <div class="text-center text-primary">
+                    <h4 id="Modal-head"></h4><br />
+                    <hr />
+                    <p class="text-primary" id="Modal-author"></p>
+                    <hr />
+                </div>
+                <img class="img-fluid align-content-center" id="Modal-img"/>
+                <div class="row">
+                    <div class="col-md-10 offset-1">
+                        <p class="text-center mt-5" id="Modal-content"></p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Kapat</button>
+                
+            </div>
+        </div>
+
+</div>
+</div>
+
+<!-- Are u sure Modal -->
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <h4 class="text-danger">Silmek İstediğinize Emin misiniz?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary text-white" data-dismiss="modal">İptal</button>
+                <a id="deleted" class="btn btn-danger btn-ok text-white">Sil</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <script src="~/Content/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="~/Content/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <!-- Custom scripts for all pages-->
+    <!-- Custom scripts for this page-->
+    <script src="~/Content/vendor/js/sb-admin-datatables.min.js"></script>
+
+}
+
+    <script type="text/javascript">
+    $('.btn-delete').on('click', function (e) {
+        var x = $(e.currentTarget).data('href');
+        document.getElementById('deleted').href = x;
+    });
+
+    $('.btn-article-show').on('click', function (e) {
+        var x = 0;
+        x = $(e.currentTarget).data('id');
+        var y = "";
+        @for(int i = 0; i < @Model.Count(); i++) {
+            <text>
+        if (@Model.ElementAt(i).ArticleID == x) {
+            document.getElementById("Modal-author").innerHTML = "@Model.ElementAt(i).author.Name " + "@Model.ElementAt(i).author.Surname <small class=\"text-muted\">tarafından</small> " + "@Model.ElementAt(i).PostedDate.ToString() <small class=\"text-muted\">tarihinde yayınlandı.</small>";
+            document.getElementById("Modal-head").innerHTML = "@Model.ElementAt(i).Header.ToUpper()";
+            document.getElementById("Modal-img").src = "@Url.Content(Model.ElementAt(i).PhotoPath)";
+
+            document.getElementById("Modal-content").innerText = "İçerik Eklenemiyor";
+        }          
+            </text>
+        }
+    });
+
+
+    </script>
+

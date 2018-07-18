@@ -26,7 +26,7 @@ namespace KisiselBlog.Models
         public string PPPath {get; set;}
         [StringLength(256)]
         public string AboutUser { get; set; }
-        
+        public bool authorRequest { get; set; }
         public virtual ICollection<Dates> dates { get; set; }
         public int RoleID { get; set; }
         public virtual Roles roles { get; set; }

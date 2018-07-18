@@ -15,7 +15,7 @@ namespace KisiselBlog.Models
         }
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CategoryID { get; set; }
-        [StringLength(15),Required]
+        [StringLength(64),Required]
         public string CategoryName { get; set; }
         public virtual ICollection<Articles> articles { get; set; }
     }

@@ -3,21 +3,21 @@
     ViewBag.Title = "Index";
     int member, author, article;
     member = article = author = 0;
-    member = 782;
+    member = 600;
     author = 13;
     article = 98;
 }
 
 
 <!-- Page Content -->
-<div class="container mtop-sm-50">
+<div class="container mtop-sm-50 mt-sm-5">
     <br />
 
 
     <div class="row">
 
         <div class="col-md-4">
-            <div class="text-center ">
+            <div class="text-center animated">
                 <p id="el" class="display-3 text-danger numscroller numscroller-big-bottom" data-slno='1' data-min='0' data-max='@member' data-delay='5' data-increment="9">0</p>
                 <p class="">Kayıtlı üye</p>
             </div>
@@ -37,48 +37,32 @@
         </div>
 
     </div>
-
-
+    <br />
+    <br />
+    <br />
+    <hr />
     <!-- Features Section -->
-    <div class="row">
-        <div class="col-lg-6">
-            <h2>Modern Business Features</h2>
-            <p>The Modern Business template by Start Bootstrap includes:</p>
-            <ul>
-                <li>
-                    <strong>Bootstrap v4</strong>
-                </li>
-                <li>jQuery</li>
-                <li>Font Awesome</li>
-                <li>Working contact form with validation</li>
-                <li>Unstyled page elements for easy customization</li>
-            </ul>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis, omnis doloremque non cum id reprehenderit, quisquam totam aspernatur tempora minima unde aliquid ea culpa sunt. Reiciendis quia dolorum ducimus unde.</p>
+    <div class="row animated zoomInLeft">
+
+        <div class="col-lg-12">
+            <blockquote class="blockquote text-center">
+                <footer class="blockquote-footer">Hiçbir şeye ihtiyacımız yok, yalnız bir şeye ihtiyacımız vardır; çalışkan olmak!<br /> <cite title="Source Title">M.Kemal Atatürk</cite></footer>
+            </blockquote>
         </div>
-        <div class="col-lg-6">
-            <img class="img-fluid rounded" src="http://placehold.it/700x450" alt="">
-        </div>
+
     </div>
     <!-- /.row -->
+    <hr />
 
-    <hr>
-
-    <button id="startCount">Count</button>
-    <br />
-    <br />
-    <br />
-    <div class='section half-left'>
-
-        <div class='numscroller-info-top'>Charles Babbage designs his first mechanical computer in</div>
-        <div class='numscroller numscroller-big-bottom' data-slno='1' data-min='0' data-max='1822' data-delay='10' data-increment="9">0</div>
-    </div>
     <!-- Call to Action Section -->
     <div class="row mb-4">
         <div class="col-md-8">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, expedita, saepe, vero rerum deleniti beatae veniam harum neque nemo praesentium cum alias asperiores commodi.</p>
+            <p>İçerik eklenecek İçerik eklenecek İçerik eklenecek İçerik eklenecek İçerik eklenecek</p>
+            <p>İçerik eklenecek İçerik eklenecek İçerik eklenecek İçerik eklenecek İçerik eklenecek</p>
+            <p>İçerik eklenecek İçerik eklenecek İçerik eklenecek İçerik eklenecek İçerik eklenecek</p>
         </div>
         <div class="col-md-4">
-            <a class="btn btn-lg btn-secondary btn-block" href="#">Call to Action</a>
+            <a class="btn btn-lg btn-secondary btn-block" href="#">Rastgele Makale?</a>
         </div>
     </div>
 
@@ -100,28 +84,3 @@
 
 
 </div>
-<!-- /.container -->
-<script >
-    $("#startCount").on("click", function (evt) {
-    var $el = $("#el"),
-    value = 2555;
-
-    evt.preventDefault();
-
-    $({percentage: 0}).stop(true).animate({percentage: value}, {
-    duration : 2000,
-    easing: "easeOutExpo",
-    step: function () {
-    // percentage with 1 decimal;
-    var percentageVal = Math.round(this.percentage * 10) / 10;
-
-    $el.text(percentageVal);
-    }
-    }).promise().done(function () {
-    // hard set the value after animation is done to be
-    // sure the value is correct
-    $el.text(value);
-    });
-    });
-
-</script>

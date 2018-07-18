@@ -1,9 +1,16 @@
 ﻿@model IEnumerable<KisiselBlog.Models.Articles>
+
 @{
     ViewBag.Title = "Gonderiler";
+
+    List<KisiselBlog.Models.Articles> display = new List<KisiselBlog.Models.Articles> ();
+    foreach (var item in Model)
+    {
+        display.Add(item);
+    }
 }
 
-<ol class="breadcrumb mtop-sm-75 mt-xl-3">
+<ol class="breadcrumb mtop-sm-75 mt-xl-3 mt-xs-5">
     <li class="breadcrumb-item">
         <a href="@Url.Action("Index","Home")">Ana Sayfa</a>
     </li>
@@ -16,9 +23,9 @@
     
     <!-- Blog Entries Column -->
     <div class="col-md-8">
-        <div class="row">
+        <div class="row" id="display-zone">
             <!-- Blog Post -->
-            @foreach (var item in Model)
+            @foreach (var item in display)
             {
                 @Html.Partial("_PartialVİewGonderiler", item);
             }
@@ -44,10 +51,7 @@
             <h5 class="card-header">Ara</h5>
             <div class="card-body">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Makale,Yazı,Yazar...">
-                    <span class="input-group-btn">
-                        <button class="btn btn-info" type="button">Ara!</button>
-                    </span>
+                    <input type="text" class="form-control" id="Search-model" placeholder="Makale,Yazı,Yazar,Etiket...">
                 </div>
             </div>
         </div>
@@ -56,53 +60,47 @@
         <div class="card mb-4">
             <h5 class="card-header">Sırala</h5>
             <div class="row">
-                <div class="col-md-2"></div>
+                <div class="col-md-2 col-sm-1"></div>
 
-                <div class="col-md-8 mt-3">
-                    <form class="was-validated">
-                        <div class="form-group mt-4">
-                            <select class="custom-select" required>
+                <div class="col-md-8 col-sm-8 mright-sm-50 mt-xl-3">
+                    @using (Html.BeginForm("Gonderiler", "Home", FormMethod.Post, new { @class = "was-validated", enctype = "multipart/form-data" }))
+                    {
+                        <div class="form-group mt-xl-4 mt-sm-4 mtop-sm-50">
+                            <select class="custom-select" name="sort" required>
                                 <option value="">Sıralama Ölçütü Seçin</option>
-                                <option value="1">Tarih</option>
-                                <option value="2">Yazar</option>
+                                <option value="Tarih">Tarih</option>
+                                <option value="Yazar">Yazar</option>
                             </select>
 
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" id="customControlValidation2" name="radio-stacked" required>
+                                <div class="custom-control  custom-radio">
+                                    <input type="radio" class="custom-control-input" id="customControlValidation2" value="Artan" name="Radio" required>
                                     <label class="custom-control-label" for="customControlValidation2">Artan</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" id="customControlValidation3" name="radio-stacked" required>
+                                    <input type="radio" class="custom-control-input" id="customControlValidation3" value="Azalan" name="Radio" required>
                                     <label class="custom-control-label" for="customControlValidation3">Azalan</label>
                                 </div>
                             </div>
                         </div>
                         <button class="btn btn-success mt-2" type="submit">Sırala</button>
-                    </form>
+                    }
 
 
-                </div>
+                    </div>
                 <div class="col-md-2"></div>
             </div>
                 <div class="card-body">
                 </div>
             </div>
 
-        <!-- Filtering Widget -->
-        <div class="card my-4">
-            <h5 class="card-header">Filtrele</h5>
-            <div class="card-body">
-            </div>
-        </div>
-
         <!-- Categories Widget -->
         <div class="card my-4">
-            <h5 class="card-header">Kategoriler</h5>
+            <h5 class="card-header">Etiketler</h5>
             <div class="card-body">
                 <div class="row">
                     <div class="col-lg-6">
@@ -145,3 +143,33 @@
     </div>
 
 </div>
+
+<script type="text/javascript">
+    $('#Search-model').on('input', function () {
+        var value = $('#Search-model').val().toLocaleUpperCase();
+        var a,div,head,author;
+        for (var i = 0; i < @display.Count(); i++)
+        {
+            div = document.getElementById('display-zone');
+            a = div.getElementsByClassName('bounceIn')[i];
+            head = a.getElementsByTagName("h5")[0];
+            author = a.getElementsByTagName("a")[1];
+            console.log("head : " + head.innerHTML);
+            console.log("author :" + author.innerHTML);
+            if (head.innerHTML.toLocaleUpperCase().indexOf(value) > -1 || author.innerHTML.toLocaleUpperCase().indexOf(value) > -1)
+             {
+                a.style.display = "";
+                //$('Posts').removeClass("bounceIn");
+             }
+             else
+             {
+                a.style.display = "none";
+                $('Posts').removeClass("bounceIn");
+             }
+ 
+            
+        }
+        console.log("value : " + value);
+    });
+
+</script>

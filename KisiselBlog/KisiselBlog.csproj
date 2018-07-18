@@ -125,6 +125,7 @@
     <Content Include="Areas\User\Views\User\MakaleEkle.cshtml" />
     <Content Include="Areas\User\Views\User\KategoriEkle.cshtml" />
     <Content Include="Areas\User\Views\User\HakkimizdaEkle.cshtml" />
+    <Content Include="Areas\User\Views\User\Makaleler.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -229,6 +230,14 @@
     <Compile Include="Migrations\201806201856200_aboutPageinfo.cs" />
     <Compile Include="Migrations\201806201856200_aboutPageinfo.Designer.cs">
       <DependentUpon>201806201856200_aboutPageinfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807111331292_userAuthorRequest.cs" />
+    <Compile Include="Migrations\201807111331292_userAuthorRequest.Designer.cs">
+      <DependentUpon>201807111331292_userAuthorRequest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807131626427_ctegorynm64.cs" />
+    <Compile Include="Migrations\201807131626427_ctegorynm64.Designer.cs">
+      <DependentUpon>201807131626427_ctegorynm64.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AboutPage.cs" />
@@ -397,6 +406,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806201856200_aboutPageinfo.resx">
       <DependentUpon>201806201856200_aboutPageinfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807111331292_userAuthorRequest.resx">
+      <DependentUpon>201807111331292_userAuthorRequest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807131626427_ctegorynm64.resx">
+      <DependentUpon>201807131626427_ctegorynm64.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -40,5 +40,10 @@ namespace KisiselBlog.Areas.User.Models
         [StringLength(15), Required]
         public string CategoryName { get; set; }
     }
-    
+    public class AuthorizeModel
+    {
+
+        public int formrole { get; set; }
+        public int userid { get; set; }
+    }
 }

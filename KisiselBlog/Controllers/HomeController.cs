@@ -8,6 +8,7 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Drawing;
 
 namespace KisiselBlog.Controllers
 {
@@ -15,6 +16,9 @@ namespace KisiselBlog.Controllers
     {
         DatabaseContext db = new DatabaseContext();
         // GET: Home
+
+       
+
 
         #region Anasayfa
         public ActionResult Index()
@@ -39,20 +43,72 @@ namespace KisiselBlog.Controllers
         [HttpGet]
         public ActionResult Gonderiler()
         {
-            List<Articles> itemList = new List<Articles>();
-            itemList = db.articles.ToList();
-            return View(itemList);
+            return View(db.articles.Where(r => r.Status == true).ToList());
         }
 
         #endregion
-        
+
+        #region YazarOl
+        public ActionResult YazarOl(int id)
+        {
+            Users u = db.users.Where(r => r.UserID == id).FirstOrDefault();
+            if (u != null)
+            {
+                try
+                {
+                    u.authorRequest = true;
+                    //Bildirim oluşacak
+                    //Bildirim oluşacak
+                    //Bildirim oluşacak
+                    //Bildirim oluşacak
+                    //Bildirim oluşacak
+                    //Bildirim oluşacak
+                    //Bildirim oluşacak
+                    db.SaveChanges();
+                    ViewBag.Basarili = "Yazar olma isteğiniz başarıyla alınmıştır." +
+                        "isteğiniz kısa süre içeresinde değerlendirilecektir." +
+                        "ilginiz için teşekkürler.";
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
+            }
+            return RedirectToAction("Profil",id);
+        }
+        #endregion
+
+
         #region GONDERILER POST
         [HttpPost]
         public ActionResult Gonderiler(SortingViewModel sorting)
         {
-            List<Articles> itemList = new List<Articles>();
-            itemList = db.articles.ToList();
-            return View(itemList);
+            if(string.IsNullOrEmpty(sorting.Radio) || string.IsNullOrEmpty(sorting.sort))
+                return View(db.articles.ToList());
+            else
+            {
+                string sort = sorting.sort;
+                string radio = sorting.Radio;
+
+                if(sort == "Tarih")
+                {
+                    if(radio == "Artan")
+                        return View(db.articles.OrderBy(r => r.PostedDate));
+                    else
+                        return View(db.articles.OrderByDescending(r => r.PostedDate));
+                }
+                else
+                {
+                    if (radio == "Artan")
+                        return View(db.articles.OrderBy(r => r.author.NickName));
+                    else
+                        return View(db.articles.OrderByDescending(r => r.author.NickName));
+
+                }
+                
+            }
+           
         }
 
         #endregion
@@ -76,7 +132,7 @@ namespace KisiselBlog.Controllers
                                    orderby a.PostedDate descending
                                    select a).Take(3);
             ViewBag.last = lastFiveArticle.ToList();
-            if (art != null)
+            if (art != null && art.Status)
                 return View(art);
             else
                 return RedirectToAction("Error404");
@@ -90,7 +146,7 @@ namespace KisiselBlog.Controllers
 
             if (Session["aktif"] != null && query != null)
             {
-                return View();
+                return View(query);
             }
             else
                 return RedirectToAction("GirisYap");
@@ -153,53 +209,70 @@ namespace KisiselBlog.Controllers
 
         #region Profil Düzenler POST
         [HttpPost]
-        public ActionResult Duzenle(Users u)
+        public ActionResult Duzenle(ProfileEditViewModel u, HttpPostedFileBase PPPath)
         {
             if (Session["aktif"] != null)
             {
-                var NickNameControl = db.users.Where(x => x.NickName == u.NickName);
-                var EmailContol = db.users.Where(x => x.Email == u.Email);
+                string userr = Session["aktif"].ToString();
+                Users us = db.users.Where(a => a.NickName == userr).FirstOrDefault();
+                Users NickNameControl = db.users.Where(x => x.NickName == u.NickName).FirstOrDefault();
+                Users EmailContol = db.users.Where(x => x.Email == u.Email).FirstOrDefault();
+
+
+                if (PPPath == null && u != null)
+                {
+                    if (NickNameControl != null && us.UserID != NickNameControl.UserID)
+                    {
+                        //Kullanicinin degistirmek istedigi nickname kullaniliyor ve kullanan bu sahis degil
+                        ViewBag.ExitsNickname = "Girdiğiniz Kullanıcı Adı Zaten Kullanılmaktadır.";
+
+                    }
+                    else if (EmailContol != null && us.UserID != EmailContol.UserID)
+                    {
+                        //Kullanicinin degistirmek istedigi email adresi kullaniliyor ve kullanan bu sahis degil
+                        ViewBag.ExitsEmail = "Girdiğiniz E-mail Adresi Zaten Kullanılmaktadır.";
+                    }
+                    else
+                    {
+                        try
+                        {
+                            //formdan gelen model bir user nesnesine yuklendi
+                            us.Name = u.Name;
+                            us.Surname = u.Surname;
+                            us.NickName = u.NickName;
+                            us.Email = u.Email;
+                            us.AboutUser = u.About;
+                            //user nesnesinin veri tabanına güncellemesi gerçekleştirildi
+
+                            db.SaveChanges();
+
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+
+                    }
                 
-                
-                int cnt = 0;
-                if (EmailContol != null) cnt = 1;
-                if (NickNameControl == null && EmailContol == null)
+                }
+                else if(PPPath != null)
                 {
                     try
                     {
-                        Users user = new Users();
-
                         //formdan gelen model bir user nesnesine yuklendi
-                        user.Name = u.Name;
-                        user.Surname = u.Surname;
-                        user.NickName = u.NickName;
-                        user.Email = u.Email;
-                       
+                        us.PPPath = ImageAddProfil(PPPath);
                         //user nesnesinin veri tabanına güncellemesi gerçekleştirildi
-                      
                         db.SaveChanges();
-
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine(e.Message);
                     }
-
-                  
-
-                    return RedirectToAction("Profil");
-
-
                 }
-                else
-                {
-                    //nickName ve email ayırt edici ozellik oldugundan girilen bilgilerle eslesen kayıt veri tabanında varsa hata verecek
-                    if (cnt == 1)
-                        ViewBag.email = "Girdiğiniz E-Mail Adresi Kayıtlıdır";
-                    else
-                        ViewBag.nickName = "Kullanıcı Adı Zaten Kullanılmaktadır";
-                    return View();
-                }
+                return RedirectToAction("Duzenle", us.UserID);
+
+
+
             }
             else
                 return RedirectToAction("GirisYap");
@@ -398,6 +471,20 @@ namespace KisiselBlog.Controllers
 
            
         }
+        #endregion
+
+        #region ImageAdd function Profil Photos
+        private string ImageAddProfil(HttpPostedFileBase i)
+        {
+            Image image = Image.FromStream(i.InputStream);
+            Bitmap bimage = new Bitmap(image, new Size { Width = 200, Height = 200 });
+            string uzanti = System.IO.Path.GetExtension(i.FileName);
+            string isim = Guid.NewGuid().ToString().Replace("-", "");
+            string yol = "~/Content/media/profil/" + isim + uzanti;
+            bimage.Save(Server.MapPath(yol));
+            return yol;
+        }
+
         #endregion
 
     }

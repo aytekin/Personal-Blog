@@ -2,58 +2,148 @@
 
 @{
     ViewBag.Title = "Duzenle";
+    DateTime biggest = Model.dates.Max(r => r.Date);
+    KisiselBlog.Models.Dates regist = Model.dates.Where(r => r.DateName == "Registration").FirstOrDefault();
+    string pppsrc = "";
+    if (string.IsNullOrEmpty(Model.PPPath))
+    {
+        pppsrc = "https://www.atomix.com.au/media/2015/06/atomix_user31.png";
+    }
+    else
+    {
+        pppsrc = Model.PPPath;
+    }
+    string about = "";
+    if (!string.IsNullOrEmpty(Model.AboutUser))
+    {
+        about = Model.AboutUser;
+    }
 }
-
-@section bg{
-    class="bg-dark"
-}
-<div class="container animated zoomIn">
-    <div class="card card-register mx-auto col-md-7 offset-2 mt-5">
-        <div align="center" class="card-header">   <h2><i class="fas fa-code"></i>&nbsp;Profilimi Düzenle</h2> </div>
-        <div class="card-body">
-            @using (Html.BeginForm("Duzenle", "Home", FormMethod.Post,
-                new { enctype = "multipart/form-data" }))
-            {
+<style>
+    .cycle-img {
+        border-radius: 50%;
+    }
+</style>
 
 
-                <div class="form-group">
-                    <div class="form-row">
-                        <div class="col-md-6">
-                            <label for="exampleInputName">İsminiz</label>
-                            <input class="form-control" id="Name" placeholder="İsminiz" value="@Model.NickName" type="text" name="Name" required="required">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="exampleInputLastName">Soyisminiz</label>
-                            <input class="form-control" id="Surname" name="Surname" value="@Model.Surname" type="text" required="required" placeholder="Soyisminiz">
-                        </div>
-                    </div>
+<div  class="card mtop-sm-100 mt-xl-5 mt-sm-5">
+    @if (ViewBag.ExitsNickname != null)
+    {
+        <div class="row">
+            <div class="col-md-5 col-xs-12 mt-xs-2 offset-md-3 mt-xl-2">
+                <div class="pl-5 pr-5 alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Hata!</strong> @ViewBag.ExitsNickname
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="form-group">
-                    <div class="form-row">
-                        <div class="col-md-6">
-                            <label for="exampleInputEmail1">Email Adresiniz</label>
-                            <input class="form-control" id="Email" type="email" name="Email" value="@Model.Email" required="required" aria-describedby="emailHelp" placeholder="Email Adresiniz">
-                            @if (ViewBag.email != null)
-                            {
-                                <label style="color:darkred;">@ViewBag.email</label>
-                            }
-                        </div>
-                        <div class="col-md-6">
-                            <label for="exampleInputName">Kullanıcı Adınız</label>
-                            <input class="form-control" id="NickName" name="NickName" type="text" value="@Model.NickName" required="required" placeholder="Kullanıcı Adınız">
-                            @if (ViewBag.nickName != null)
-                            {
-                                <label style="color:darkred;">@ViewBag.nickName</label>
-                            }
-                        </div>
-                    </div>
 
-                </div>
-             
-                <button class="btn btn-primary btn-block" type="submit">Kaydet</button>
-            }
-            
+            </div>
         </div>
+    }
+    @if (ViewBag.ExitsEmail != null)
+    {
+        <div class="row">
+            <div class="col-md-5 col-xs-12 mt-xs-2 offset-md-3 mt-xl-2">
+                <div class="pl-5 pr-5 alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Hata!</strong> @ViewBag.ExitsEmail
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    }
+
+
+    <div class="card-header">
+        <nav class="nav nav-pills">
+            <a class="nav-link" href="@Url.Action("Profil","Home",new { id = Model.UserID })">Profil</a>
+            <a class="nav-link active" href="#">Düzenle</a>
+            <a class="nav-link" href="@Url.Action("Parola","Home",new { id = Model.UserID })">Parola Değiştir</a>
+        </nav>
     </div>
+    <br />
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-3" align="center">
+                <div class="mx-auto ml-10 mt-2">
+                    <div class="cycle-img">
+                        <img src="@Url.Content(pppsrc)" width="200px" height="200px" class="rounded cycle-img" alt="..."><br />
+
+                    </div>
+                    <label for="exampleFormControlTextarea1">Profil Resmini Güncelle</label>
+                    @using (Html.BeginForm("Duzenle", "Home", FormMethod.Post,
+                        new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="PPPath" name="PPPath" required>
+                            <label class="custom-file-label" for="validatedCustomFile">Resim Seç</label>
+                            <div class="invalid-feedback">Example invalid custom file feedback</div>
+                        </div>
+                        <button class="btn btn-success mt-2" type="submit">Kaydet</button>
+
+                    }
+                </div>
+            </div>
+            <div class="card card-register mx-auto col-md-7 offset-2 mtop-sm-50">
+                <div class="card-body">
+                    @using (Html.BeginForm("Duzenle", "Home", FormMethod.Post,
+                        new { enctype = "multipart/form-data" }))
+                    {
+
+
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <label for="exampleInputName">İsminiz</label>
+                                    @Html.TextBox("Name", Model.Name, new { @class = "form-control", placeholder = "İsminiz", type = "text", required = "required" })
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="exampleInputLastName">Soyisminiz</label>
+                                    <input class="form-control" id="Surname" name="Surname" value="@Model.Surname" type="text" required="required" placeholder="Soyisminiz">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <label for="exampleInputEmail1">Email Adresiniz</label>
+                                    <input class="form-control" id="Email" type="email" name="Email" value="@Model.Email" required="required" aria-describedby="emailHelp" placeholder="Email Adresiniz">
+
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="exampleInputName">Kullanıcı Adınız</label>
+                                    <input class="form-control" id="NickName" name="NickName" type="text" value="@Model.NickName" required="required" placeholder="Kullanıcı Adınız">
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group class="text-center"">
+                            <div class="form-row">
+                                <label  for="exampleInputName">Hakkında</label>
+
+                                @Html.TextArea("About", about, new { @class = "form-control", @rows = 2, maxlength = "156" })
+                            </div>
+                        </div>
+                      
+
+                        <button class="btn btn-primary btn-block" type="submit">Kaydet</button>
+                    }
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <br />
+    <div class="card-footer small text-white bg-dark"><b>Sisteme Son Giriş Tarihi : @biggest.ToString()</b></div>
 </div>
+
 <br /><br /><br /><br />

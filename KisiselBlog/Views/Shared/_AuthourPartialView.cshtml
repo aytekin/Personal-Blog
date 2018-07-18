@@ -1,10 +1,14 @@
 ﻿@model KisiselBlog.Models.Users
+@section Head{
 
+
+
+}
 @{
     string rol = "";
     if (Model.roles.RoleName == "Admin")
     {
-        rol = "Site Kurucusu";
+        rol = "Site Kurucusu ve Yöneticisi";
     }
     if (Model.roles.RoleName == "Author")
     {
@@ -25,21 +29,25 @@
         path = Model.PPPath;
     }
 }
+<style>
+    .cycle-img {
+        border-radius: 50%;
+    }
+</style>
 
 
+<div class="col-lg-4 mt-5 animated tada">
+    <div class="card h-100 text-center">
+        <img class="cycle-img img-fluid d-block mx-auto mt-2" width="175px" height="175px" src="@Url.Content(path)" title="@Model.NickName">
+        <div class="card-body">
+            <h5 class="card-title text-primary">@Model.Name @Model.Surname</h5>
+            <h6 class="card-subtitle mb-2 text-muted">@rol</h6><hr />
+            <h6 class="card-subtitle mb-2 text-capitalize"><small>@makalesayisi Makale paylaşımı</small></h6><hr />
+            <p class="card-text">@Model.AboutUser</p>
 
-    <div class="col-lg-4 mt-5 animated tada">
-        <div class="card h-75 text-center">
-            <img class="rounded-circle img-fluid d-block mx-auto" width="200px" height="200px" src="@Url.Content(path)" alt="@Model.NickName">
-            <div class="card-body">
-                <h5 class="card-title text-primary">@Model.Name @Model.Surname</h5>
-                <h6 class="card-subtitle mb-2 text-muted">@rol</h6><hr />
-                <h6 class="card-subtitle mb-2 text-capitalize"><small>@makalesayisi Makale paylaşımı</small></h6><hr />
-
-                <p class="card-text">@Model.AboutUser</p>
-            </div>
-           <div class="card-footer">
-                <a href="mailto:@Model.Email">Mail Gönder</a>
-            </div>
+        </div>
+        <div class="card-footer">
+            <a href="mailto:@Model.Email">Mail Gönder</a>
         </div>
     </div>
+</div>

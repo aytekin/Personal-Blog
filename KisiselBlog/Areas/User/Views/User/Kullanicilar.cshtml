@@ -5,56 +5,196 @@
     Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
 }
 
+<div class="card mb-3">
+    <div class="card-header">
+        <h5 class="text-primary text-center"><i class="fa fa-user"></i>  Kullanıcılar</h5>
+
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Adı</th>
+                        <th>Soyadı</th>
+                        <th>Kullanıcı Adı</th>
+                        <th>Email</th>
+                        <th>Yetki</th>
+                        <th>Kayıt Tarihi</th>
+                        <th>Son Login Tarihi</th>
+                        <th class="text-danger">Sil</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Adı</th>
+                        <th>Soyadı</th>
+                        <th>Kullanıcı Adı</th>
+                        <th>Email</th>
+                        <th>Yetki</th>
+                        <th>Kayıt Tarihi</th>
+                        <th>Son Login Tarihi</th>
+                        <th class="text-danger">Sil</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+
+                    @foreach (var i in Model)
+                    {
+                        DateTime biggest = i.dates.Max(r => r.Date);
+                        KisiselBlog.Models.Dates regist = i.dates.Where(r => r.DateName == "Registration").FirstOrDefault();
+                        <tr>
+                            <td>@i.Name</td>
+                            <td>@i.Surname</td>
+                            <td>@i.NickName</td>
+                            <td>@i.Email</td>
+                            <td>@i.roles.RoleName</td>
+                            <td>@regist.Date.ToString()</td>
+                            <td>@biggest.ToString()</td>
 
 
-<div class="card-body">
-    <div class="table-responsive">
-        <table class="table text-info" id="dataTable" width="100%" cellspacing="0">
-            <thead>
-                <tr>
-                    <th>Adı</th>
-                    <th>Soyadı</th>
-                    <th>Kullanıcı Adı</th>
-                    <th>Email</th>
-                    <th>Yetki</th>
-                    <th>Kayıt Tarihi</th>
-                    <th>Son Login Tarihi</th>
-                    <th class="text-danger">Sil</th>
-                </tr>
-            </thead>
-     
-            <tbody class="text-dark">
-                @foreach (var i in Model)
-                {
-                    DateTime biggest = i.dates.Max(r => r.Date);
-                    KisiselBlog.Models.Dates regist = i.dates.Where(r => r.DateName == "Registration").FirstOrDefault();
-                <tr>
-                    <td>@i.Name</td>
-                    <td>@i.Surname</td>
-                    <td>@i.NickName</td>
-                    <td>@i.Email</td>
-                    <td>@i.roles.RoleName</td>
-                    <td>@regist.Date.ToString()</td>
-                    <td>@biggest.ToString()</td>
-                   
-                    
-                    <td >
-      
-                        <a href="@Url.Action("KullaniciSil", "User", new { id = i.UserID })">
-                            <button  class="btn btn-danger btn-sm">
-                               <i class="fa fa-fw fa-trash-o" aria-hidden="true"></i>
-                            </button>
-                        </a>
-                    </td>
-                    
-                </tr>
-                }
+                            <td>
+                                @if (i.authorRequest)
+                                {
+                                    <a class="btn btn-success btn-sm" href="@Url.Action("KullaniciOnayla", "User", new { id = i.UserID })">
+                                        <i class="fa fa-fw fa-check-circle" aria-hidden="true"></i>
+                                    </a>
+                                }
+
+                                <a class="btn btn-danger btn-sm text-white btn-delete" data-href="@Url.Action("KullaniciSil", "User", new { id = i.UserID })" data-toggle="modal" data-target="#confirm-delete">
+                                    <i class="fa fa-fw fa-trash-o" aria-hidden="true"></i>
+                                </a>
+                                <a class="btn btn-primary btn-sm text-white btn-show" data-id="@i.UserID" data-toggle="modal" data-target="#authorize">
+                                    <i class="fa fa-fw fa-tv" aria-hidden="true"></i>
+                                </a>
+                            </td>
 
 
+                        </tr>
 
-            </tbody>
-        </table>
+                    }
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+</div>
+
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <h4 class="text-danger">Silmek İstediğinize Emin misiniz?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary text-white" data-dismiss="modal">İptal</button>
+                <a id="deleted" class="btn btn-danger btn-ok text-white">Sil</a>
+            </div>
+        </div>
     </div>
 </div>
 
+<div class="modal fade" id="authorize" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-body"><br />
+            <div class="col-md-10 offset-md-1 col-sm-12 text-center">
+             <div class="card">
+                    <div class="card-header-pills">
+
+                        <div class="row">
+                            <div class="col-md-10 offset-md-1 col-sm-12 text-center mt-2">
+                                <img align="middle" class="img-fluid" id="User-pphoto" />
+                                <h4 class="text-center text-dark mt-1" id="User-name"></h4>
+                            </div>
+                        </div>         
+                    </div>
+                 <hr />
+                 <h6 class="text-muted text-center" id="CurrentAuthorize"></h6>
+                 <hr />
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-10 offset-md-1 col-sm-10 offset-sm-1">
+                                
+                                @using (Html.BeginForm("KullaniciYetki", "User", FormMethod.Post, new {@class="was-validated" , enctype = "multipart/form-data" }))
+                                {
+                                    <div class="form-group mt-xl-2 mt-sm-4 mtop-sm-50">
+                                        <select class="custom-select" name="formrole" required>
+                                            <option value="">Yetki Seçiniz</option>
+                                            <option value="1">Admin</option>
+                                            <option value="4">Yönetici</option>
+                                            <option value="2">Yazar</option>
+                                            <option value="3">Sistem Kullanıcısı</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group text-center">
+
+                                        <input type="hidden" name="userid" id="userid" />
+                                    </div>
+                                    <button class="btn btn-success mt-2 text-center" type="submit">Yetkilendir</button>
+
+                                }
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+               
+            </div>
+               
+                <br />
+                <br />
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger text-white" data-dismiss="modal">İptal</button>
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <script src="~/Content/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="~/Content/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <!-- Custom scripts for all pages-->
+    <!-- Custom scripts for this page-->
+    <script src="~/Content/vendor/js/sb-admin-datatables.min.js"></script>
+
+}
+
+<script type="text/javascript">
+    $('.btn-delete').on('click', function (e) {
+        var x = $(e.currentTarget).data('href');
+        document.getElementById('deleted').href = x;
+    });
+    $('.btn-show').on('click', function (e) {
+        var x = $(e.currentTarget).data('id');
+         @for(int i = 0; i < @Model.Count(); i++) {
+            <text>
+        if (@Model.ElementAt(i).UserID == x) {
+            document.getElementById('User-pphoto').src = "@Url.Content(Model.ElementAt(i).PPPath)";
+            document.getElementById('User-name').innerHTML = "@Model.ElementAt(i).Name " + "@Model.ElementAt(i).Surname";
+            document.getElementById('CurrentAuthorize').innerHTML = "Aktif Yetki : @Model.ElementAt(i).roles.RoleName";
+            
+           
+            
+        }          
+            </text>
+        }
+        document.getElementById('userid').value = x;
+        
+    });
+
+</script>
 

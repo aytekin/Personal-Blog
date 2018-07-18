@@ -22,25 +22,25 @@
 
                             <label for="baslik">Konu Başlığı</label>
 
-                            <input type="text" class="form-control" id="baslik" name="Head" placeholder="Konu Başlığı">
+                            <input type="text" class="form-control" id="baslik" name="Head" placeholder="Konu Başlığı" required>
                             @Html.ValidationMessage("Head", "", new { @class = "text-danger" })
                         </div>
                         <div class="form-group col-md-6">
                             <label for="Link">Sayfa Linki</label>
-                            <input type="text" class="form-control" id="Link" name="Link" readonly placeholder="Sayfa Linki">
+                            <input type="text" class="form-control" id="Link" name="Link" readonly placeholder="Sayfa Linki" required>
                         </div>
                     </div>
 
 
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Yazı İçeriği</label>
-                        <textarea class="form-control" required="required" id="text" name="Text" rows="5" placeholder="Yazı İçeriği"></textarea>
+                        <textarea class="form-control" required="required" id="text" name="Text" rows="5" placeholder="Yazı İçeriği" required></textarea>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="inputState">Yazı Kategorisi</label>
-                            <select id="inputState" name="Categories" class="form-control">
+                            <select id="inputState" name="Categories" class="form-control" >
                                 <option value="" selected>Kategori</option>
                                 <option value="Ali1">Ali1</option>
                                 <option value="Ali2">Ali2</option>

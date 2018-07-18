@@ -3,17 +3,6 @@
 @{
     ViewBag.Title = "Profil";
 
-    var pppsrc = "";
-
-    if (Model.PPPath == null)
-    {
-        pppsrc = "https://www.atomix.com.au/media/2015/06/atomix_user31.png";
-    }
-    else
-    {
-        pppsrc = Model.PPPath;
-    }
-
     DateTime biggest = Model.dates.Max(r => r.Date);
     KisiselBlog.Models.Dates regist = Model.dates.Where(r => r.DateName == "Registration").FirstOrDefault();
 
@@ -22,17 +11,42 @@
     {
         auth = "Sistem Kullanıcısı";
     }
+    else if (Model.roles.RoleName == "Author")
+    {
+        auth = "Site Yazarı";
+    }
+    else if(Model.roles.RoleName == "Admin")
+    {
+        auth = "Site Kurucusu ve Yöneticisi";
+    }
+    string pppsrc = "";
+    if (string.IsNullOrEmpty(Model.PPPath))
+    {
+        pppsrc = "https://www.atomix.com.au/media/2015/06/atomix_user31.png";
+    }
+    else
+    {
+        pppsrc = Model.PPPath;
+    }
 }
 <br />
 @if (ViewBag.PassSuccess != null)
 {
     <div class="alert alert-success alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>Başarılı!</strong> @ViewBag.PassSuccess 
+        <strong>Başarılı!</strong> @ViewBag.PassSuccess
     </div>
 }
 
-<div class="card mb-3">
+@if (ViewBag.Basarili != null)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Başarılı!</strong> @ViewBag.Basarili
+    </div>
+}
+
+<div class="card mtop-sm-75 mt-xl-4 mt-sm-5">
     <div class="card-header">
         <nav class="nav nav-pills">
             <a class="nav-link active" href="#">Profil</a>
@@ -42,19 +56,18 @@
     </div>
     <br />
     <div class="row">
+
         <div class="col-md-3" align="center">
             <div class="mx-auto ml-10 mt-2">
-                <img src="@pppsrc" width="200px" height="200px" class="rounded" alt="..."><br />
-                <label for="exampleFormControlTextarea1">Profil Resmini Güncelle</label>
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="validatedCustomFile" required>
-                    <label class="custom-file-label" for="validatedCustomFile">Resim Seç</label>
-                    <div class="invalid-feedback">Example invalid custom file feedback</div>
+                <div class="cycle-img">
+                    <img src="@Url.Content(pppsrc)" width="200px" height="200px" class="rounded cycle-img" alt="..."><br />
+
                 </div>
+                
             </div>
         </div>
-        <div class="col-md-5 ofset-2 mt-2">
-            <center><h4 class="text-info mt-2 mb-4">Kullanici Bilgileri</h4></center>
+        <div class="col-md-5 ofset-2">
+            <center><h4 class="text-info">Kullanici Bilgileri</h4></center>
             <div class="alert alert-info" role="alert">
                 <h6><strong>Adı Soyadı:</strong>&emsp;@Model.Name @Model.Surname</h6>
                 <h6><strong>Kullanıcı Adı:</strong>&emsp;@Model.NickName</h6>
@@ -62,7 +75,10 @@
                 <h6><strong>Sisteme Kayıt Tarihi:</strong>&emsp;@regist.Date.ToString()</h6>
                 <h6><strong>Kullanıcı Yetkisi:</strong>&emsp;@auth </h6>
             </div>
-
+            @if (!Model.authorRequest && Model.roles.RoleName == "User")
+            {
+                <a href="@Url.Action("YazarOl","Home" ,new { id = Model.UserID })" class="btn btn-success">Yazar Olma İsteği Gönder</a>
+            }
 
         </div>
     </div>
