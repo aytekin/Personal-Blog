@@ -23,11 +23,10 @@ namespace KisiselBlog.Context
         public DbSet<Dates> dates { get; set; }
         public DbSet<Categories> categories { get; set; }
         public DbSet<AboutPage> aboutInfo { get; set; }
-
+        public DbSet<SubComment> subComments { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)//Kayit(s) Falan oluşturmasını engellemek için ezdirme yaptık
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-            modelBuilder.Entity<Comments>().Property(b => b.NickName).IsOptional(); //NickName attr is not required on comment table
             modelBuilder.Entity<Users>().Property(b => b.PPPath).IsOptional(); //NickName attr is not required on comment table
             modelBuilder.Entity<Users>().Property(b => b.AboutUser).IsOptional();
             

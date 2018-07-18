@@ -24,15 +24,22 @@ namespace KisiselBlog.Models
         public string Password { get; set; }
         [StringLength(64)]
         public string PPPath {get; set;}
+        [StringLength(64)]
+        public string CommentPPPath {get; set;}
         [StringLength(256)]
         public string AboutUser { get; set; }
         public bool authorRequest { get; set; }
+        public string UserTwitterAdress { get; set; }
+        public string UserGithubAdress { get; set; }
+        public string UserBitbucketAdress { get; set; }
+        public string UserlinkedinAdress { get; set; }
+
         public virtual ICollection<Dates> dates { get; set; }
         public int RoleID { get; set; }
         public virtual Roles roles { get; set; }
 
-        public ICollection<Articles> articles { get; set; }
-
+        public virtual ICollection<Articles> articles { get; set; }
+    
       
 
     }

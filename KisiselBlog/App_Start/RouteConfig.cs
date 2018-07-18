@@ -39,6 +39,7 @@ namespace KisiselBlog
             routes.MapRoute("makaleler", "Makaleler/{Link}", new { controller = "Home", action = "Makaleler" });
             routes.MapRoute("yazarol", "YazarOl/{id}", new { controller = "Home", action = "YazarOl"});
             routes.MapRoute("gonderiler", "Makaleler", new { controller = "Home", action = "Gonderiler" });
+            routes.MapRoute("yorumyap", "YorumYap", new { controller = "Home", action = "YorumYap" });
             routes.MapRoute("error404", "Error404", new { controller = "Home", action = "Error404" });
             routes.MapRoute("404-PageNotFound","{*url}",new { controller = "Home", action = "Error404" });
 

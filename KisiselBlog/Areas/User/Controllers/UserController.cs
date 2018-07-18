@@ -305,24 +305,32 @@ namespace KisiselBlog.Areas.User.Controllers
         [HttpPost]
         public ActionResult MakaleEkle(AddArticleModel model, HttpPostedFileBase ImagesPath)
         {
-          
-              // var nick = Session["aktif"].ToString();
-                Users query = db.users.Where(r => r.UserID == 4).FirstOrDefault();
+          if(Session["aktif"] != null)
+          {
+                var nick = Session["aktif"].ToString();
+                Users query = db.users.Where(r => r.NickName == nick).FirstOrDefault();
                 Articles art = new Articles();
                 art.PhotoPath = ImageAdd(ImagesPath);
                 art.Header = model.Head;
                 art.LinkAdress = model.Link;
-            
-                
+
+
                 art.Text = model.Text;
                 art.Status = false;
                 art.PostedDate = DateTime.Now;
-               
+
                 art.author = query;
                 /*query.articles.Add(art); */
                 db.articles.Add(art);
                 db.SaveChanges();
                 return RedirectToAction("Profil");
+            }
+            else
+            {
+                //giriş yap olacak burası
+                return RedirectToAction("Profil");
+            }
+              
         
         }
         #endregion

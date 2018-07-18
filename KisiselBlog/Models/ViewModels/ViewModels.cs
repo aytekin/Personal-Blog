@@ -24,7 +24,18 @@ namespace KisiselBlog.Models.ViewModels
         public string Surname { get; set; }
         public string NickName { get; set; }
         public string Email { get; set; }
+        public string Bitbucket { get; set; }
+        public string Twitter { get; set; }
+        public string Github { get; set; }
+        public string Linkedin { get; set; }
         public string About { get; set; }
        
+    }
+
+    public class AddCommentViewModel
+    {
+        public string Comment { get; set; }
+        public int articleid { get; set; }
+
     }
 }

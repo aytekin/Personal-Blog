@@ -31,7 +31,7 @@ namespace KisiselBlog.Models
         public int UserID { get; set; }
         public virtual Users author { get; set; }
 
-        public ICollection<Comments> comments { get; set; }
-        public ICollection<Categories> category { get; set; }
+        public virtual ICollection<Comments> comments { get; set; }
+        public virtual ICollection<Categories> category { get; set; }
     }
 }

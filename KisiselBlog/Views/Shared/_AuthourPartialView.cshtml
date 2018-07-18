@@ -14,6 +14,10 @@
     {
         rol = "Yazar";
     }
+    if (Model.roles.RoleName == "Manager")
+    {
+        rol = "Site Yöneticisi";
+    }
     int makalesayisi = 0;
     if (Model.articles != null)
     {
@@ -42,12 +46,33 @@
         <div class="card-body">
             <h5 class="card-title text-primary">@Model.Name @Model.Surname</h5>
             <h6 class="card-subtitle mb-2 text-muted">@rol</h6><hr />
-            <h6 class="card-subtitle mb-2 text-capitalize"><small>@makalesayisi Makale paylaşımı</small></h6><hr />
+            <h6 class="card-subtitle mb-2 text-capitalize"><small>@makalesayisi Makale/Yazı paylaşımı</small></h6><hr />
             <p class="card-text">@Model.AboutUser</p>
 
         </div>
         <div class="card-footer">
-            <a href="mailto:@Model.Email">Mail Gönder</a>
+            <h5>
+                <a class="ml-1 mr-1 text-danger" href="mailto:@Model.Email"><i class="far fa-envelope"></i></a>
+                @if (Model.UserTwitterAdress != null)
+                {
+                    <a class="ml-1 mr-1" href="@Model.UserTwitterAdress"><i class="fab fa-twitter"></i></a>
+                }
+                @if (Model.UserGithubAdress != null)
+                {
+                    <a class="ml-1 mr-1 text-dark" href="@Model.UserGithubAdress"><i class="fab fa-github"></i></a>
+                }
+                @if (Model.UserBitbucketAdress != null)
+                {
+                    <a class="ml-1 mr-1" href="@Model.UserBitbucketAdress"><i class="fab fa-bitbucket"></i></a>
+                }
+                @if (Model.UserlinkedinAdress != null)
+                {
+                    <a class="ml-1 mr-1" href="@Model.UserlinkedinAdress"><i class="fab fa-linkedin-in"></i></a>
+                }
+
+
+            </h5>
+            
         </div>
     </div>
 </div>

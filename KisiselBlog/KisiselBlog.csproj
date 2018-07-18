@@ -239,6 +239,30 @@
     <Compile Include="Migrations\201807131626427_ctegorynm64.Designer.cs">
       <DependentUpon>201807131626427_ctegorynm64.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807181912489_SubComment.cs" />
+    <Compile Include="Migrations\201807181912489_SubComment.Designer.cs">
+      <DependentUpon>201807181912489_SubComment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807181916346_User-Contact.cs" />
+    <Compile Include="Migrations\201807181916346_User-Contact.Designer.cs">
+      <DependentUpon>201807181916346_User-Contact.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807181939544_last.cs" />
+    <Compile Include="Migrations\201807181939544_last.Designer.cs">
+      <DependentUpon>201807181939544_last.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807182118048_commentsedit.cs" />
+    <Compile Include="Migrations\201807182118048_commentsedit.Designer.cs">
+      <DependentUpon>201807182118048_commentsedit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807182118589_lasttt.cs" />
+    <Compile Include="Migrations\201807182118589_lasttt.Designer.cs">
+      <DependentUpon>201807182118589_lasttt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807182136556_comment-date.cs" />
+    <Compile Include="Migrations\201807182136556_comment-date.Designer.cs">
+      <DependentUpon>201807182136556_comment-date.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AboutPage.cs" />
     <Compile Include="Models\Articles.cs" />
@@ -247,6 +271,7 @@
     <Compile Include="Models\Dates.cs" />
     <Compile Include="Models\Images.cs" />
     <Compile Include="Models\Roles.cs" />
+    <Compile Include="Models\SubComment.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Models\ViewModels\ViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -412,6 +437,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807131626427_ctegorynm64.resx">
       <DependentUpon>201807131626427_ctegorynm64.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807181912489_SubComment.resx">
+      <DependentUpon>201807181912489_SubComment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807181916346_User-Contact.resx">
+      <DependentUpon>201807181916346_User-Contact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807181939544_last.resx">
+      <DependentUpon>201807181939544_last.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807182118048_commentsedit.resx">
+      <DependentUpon>201807182118048_commentsedit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807182118589_lasttt.resx">
+      <DependentUpon>201807182118589_lasttt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807182136556_comment-date.resx">
+      <DependentUpon>201807182136556_comment-date.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

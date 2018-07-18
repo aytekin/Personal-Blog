@@ -12,10 +12,18 @@
     if (ViewBag.last != null)
     {
 
-
         foreach (var i in ViewBag.last)
         {
             lastfivelist.Add(i);
+        }
+    }
+    //makaleye ait yorumlar listeleniyor 
+    List<KisiselBlog.Models.Comments> comments = new List<KisiselBlog.Models.Comments>();
+    if(ViewBag.comments != null)
+    {
+        foreach (var item in ViewBag.comments)
+        {
+            comments.Add(item);
         }
     }
 }
@@ -29,94 +37,127 @@
 
         <!-- Post Content Column -->
         <div class="col-lg-8 animated bounceInLeft">
-
-            <!-- Title -->
-            <h2 class="mt-4 text-center">@Model.Header.ToUpper()</h2>
-            <br />
-            <p class="lead">
-                <h6> <a href="mailto:@Model.author.Email">@Model.author.Name @Model.author.Surname</a> <small> tarafından yüklendi</small></h6>
-
-
-            </p>   <hr>
-            <img class="img-fluid rounded" src="@Url.Content(Model.PhotoPath)" title="@Model.Header">
+            <div class="mb-5">
+                <!--For Posts-->
+                <!-- Title -->
+                <h2 class="mt-4 text-center" id="head" data-id="@Model.ArticleID">@Model.Header.ToUpper()</h2>
+                <br />
+                <p class="lead">
+                    <h6> <a href="mailto:@Model.author.Email">@Model.author.Name @Model.author.Surname</a> <small> tarafından yüklendi</small></h6>
 
 
-            <!-- Author -->
+                </p>   <hr>
+                <img class="img-fluid rounded" src="@Url.Content(Model.PhotoPath)" title="@Model.Header">
 
 
-            <hr>
+                <!-- Author -->
 
-            <!-- Date/Time -->
-            <p class="mb-0"><small>@Model.PostedDate.ToString()<i>  tarihinde yayınlandı</i></small></p>
 
-            <hr>
+                <hr>
 
-            <!-- Preview Image -->
-            <!-- Post Content -->
-            <p >@Html.Raw(Model.Text)</p>
+                <!-- Date/Time -->
+                <p class="mb-0"><small>@Model.PostedDate.ToString()<i>  tarihinde yayınlandı</i></small></p>
+                
+                <hr>
 
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus.</p>
+                <!-- Preview Image -->
+                <!-- Post Content -->
+                <p>@Html.Raw(Model.Text)</p>
 
-            <blockquote class="blockquote">
-                <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                <footer class="blockquote-footer">
-                    Someone famous in
-                    <cite title="Source Title">Source Title</cite>
-                </footer>
-            </blockquote>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus.</p>
 
-            <hr>
+                <blockquote class="blockquote">
+                    <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                    <footer class="blockquote-footer">
+                        Someone famous in
+                        <cite title="Source Title">Source Title</cite>
+                    </footer>
+                </blockquote>
+            </div>
+            <div class="mt-5">
+                <!--For Comments-->
 
-            <!-- Comments Form -->
-            <div class="card my-4">
-                <h5 class="card-header">Leave a Comment:</h5>
-                <div class="card-body">
-                    <form>
-                        <div class="form-group">
-                            <textarea class="form-control" rows="3"></textarea>
+                <hr>
+                <div class="mt-3">
+                    <h4 class="text-primary text-center">Yorumlar</h4>
+                </div>
+                <hr />
+
+
+                @foreach (var item in comments)
+                {
+                    <!-- Single Comment -->
+                    <div class="media mb-4 mt-5">
+                        
+                        <img class="d-flex mr-3 rounded-circle" src="@Url.Content(item.UserPhoto)" title="@item.UserName">
+                        <div class="media-body">
+                       
+                        <h6 class="mt-0 text-primary">@item.UserName @item.UserSurname</h6>
+                               
+                        @Html.Raw(item.Content)
+                       
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
-            </div>
+                        <div class="media-footer">
+                            <small>@item.AddedDate.ToString()</small>
+                        </div>
+                    </div> 
+                }
 
-            <!-- Single Comment -->
-            <div class="media mb-4">
-                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                <div class="media-body">
-                    <h5 class="mt-0">Commenter Name</h5>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                </div>
-            </div>
 
-            <!-- Comment with nested comments -->
-            <div class="media mb-4">
-                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                <div class="media-body">
-                    <h5 class="mt-0">Commenter Name</h5>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
 
-                    <div class="media mt-4">
+
+
+                <!-- Comment with nested comments
+                    <div class="media mb-4">
                         <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
                         <div class="media-body">
                             <h5 class="mt-0">Commenter Name</h5>
                             Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+
+                            <div class="media mt-4">
+                                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                                <div class="media-body">
+                                    <h5 class="mt-0">Commenter Name</h5>
+                                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                                </div>
+                            </div>
+
+                            <div class="media mt-4">
+                                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                                <div class="media-body">
+                                    <h5 class="mt-0">Commenter Name</h5>
+                                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-
-                    <div class="media mt-4">
-                        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                        <div class="media-body">
-                            <h5 class="mt-0">Commenter Name</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
+    -->
+                
+                <!-- Comments Form -->
+                <div class="card my-4 mt-5">
+                    <h6 class="card-header">Yorum Yap</h6>
+                    <div class="card-body">
+                        @using (Html.BeginForm("YorumYap", "Home", FormMethod.Post, new { @class = "was-validated", enctype = "multipart/form-data" }))
+                        {
+                            <div class="form-group">
+                                <textarea class="form-control" name="Comment" maxlength="250" rows="2" required></textarea>
+                            </div>
+                            <input name="articleid" id="articleid" type="hidden" />
+                            <button type="submit" class="btn btn-primary float-right">Yorum Yap</button>
+                        }
                     </div>
-
                 </div>
+
+
+
             </div>
+
+          
+
 
         </div>
-            
+
         <!-- Sidebar Widgets Column -->
         <div class="col-md-4 animated bounceInRight" >
 
@@ -164,3 +205,12 @@
 </div>
 <br />
 <br />
+
+<script type="text/javascript">
+    // A $( document ).ready() block.
+    $(document).ready(function () {
+        console.log("ready!");
+        var x = $('#head').data("id");
+        document.getElementById("articleid").value = x;
+    });
+</script>

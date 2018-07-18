@@ -48,6 +48,52 @@ namespace KisiselBlog.Controllers
 
         #endregion
 
+        #region SaveComment
+        [HttpPost]
+        public ActionResult YorumYap(AddCommentViewModel model)
+        {
+           if(Session["aktif"] != null)
+           {
+                string userNick = Session["aktif"].ToString();
+                string commentContent = model.Comment;
+                int articleid = model.articleid;
+
+                Users user = db.users.Where(u => u.NickName == userNick).FirstOrDefault();
+                Articles article = db.articles.Where(a => a.ArticleID == articleid).FirstOrDefault();
+
+                if(user != null && article != null)
+                {
+                    Comments comment = new Comments();
+
+                    try
+                    {
+                        comment.article = article;
+                        comment.Content = commentContent;
+                        comment.UserPhoto = user.CommentPPPath;
+                        comment.UserName = user.Name;
+                        comment.UserSurname = user.Surname;
+                        comment.UserEmail = user.Email;
+                        comment.AddedDate = DateTime.Now;
+
+                        db.comments.Add(comment);
+                        db.SaveChanges();
+                        return RedirectToAction(article.LinkAdress, "Makaleler");
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+
+                return RedirectToAction("GirisYap");
+            }
+           else
+           {
+              return RedirectToAction("GirisYap");
+           }
+        }
+        #endregion
+
         #region YazarOl
         public ActionResult YazarOl(int id)
         {
@@ -78,7 +124,6 @@ namespace KisiselBlog.Controllers
             return RedirectToAction("Profil",id);
         }
         #endregion
-
 
         #region GONDERILER POST
         [HttpPost]
@@ -128,10 +173,13 @@ namespace KisiselBlog.Controllers
         public ActionResult Makaleler(string Link)
         {
             Articles art = db.articles.Where(a => a.LinkAdress == Link).FirstOrDefault();
+            var comments = art.comments.ToList();
+            ViewBag.comments = comments;
             var lastFiveArticle = (from a in db.articles
                                    orderby a.PostedDate descending
                                    select a).Take(3);
             ViewBag.last = lastFiveArticle.ToList();
+
             if (art != null && art.Status)
                 return View(art);
             else
@@ -207,7 +255,7 @@ namespace KisiselBlog.Controllers
         }
         #endregion
 
-        #region Profil Düzenler POST
+        #region Profil Düzenle POST
         [HttpPost]
         public ActionResult Duzenle(ProfileEditViewModel u, HttpPostedFileBase PPPath)
         {
@@ -242,6 +290,22 @@ namespace KisiselBlog.Controllers
                             us.NickName = u.NickName;
                             us.Email = u.Email;
                             us.AboutUser = u.About;
+                            if (u.Twitter != null)
+                                us.UserTwitterAdress = "https://www.twitter.com/" + u.Twitter;
+                            else
+                                us.UserTwitterAdress = null;
+                            if (u.Github != null)
+                                us.UserGithubAdress = "https://www.github.com/" + u.Github;
+                            else
+                                us.UserGithubAdress = null;
+                            if (u.Bitbucket != null)
+                                us.UserBitbucketAdress = "https://bitbucket.org/" + u.Bitbucket;
+                            else
+                                us.UserBitbucketAdress = null;
+                            if (u.Linkedin != null)
+                                us.UserlinkedinAdress = "https://www.linkedin.com/in/" + u.Linkedin;
+                            else
+                                us.UserlinkedinAdress = null;
                             //user nesnesinin veri tabanına güncellemesi gerçekleştirildi
 
                             db.SaveChanges();
@@ -261,6 +325,7 @@ namespace KisiselBlog.Controllers
                     {
                         //formdan gelen model bir user nesnesine yuklendi
                         us.PPPath = ImageAddProfil(PPPath);
+                        us.CommentPPPath = ImageAddComment(PPPath);
                         //user nesnesinin veri tabanına güncellemesi gerçekleştirildi
                         db.SaveChanges();
                     }
@@ -349,6 +414,7 @@ namespace KisiselBlog.Controllers
                         this.Session["aktif"] = query.NickName;
                         this.Session["Email"] = query.Email;
                         this.Session["surname"] = query.Surname;
+                        this.Session["yetki"] = query.roles.RoleName;
                         return RedirectToAction("Index");
 
                     }
@@ -481,6 +547,20 @@ namespace KisiselBlog.Controllers
             string uzanti = System.IO.Path.GetExtension(i.FileName);
             string isim = Guid.NewGuid().ToString().Replace("-", "");
             string yol = "~/Content/media/profil/" + isim + uzanti;
+            bimage.Save(Server.MapPath(yol));
+            return yol;
+        }
+
+        #endregion
+
+        #region ImageAdd function Profil Photos for Commnets
+        private string ImageAddComment(HttpPostedFileBase i)
+        {
+            Image image = Image.FromStream(i.InputStream);
+            Bitmap bimage = new Bitmap(image, new Size { Width = 50, Height = 50 });
+            string uzanti = System.IO.Path.GetExtension(i.FileName);
+            string isim = Guid.NewGuid().ToString().Replace("-", "");
+            string yol = "~/Content/media/CommentPht/" + isim + uzanti;
             bimage.Save(Server.MapPath(yol));
             return yol;
         }
