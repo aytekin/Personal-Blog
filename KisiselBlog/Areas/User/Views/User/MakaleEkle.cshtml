@@ -4,6 +4,7 @@
     ViewBag.Title = "MakaleEkle";
     Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
 }
+@section title{Makale Ekle}
 
 <div class="container artadd">
     <br>
@@ -33,14 +34,15 @@
 
 
                     <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Yazı İçeriği</label>
-                        <textarea class="form-control" required="required" id="text" name="Text" rows="5" placeholder="Yazı İçeriği" required></textarea>
+                        @Html.LabelFor(m => m.Text)
+                        @Html.TextAreaFor(m => m.Text, new { @id = "Icerik", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Text, null, new { @class = "text-danger" })
                     </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="inputState">Yazı Kategorisi</label>
-                            <select id="inputState" name="Categories" class="form-control" >
+                            <select id="inputState" name="Categories" class="form-control">
                                 <option value="" selected>Kategori</option>
                                 <option value="Ali1">Ali1</option>
                                 <option value="Ali2">Ali2</option>
@@ -166,13 +168,18 @@
     </div>
 </div>
 
-<script>
-    $('#baslik').on('input', function () {
-        var str = "", baslik = $('#baslik').val();
-        str = baslik.replace(/ /g, "-"); //replace all demek
-        document.getElementById("Link").value = str; //DOM
-    });
 
 
-</script>
+@section scripts{
+    <script>
 
+        $('#baslik').on('input', function () {
+            var str = "", baslik = $('#baslik').val();
+            str = baslik.replace(/ /g, "-"); //replace all demek
+            document.getElementById("Link").value = str; //DOM
+        });
+        CKEDITOR.replace("Icerik");
+
+
+    </script>
+}

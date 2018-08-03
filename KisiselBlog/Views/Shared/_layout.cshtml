@@ -12,8 +12,8 @@
     <meta name="description" content="">
     <meta name="author" content="Aytekin">
 
-    <title>Yazılım ve Teknoloji</title>
-
+    <title>@RenderSection("title", false)</title>
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/media/bg-image/icon.png" />
     <!-- Bootstrap core CSS -->
     <link href="~/Content/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
@@ -23,41 +23,88 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="~/Content/js/numscroller-1.0.js"></script>
     @RenderSection("Head", false)
+    <style>
+        nav .navbar-collapse {
+            float: right !important;
+        }
 
+        @@media (max-width: 654px) {
+
+            nav .navbar-collapse ul:first-child {
+                margin-top: 30%;
+            }
+
+            nav .navbar-collapse ul:last-child {
+                margin-bottom: 100%;
+            }
+
+            nav .navbar-collapse ul {
+                float: left;
+                display: inline-block;
+            }
+
+                nav .navbar-collapse ul #posts {
+                    margin-left: 15px !important;
+                }
+
+                nav .navbar-collapse ul #about {
+                    margin-top: 10px !important;
+                    margin-left: 15px !important;
+                }
+
+                nav .navbar-collapse ul #register {
+                    margin-top: 10px;
+                }
+
+                nav .navbar-collapse ul #login {
+                    margin-top: 10px !important;
+                    margin-left: 15px !important;
+                }
+
+                nav .navbar-collapse ul #profile {
+                    margin-top: 10px !important;
+                    margin-right: 2px !important;
+                }
+        }
+    </style>
 </head>
 
 <body @RenderSection("bg", false)>
 
     <!-- Navigation -->
-    <nav class="navbar bg-light navbar-expand-lg head navbar-dark fixed-top">
-        <div class="container">
+    <!-- Navigation -->
+    <nav class="navbar bg-light navbar-expand-lg navbar-dark fixed-top">
+        <div class="container" id="nav-container">
+
             <a style="color: #401F7C;" class="navbar-brand" href="@Url.Action("Index","Home")">
                 <i class="fas fa-code"></i>
-                Yazılım Ve Teknoloji
+                Return
             </a> &nbsp;
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class=" collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item bg">
-                        <a class="nav-link text-danger" href="@Url.Action("Gonderiler","Home")"><i class="fas fa-file-alt"></i>&nbsp;Makaleler</a>
+
+            <div class="collapse navbar-collapse navbar-right" id="navbarTogglerDemo02">
+                <ul class="navbar-nav navbar-right">
+                    <li class="nav-item bg navbar-right">
+                        <a id="posts" class="nav-link text-danger" href="@Url.Action("Gonderiler","Home")"><i class="fas fa-file-alt"></i>&nbsp;Makaleler</a>
                     </li>
-                    <li class="nav-item bg">
+                    <li class="nav-item bg" id="about">
                         <a class="nav-link text-warning" href="@Url.Action("Hakkimizda","Home")"><i class="fas fa-info-circle"></i>&nbsp;Hakkımızda</a>
                     </li>
                     @if (Session["aktif"] == null)
                     {
-                        <li class="nav-item bg pl-3 mr-1">
+                        <li class="nav-item bg pl-3 mr-1" id="register">
                             <button onclick="window.location.href='@Url.Action("KayitOl","Home")'" class="btn btn-outline-primary " type="button">Kayıt Ol</button>
                         </li>
-                        <li class="nav-item bg">
+                        <li class="nav-item bg" id="login">
                             <button onclick="window.location.href='@Url.Action("GirisYap","Home")'" class="btn btn-outline-success " type="button">Giriş Yap</button>
                         </li>
                     }
                     else
                     {
-                        <li class="nav-item dropdown pl-3">
+                        <li class="nav-item dropdown pl-3" id="profile">
                             <a style="color: #EE5A24;" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-user"></i>&nbsp; @Session["aktif"]
                             </a>
@@ -73,6 +120,15 @@
             </div>
         </div>
     </nav>
+
+
+
+
+
+
+
+
+
 
 
 
@@ -94,7 +150,7 @@
                 </div>
                 <div class="modal-body">Eğer çıkış'a tıklarsan oturum kapatılacaktır</div>
                 <div class="modal-footer">
-                    <button class="btn btn-warning text-white type="button" data-dismiss="modal">İptal</button>
+                    <button class="btn btn-warning text-white" type="button" data-dismiss="modal">İptal</button>
                     <a class="btn btn-danger" href="@Url.Action("CikisYap","Home")">Çıkış</a>
                 </div>
             </div>
@@ -134,6 +190,8 @@
 
 <!-- Core plugin JavaScript-->
 <script src="~/Content/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+@RenderSection("scripts", false)
 
 <script>
     function testAnim(x) {

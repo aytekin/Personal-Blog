@@ -3,6 +3,7 @@
     ViewBag.Title = "Makaleler";
     Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
 }
+@section title{Makaleler}
 
 
 <div class="card mb-3">
@@ -108,14 +109,14 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
-            <div class="modal-body"> 
+            <div class="modal-body">
                 <div class="text-center text-primary">
                     <h4 id="Modal-head"></h4><br />
                     <hr />
                     <p class="text-primary" id="Modal-author"></p>
                     <hr />
                 </div>
-                <img class="img-fluid align-content-center" id="Modal-img"/>
+                <img class="img-fluid align-content-center" id="Modal-img" />
                 <div class="row">
                     <div class="col-md-10 offset-1">
                         <p class="text-center mt-5" id="Modal-content"></p>
@@ -125,11 +126,11 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Kapat</button>
-                
+
             </div>
         </div>
 
-</div>
+    </div>
 </div>
 
 <!-- Are u sure Modal -->
@@ -156,9 +157,6 @@
     <!-- Custom scripts for all pages-->
     <!-- Custom scripts for this page-->
     <script src="~/Content/vendor/js/sb-admin-datatables.min.js"></script>
-
-}
-
     <script type="text/javascript">
     $('.btn-delete').on('click', function (e) {
         var x = $(e.currentTarget).data('href');
@@ -175,13 +173,16 @@
             document.getElementById("Modal-author").innerHTML = "@Model.ElementAt(i).author.Name " + "@Model.ElementAt(i).author.Surname <small class=\"text-muted\">tarafından</small> " + "@Model.ElementAt(i).PostedDate.ToString() <small class=\"text-muted\">tarihinde yayınlandı.</small>";
             document.getElementById("Modal-head").innerHTML = "@Model.ElementAt(i).Header.ToUpper()";
             document.getElementById("Modal-img").src = "@Url.Content(Model.ElementAt(i).PhotoPath)";
-
-            document.getElementById("Modal-content").innerText = "İçerik Eklenemiyor";
-        }          
+            $('#Modal-content').html("@Model.ElementAt(i).Text.Substring(0,10)");
+        }
             </text>
         }
     });
 
 
     </script>
+
+
+
+}
 

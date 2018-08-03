@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace KisiselBlog.Models
 {
@@ -22,6 +23,7 @@ namespace KisiselBlog.Models
         public string LinkAdress { get; set; }
         public DateTime PostedDate { get; set; }
         [StringLength(5000), Required]
+        [AllowHtml]
         public string Text { get; set; }
         [StringLength(180), Required]
         public string PhotoPath { get; set; }

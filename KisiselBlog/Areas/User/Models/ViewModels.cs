@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace KisiselBlog.Areas.User.Models
 {
@@ -16,6 +17,7 @@ namespace KisiselBlog.Areas.User.Models
         public string Link { get; set; }
         [Required]
         [StringLength(5000, ErrorMessage = "Başlık {2} ile {0} karakter arasında olmalır",MinimumLength =100)]
+        [AllowHtml]
         public string Text { get; set; }
         [Required]
         public string Categories { get; set; }

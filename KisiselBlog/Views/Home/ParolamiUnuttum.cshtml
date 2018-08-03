@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "ParolamiUnuttum";
+}
+
+@section title{Parolamı Unuttum}
+@section Head{
+
+    <style>
+        body {
+            background-image: url("../Content/media/bg-image/bg-image.jpg");
+            background-repeat: no-repeat;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+        hr {
+            display: block;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+            margin-left: auto;
+            margin-right: auto;
+            border-style: inset;
+            border-width: 2px;
+            background-color: rgba(66,139,202);
+        }
+    </style>
+}
+<div class="container my-5">
+    <div class="container">
+        @if (ViewBag.KullaniciBulunamadi != null)
+        {
+            <div class="row">
+                <div class="col-md-4 col-xs-12 mt-3 offset-md-4 text-center">
+                    <div class="pl-5 pr-5 alert alert-danger alert-dismissible fade show" role="alert">
+                        @ViewBag.KullaniciBulunamadi
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        }
+        else if (ViewBag.MailGonderildi != null)
+     {
+         <div class="row">
+             <div class="col-md-4 col-xs-12 mt-3 offset-md-4 text-center">
+                 <div class="pl-5 pr-5 alert alert-success alert-dismissible fade show" role="alert">
+                     @ViewBag.MailGonderildi
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                         <span aria-hidden="true">&times;</span>
+                     </button>
+                 </div>
+
+             </div>
+         </div>
+
+    }
+    </div>
+    <div class="container col-xs-12 text-center animated zoomIn">
+
+        <div class="card my-1 col-md-4 offset-md-4">
+
+
+            <div class="card-body">
+                <div><h3 class="text-center text-primary">Parolamı Unuttum</h3></div><hr /><br />
+                <div class="form-group">
+                    @using (Html.BeginForm("ParolamiUnuttum", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <label for="inputEmail4">Email</label>
+                        <input type="email" class="form-control" id="e-mail" name="email" placeholder="Email" required>
+
+                        <button class="my-3 btn btn-primary float-right" type="submit">Gönder</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />

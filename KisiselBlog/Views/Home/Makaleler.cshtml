@@ -1,4 +1,6 @@
 ﻿@model KisiselBlog.Models.Articles
+@section title{Makaleler}
+
 @{
     ViewBag.Title = "Makaleler";
     //image modeli eklenirse
@@ -17,9 +19,9 @@
             lastfivelist.Add(i);
         }
     }
-    //makaleye ait yorumlar listeleniyor 
+    //makaleye ait yorumlar listeleniyor
     List<KisiselBlog.Models.Comments> comments = new List<KisiselBlog.Models.Comments>();
-    if(ViewBag.comments != null)
+    if (ViewBag.comments != null)
     {
         foreach (var item in ViewBag.comments)
         {
@@ -27,9 +29,37 @@
         }
     }
 }
+@section head{
+    <style>
+        @@media (min-width: 850px) {
 
+            .media #Comment-date {
+                display: none;
+            }
+
+            .media #mobil-devices {
+                display: none;
+            }
+        }
+
+        @@media (max-width: 850px) {
+            .media .media-footer {
+                display: none;
+            }
+
+            .media Comment-date {
+                display: inline;
+            }
+
+            .media #large-devices {
+                display: none;
+            }
+        }
+    </style>
+
+}
 <div class="container">
-    
+
     @*@Html.Partial("_PartialViewMakaleler", Model);*@
 
 
@@ -57,7 +87,7 @@
 
                 <!-- Date/Time -->
                 <p class="mb-0"><small>@Model.PostedDate.ToString()<i>  tarihinde yayınlandı</i></small></p>
-                
+
                 <hr>
 
                 <!-- Preview Image -->
@@ -79,7 +109,9 @@
 
                 <hr>
                 <div class="mt-3">
-                    <h4 class="text-primary text-center">Yorumlar</h4>
+                    <h4 class="text-secondary text-center">
+                        Yorum&nbsp;<span class="badge badge-pill badge-secondary">@comments.Count()</span>
+                    </h4>
                 </div>
                 <hr />
 
@@ -88,19 +120,37 @@
                 {
                     <!-- Single Comment -->
                     <div class="media mb-4 mt-5">
-                        
+
                         <img class="d-flex mr-3 rounded-circle" src="@Url.Content(item.UserPhoto)" title="@item.UserName">
                         <div class="media-body">
-                       
-                        <h6 class="mt-0 text-primary">@item.UserName @item.UserSurname</h6>
-                               
-                        @Html.Raw(item.Content)
-                       
+
+                            <h6 class="mt-0 text-primary">@item.UserName @item.UserSurname</h6>
+
+                            @Html.Raw(item.Content)
+                            <p id="Comment-date"><small>@item.AddedDate.ToString()</small></p>
+                            <a class="" id="mobil-devices" href="#">Yanıtla</a>
                         </div>
                         <div class="media-footer">
                             <small>@item.AddedDate.ToString()</small>
+                            <br />
+                            <!--A TAGI GORUNMUYOR ONU GOSTER-->
+                            <a data-id="@item.CommentID" id="large-devices" onclick="openCommentLine()" data-href="#">Yanıtla</a>
+
                         </div>
-                    </div> 
+                    </div>
+
+                    <div class="my-4 mt-2" id="answer">
+                        <div class="card-body">
+                            @using (Html.BeginForm("YorumYap", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                <div class="form-group">
+                                    <textarea class="form-control" name="Comment" maxlength="250" placeholder="Yanıtla" rows="2" required></textarea>
+                                </div>
+                                <input name="commentid" id="commentid" type="hidden" />
+                                <button type="submit" class="btn btn-primary btn-sm float-right">Yanıtla</button>
+                            }
+                        </div>
+                    </div>
                 }
 
 
@@ -108,58 +158,50 @@
 
 
                 <!-- Comment with nested comments
-                    <div class="media mb-4">
-                        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                        <div class="media-body">
-                            <h5 class="mt-0">Commenter Name</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                                <div class="media mb-4">
+                                    <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                                    <div class="media-body">
+                                        <h5 class="mt-0">Commenter Name</h5>
+                                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
 
-                            <div class="media mt-4">
-                                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                                <div class="media-body">
-                                    <h5 class="mt-0">Commenter Name</h5>
-                                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                                        <div class="media mt-4">
+                                            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                                            <div class="media-body">
+                                                <h5 class="mt-0">Commenter Name</h5>
+                                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                                            </div>
+                                        </div>
+
+                                        <div class="media mt-4">
+                                            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                                            <div class="media-body">
+                                                <h5 class="mt-0">Commenter Name</h5>
+                                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="media mt-4">
-                                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                                <div class="media-body">
-                                    <h5 class="mt-0">Commenter Name</h5>
-                                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-    -->
-                
+                -->
                 <!-- Comments Form -->
                 <div class="card my-4 mt-5">
                     <h6 class="card-header">Yorum Yap</h6>
                     <div class="card-body">
-                        @using (Html.BeginForm("YorumYap", "Home", FormMethod.Post, new { @class = "was-validated", enctype = "multipart/form-data" }))
+                        @using (Html.BeginForm("YorumYap", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {
                             <div class="form-group">
-                                <textarea class="form-control" name="Comment" maxlength="250" rows="2" required></textarea>
+                                <textarea class="form-control" name="Comment" maxlength="250" placeholder="Yorum Yap" rows="2" required></textarea>
                             </div>
                             <input name="articleid" id="articleid" type="hidden" />
                             <button type="submit" class="btn btn-primary float-right">Yorum Yap</button>
                         }
                     </div>
                 </div>
-
-
-
             </div>
-
-          
-
-
         </div>
 
         <!-- Sidebar Widgets Column -->
-        <div class="col-md-4 animated bounceInRight" >
+        <div class="col-md-4 animated bounceInRight">
 
             <!-- Search Widget -->
             <!-- Categories Widget -->
@@ -172,7 +214,7 @@
                                 <li>
                                     @foreach (var i in lastfivelist)
                                     {
-                                        <a href="@Url.Action(i.LinkAdress,"Makaleler")">@i.Header.ToLower()</a>
+
                                     }
 
                                 </li>
@@ -188,11 +230,18 @@
             <div class="card my-4">
                 <h5 class="card-header">Son Yüklemeler</h5>
                 <div class="card-body">
-                    @foreach (var i in lastfivelist)
-                    {
-                        <a href="@Url.Action(i.LinkAdress,"Makaleler")">@i.Header</a>
-                        <br />
-                    }
+                    <ul>
+
+                        @foreach (var i in lastfivelist)
+                        {
+                            <li>
+                                @Html.ActionLink(@i.Header.ToUpper(), "Makaleler", "Home", new { link = i.LinkAdress }, null)
+
+                                <br />
+                            </li>
+
+                        }
+                    </ul>
 
 
                 </div>
@@ -208,6 +257,10 @@
 
 <script type="text/javascript">
     // A $( document ).ready() block.
+    function openCommentLine(e) {
+        var dataid = $(e.currentTarget).data("id");
+        alert(dataid);
+    }
     $(document).ready(function () {
         console.log("ready!");
         var x = $('#head').data("id");

@@ -9,6 +9,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Drawing;
+using System.Net.Mail;
+using System.Net;
 
 namespace KisiselBlog.Controllers
 {
@@ -16,9 +18,6 @@ namespace KisiselBlog.Controllers
     {
         DatabaseContext db = new DatabaseContext();
         // GET: Home
-
-       
-
 
         #region Anasayfa
         public ActionResult Index()
@@ -324,6 +323,14 @@ namespace KisiselBlog.Controllers
                     try
                     {
                         //formdan gelen model bir user nesnesine yuklendi
+                        if (System.IO.File.Exists(Server.MapPath(us.PPPath)))
+                        {
+                            System.IO.File.Delete(Server.MapPath(us.PPPath));
+                        }
+                        if (System.IO.File.Exists(Server.MapPath(us.CommentPPPath)))
+                        {
+                            System.IO.File.Delete(Server.MapPath(us.CommentPPPath));
+                        }
                         us.PPPath = ImageAddProfil(PPPath);
                         us.CommentPPPath = ImageAddComment(PPPath);
                         //user nesnesinin veri tabanına güncellemesi gerçekleştirildi
@@ -395,27 +402,39 @@ namespace KisiselBlog.Controllers
                     string password = security.encoder(pass);
                     if (password == query.Password && nickName == query.NickName)
                     {
-                        Dates d = new Dates();
-                        d.DateName = "Login";
-                        d.Date = DateTime.Now;
-                        d.user = query;
-                        db.dates.Add(d);
-                        db.SaveChanges();
-                        try
+                        if (query.ControlCodeStatus)
                         {
+                            Dates d = new Dates();
+                            d.DateName = "Login";
+                            d.Date = DateTime.Now;
+                            d.user = query;
+                            db.dates.Add(d);
                             db.SaveChanges();
-                        }
-                        catch(Exception e)
-                        {
-                            Console.WriteLine(e.Message);
-                        }
-                       
+                            try
+                            {
+                                db.SaveChanges();
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine(e.Message);
+                            }
 
-                        this.Session["aktif"] = query.NickName;
-                        this.Session["Email"] = query.Email;
-                        this.Session["surname"] = query.Surname;
-                        this.Session["yetki"] = query.roles.RoleName;
-                        return RedirectToAction("Index");
+
+                            this.Session["aktif"] = query.NickName;
+                            this.Session["Email"] = query.Email;
+                            this.Session["surname"] = query.Surname;
+                            this.Session["yetki"] = query.roles.RoleName;
+
+                            return RedirectToAction("Index");
+
+                        }
+                        else
+                        {
+                            ViewBag.HesapOnaylanmamis = "Hesabınız Henüz Onaylanmadığı İçin Giriş Yapamazsınız\r\n" +
+                                "Mail Aresinize Gönderilen Hesap Onaylama Bağlantısına Tıklayın.";
+                            return View(model);
+                        }
+
 
                     }
                     else
@@ -504,6 +523,41 @@ namespace KisiselBlog.Controllers
                         d.user = user;
                         d.DateName = "Registration";
                         d.Date = DateTime.Now;
+
+                        Guid Kontrol;
+                        Kontrol = Guid.NewGuid();
+                        //Confirm Email Send
+                        #region mailGonderme
+                        var fromAddress = new MailAddress("infosautoyota@gmail.com", "CodeTech");
+                        var toAddress = new MailAddress(user.Email, "To Name");
+                        const string fromPassword = "Toyota12*";
+                        string subject = "CodeTech'e Hoşgeldiniz";
+                        string body = "Merhaba Ayekin Erlale ,\r\n\r\n" +
+                        "Üye olma işleminiz başarıyla gerçekleşmiştir.\r\nAramıza Katıldığınız için teşekkür ederiz." +
+                        "\r\nHesabınızı aktif hale getirmek için aşağıdaki linke tıklayın\r\n\r\n" + "http://localhost:59052/ConfirmAccount/" + user.ControlCode.ToString();
+                        var smtp = new SmtpClient
+                        {
+                            Host = "smtp.gmail.com",
+                            Port = 587,
+                            EnableSsl = true,
+                            DeliveryMethod = SmtpDeliveryMethod.Network,
+                            UseDefaultCredentials = false,
+                            Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                        };
+                        using (var message = new MailMessage(fromAddress, toAddress)
+                        {
+                            Subject = subject,
+                            Body = body
+                        })
+                        {
+                            smtp.Send(message);
+                        }
+
+                        #endregion
+
+                        user.ControlCode = Kontrol;
+                        user.ControlCodeStatus = false;
+
                         db.dates.Add(d);
                         user.dates.Add(d);
                         
@@ -518,11 +572,7 @@ namespace KisiselBlog.Controllers
                         Console.WriteLine(e.Message);
                     }
 
-                    //kayıt yapıldıktan sonra login islemi gerceklestiriliyor
-                    KisiselBlog.Models.ViewModels.LoginViewModel login = new LoginViewModel();
-                    login.nickName = u.NickName;
-                    login.pass = u.Password;
-                    GirisYap(login);
+                    
 
                     return RedirectToAction("Index");
 
@@ -536,6 +586,133 @@ namespace KisiselBlog.Controllers
             
 
            
+        }
+        #endregion
+
+        #region HesapOnayı
+        [HttpGet]
+        public ActionResult HesapOnayi(string guid)
+        {
+            Users user = db.users.Where(
+                u => u.ControlCode.ToString() == guid).FirstOrDefault();
+
+            if(user != null)
+            {
+                if (!user.ControlCodeStatus)
+                {
+                    user.ControlCodeStatus = true;
+                    db.SaveChanges();
+                    ViewBag.HesapOnaylandi = "Aramıza Hoşgeldin " + user.Name + " " + user.Surname +
+                        " Hesabın Onaylandı";
+                }
+                else
+                {
+                    ViewBag.ZatenOnayli =  user.Name + " " + user.Surname +
+                        " Hesabın Zaten Onaylanmış.";
+                }
+                return View();
+            }
+
+            return RedirectToAction("Index");
+
+            
+        }
+
+        #endregion
+
+        #region Parolamı Sıfırla
+        [HttpGet]
+        public ActionResult ParolaSifirla(string guid)
+        {
+            Users user = db.users.Where(u => u.ControlCode.ToString() == guid).FirstOrDefault();
+
+            if(user != null)
+            {
+                return View();
+            }
+
+
+            return RedirectToAction("Index");
+        }
+        #endregion
+             
+        #region Parolamı Sıfırla Post
+        [HttpPost]
+        public ActionResult ParolaSifirla(string guid,string Password)
+        {
+            Users user = db.users.Where(u => u.ControlCode.ToString() == guid).FirstOrDefault();
+
+            if(user != null)
+            {
+                Security.Sha1 hash = new Sha1();
+                user.Password = hash.encoder(Password);
+                user.ControlCode = Guid.NewGuid();
+                db.SaveChanges();
+
+                return RedirectToAction("GirisYap");
+            }
+
+
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region Parolamı Unuttum
+        [HttpGet]
+        public ActionResult ParolamiUnuttum()
+        {
+            return View();
+        }
+        #endregion 
+        
+        #region Parolamı Unuttum POST
+        [HttpPost]
+        public ActionResult ParolamiUnuttum(string email)
+        {
+            Users user = db.users.Where(u => u.Email == email).FirstOrDefault();
+
+            if(user != null)
+            {
+                user.ControlCode = Guid.NewGuid();
+                db.SaveChanges();
+
+
+                #region mailGonderme
+                var fromAddress = new MailAddress("infosautoyota@gmail.com", "CodeTech");
+                var toAddress = new MailAddress(email, "To Name");
+                const string fromPassword = "Toyota12*";
+                string subject = "CodeTech'e Kullanıcı Parola Sıfırlama";
+                string body = "Merhaba "+ user.NickName +" ,\r\n\r\n" +
+                    "Parolanı Sıfırlamak İçin Aşağıdaki Linke Tıkla." +
+                    "\r\n\r\n" + "http://localhost:59052/ParolaSifirla/" + user.ControlCode.ToString();
+                var smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                };
+                using (var message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body
+                })
+                {
+                    smtp.Send(message);
+                }
+
+                #endregion
+                ViewBag.MailGonderildi = "Girdiğiniz E-mail Adresine Parola Sıfırlama Bağlantısı Gönderildi";
+                return View();
+            }
+            else
+            {
+                ViewBag.KullaniciBulunamadi = "Girdiğiniz E-mail Adresine Ait Sistemimizde Kullanici Bulunamadi.";
+                return View();
+            }
+
         }
         #endregion
 

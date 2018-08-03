@@ -5,6 +5,7 @@
     DateTime biggest = Model.dates.Max(r => r.Date);
     KisiselBlog.Models.Dates regist = Model.dates.Where(r => r.DateName == "Registration").FirstOrDefault();
 }
+@section title{Parola Değiştir}
 
 
 
@@ -49,48 +50,43 @@
     <div class="card-footer small text-white bg-dark"><b>Sisteme Son Giriş Tarihi : @biggest.ToString()</b></div>
 </div>
 
+@section scripts{
 
 
+    <script type="text/javascript">
+        $('.err').hide();
+        $("#send").prop('disabled', true);
+        $('#Password').on('input', function () {
+            var parola = $('#Password').val();
+            var parola1 = $('#Password1').val();
+            if (parola1.length > 0 && parola1 != parola) {
+                $('.err').show();
+                $("#send").prop('disabled', true);
+            }
+            else {
+                $('.err').hide();
+                $("#send").prop('disabled', false);
+            }
+            if (parola1.length < 1) {
+                $("#send").prop('disabled', true);
+            }
+        })
+        $('#Password1').on('input', function () {
+            var parola = $('#Password').val();
+            var parola1 = $('#Password1').val();
+            if (parola.length > 0 && parola1 != parola) {
+                $('.err').show();
+                $("#send").prop('disabled', true);
+            }
+            else {
+                $('.err').hide();
+                $("#send").prop('disabled', false);
+            }
+            if (parola.length < 1) {
+                $("#send").prop('disabled', true);
+            }
+        })
+    </script>
 
+}
 
-
-
-
-
-
-
-
-<script type="text/javascript">
-    $('.err').hide();
-    $("#send").prop('disabled', true);
-    $('#Password').on('input', function () {
-        var parola = $('#Password').val();
-        var parola1 = $('#Password1').val();
-        if (parola1.length > 0 && parola1 != parola) {
-            $('.err').show();
-            $("#send").prop('disabled', true);
-        }
-        else {
-            $('.err').hide();
-            $("#send").prop('disabled', false);
-        }
-        if (parola1.length < 1) {
-            $("#send").prop('disabled', true);
-        }
-    })
-    $('#Password1').on('input', function () {
-        var parola = $('#Password').val();
-        var parola1 = $('#Password1').val();
-        if (parola.length > 0 && parola1 != parola) {
-            $('.err').show();
-            $("#send").prop('disabled', true);
-        }
-        else {
-            $('.err').hide();
-            $("#send").prop('disabled', false);
-        }
-        if (parola.length < 1) {
-            $("#send").prop('disabled', true);
-        }
-    })
-</script>

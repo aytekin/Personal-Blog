@@ -1,4 +1,5 @@
 ﻿@model KisiselBlog.Models.Users
+@section title{Profil}
 
 @{
     ViewBag.Title = "Profil";
@@ -15,7 +16,7 @@
     {
         auth = "Site Yazarı";
     }
-    else if(Model.roles.RoleName == "Admin")
+    else if (Model.roles.RoleName == "Admin")
     {
         auth = "Site Kurucusu ve Yöneticisi";
     }
@@ -63,7 +64,7 @@
                     <img src="@Url.Content(pppsrc)" width="200px" height="200px" class="rounded cycle-img" alt="..."><br />
 
                 </div>
-                
+
             </div>
         </div>
         <div class="col-md-5 ofset-2">

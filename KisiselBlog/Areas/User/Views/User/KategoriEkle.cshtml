@@ -4,6 +4,7 @@
     ViewBag.Title = "KategoriEkle";
     Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
 }
+@section title{Etiketler}
 <div class="container mt-3">
     <center>
         <div class="col-md-5 col-sm-12 col-xl-4" align="center">
@@ -33,7 +34,7 @@
 
         </div>
     </div>
-    <center> <h4 class="text-danger mt-5">Etiketler</h4></center>
+    <center> <h4 class="text-danger mt-5">Etiketler <span class="badge badge-danger"> @Model.Count()</span></h4></center>
 
     <div class="row mt-5" align="center">
 

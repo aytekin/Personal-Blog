@@ -14,8 +14,18 @@
 <div class="mb-5 col-md-6 animated bounceIn" id="Posts">
     <img class="card-img-top" src="@Url.Content(Model.PhotoPath)" alt="@Model.Header">
     <div class="card-body">
-        <h5 class="card-title text-primary header" >@Model.Header.ToUpper()</h5>
-        <p class="card-text">@Html.Raw(summary)...<br /><a href="@Url.Action(Model.LinkAdress,"Makaleler")" >Devamını Oku &rarr;</a> </p>
+        <h5 class="card-title text-primary header">@Model.Header.ToUpper()</h5>
+        <p class="card-text">
+            @Html.Raw(summary) ...<br />
+
+           <p> @Html.ActionLink("Devamını Oku", "Makaleler", "Home", new { link = Model.LinkAdress }, null)</p>
+            <br />
+            <h6>
+                <span style="height:19px; text-align:justify" class="badge badge-secondary">Büyük Veri</span>
+
+            </h6>
+        </p>
+   
     </div>
     <div class="card-footer text-muted">
         <small>

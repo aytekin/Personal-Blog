@@ -35,19 +35,19 @@ namespace KisiselBlog
             routes.MapRoute("KullaniciOnayla", "Admin/KullaniciOnayla/{id}", new { controller = "User", action = "KullaniciOnayla", }).DataTokens.Add("area", "User");
             routes.MapRoute("kategoriEkle", "Admin/KategoriEkle", new { controller = "User", action = "KategoriEkle", }).DataTokens.Add("area", "User");
             routes.MapRoute("hakkimizdaadmin", "Admin/Hakkimizda", new { controller = "User", action = "HakkimizdaEkle", }).DataTokens.Add("area", "User");
+            routes.MapRoute("Makalelerim", "Admin/Makalelerim", new { controller = "User", action = "Makalelerim", }).DataTokens.Add("area", "User");
             routes.MapRoute("adminmakaleler", "Admin/Makaleler", new { controller = "User", action = "Makaleler", }).DataTokens.Add("area", "User");
             routes.MapRoute("makaleler", "Makaleler/{Link}", new { controller = "Home", action = "Makaleler" });
             routes.MapRoute("yazarol", "YazarOl/{id}", new { controller = "Home", action = "YazarOl"});
             routes.MapRoute("gonderiler", "Makaleler", new { controller = "Home", action = "Gonderiler" });
+            routes.MapRoute("ParolamiUnuttum", "ParolamiUnuttum", new { controller = "Home", action = "ParolamiUnuttum" });
+            routes.MapRoute("ParolamiSifirla", "ParolaSifirla/{guid}", new { controller = "Home", action = "ParolaSifirla" });
+            routes.MapRoute("HesapOnayi", "ConfirmAccount/{guid}", new { controller = "Home", action = "HesapOnayi" });
             routes.MapRoute("yorumyap", "YorumYap", new { controller = "Home", action = "YorumYap" });
             routes.MapRoute("error404", "Error404", new { controller = "Home", action = "Error404" });
             routes.MapRoute("404-PageNotFound","{*url}",new { controller = "Home", action = "Error404" });
 
-            routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
+           
 
             
         }

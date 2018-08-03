@@ -34,6 +34,9 @@ namespace KisiselBlog.Models
         public string UserBitbucketAdress { get; set; }
         public string UserlinkedinAdress { get; set; }
 
+        public Guid ControlCode { get; set; }
+        public bool ControlCodeStatus { get; set; }
+
         public virtual ICollection<Dates> dates { get; set; }
         public int RoleID { get; set; }
         public virtual Roles roles { get; set; }

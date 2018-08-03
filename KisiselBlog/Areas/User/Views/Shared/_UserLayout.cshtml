@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>SB Admin - Start Bootstrap Template</title>
+    <title> || @RenderSection("title", true)</title>
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/media/bg-image/icon.png" />
+
     <!-- Bootstrap core CSS-->
     <link href="~/Content/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Custom fonts for this template-->
@@ -27,7 +29,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Makalelerim">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="@Url.Action("Makalelerim","User")">
                         <i class="fa fa-fw fa-file-text-o"></i>
                         <span class="nav-link-text">Makalelerim</span>
                     </a>
@@ -229,6 +231,8 @@
         <script src="~/Content/vendor/jquery-easing/jquery.easing.min.js"></script>
         <!-- Custom scripts for all pages-->
         <script src="~/Content/vendor/js/sb-admin.min.js"></script>
+        <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+
         @RenderSection("scripts", false)
     </div>
 </body>

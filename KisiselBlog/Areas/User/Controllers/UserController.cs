@@ -178,6 +178,7 @@ namespace KisiselBlog.Areas.User.Controllers
         #endregion
 
         #region aboutPageInfo POST
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult HakkimizdaEkle(AddAboutInfoModel model, HttpPostedFileBase imagePath)
         {
@@ -193,7 +194,14 @@ namespace KisiselBlog.Areas.User.Controllers
                         a.About = model.About;
                         a.Header = model.Header;
                         if (imagePath != null)
+                        {
+                            if (System.IO.File.Exists(Server.MapPath(a.imagePath)))
+                            {
+                                System.IO.File.Delete(Server.MapPath(a.imagePath));
+                            }
                             a.imagePath = ImageAddAbout(imagePath);
+
+                        }
                         else
                             a.imagePath = null; 
                         db.aboutInfo.Add(a);
@@ -201,18 +209,23 @@ namespace KisiselBlog.Areas.User.Controllers
                     }
                     else
                     {
-                        string about_text = "";
-                        about_text = model.About.Replace("\r\n", "<br/>");
-                        about.About = about_text;
-                        about.Header = model.Header;
+                       
+                        about.About = model.About;
                         if (imagePath != null)
+                        {
+                            if (System.IO.File.Exists(Server.MapPath(about.imagePath)))
+                            {
+                                System.IO.File.Delete(Server.MapPath(about.imagePath));
+                            }
                             about.imagePath = ImageAddAbout(imagePath);
+
+                        }
                     }
                     db.SaveChanges();
                 }
                 catch (Exception e)
                 {
-                    //exceptions
+                    ViewBag.ds = "Hata";
                 }
                 return RedirectToAction("HakkimizdaEkle");
 
@@ -302,6 +315,7 @@ namespace KisiselBlog.Areas.User.Controllers
         #endregion
 
         #region MakeleEkle POST
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult MakaleEkle(AddArticleModel model, HttpPostedFileBase ImagesPath)
         {
@@ -335,42 +349,22 @@ namespace KisiselBlog.Areas.User.Controllers
         }
         #endregion
 
-        #region MakaleCevirici
-        //gelen makaleyi bilgisayarın anlayacağı dile cevirme kısmı
-        //bkz:  ornegin *ads*  "ads" kalın harflerle yazılmalıdır kurallara göre
-        //bu fonksiyon *ads* yi <b>ads</b> ye çevirmektir.
-
-        private string MakaleCevir(string text)
+        #region Makalelerim
+        [HttpGet]
+        public ActionResult Makalelerim()
         {
-            var builder = new StringBuilder(text);  
-            int counter = 0;
-            
-            for (int i = 0; text[i] != '\0' ; i++)
+            if (Session["aktif"] != null)
             {
-                counter = 0;
-                //italik
-                if (text[i] == '*' && text[i + 1] == '*')
-                {
-                    
-                }//kalin
-                else if (text[i] == '*')
-                {
+                string k_adi = Session["aktif"].ToString();
 
-                }//kalin ve italik
-                else if (text[i] == '$' && text[i + 1] == '*')
+                Users user = db.users.Where(u => u.NickName == k_adi).FirstOrDefault();
+                
+                if(user != null)
                 {
-
-                }//link
-                else if (text[i] == '[')
-                {
-
+                    return View(user);
                 }
-
-
-
             }
-
-            return "";
+            return RedirectToAction("Index");
         }
         #endregion
 

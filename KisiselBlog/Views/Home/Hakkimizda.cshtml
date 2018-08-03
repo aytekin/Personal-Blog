@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Hakkimizda";
 }
+@section title{Hakkımızda}
 
 <!-- Page Content -->
 <div class="container mtop-sm-75">
@@ -19,11 +20,10 @@
             <img class="img-fluid rounded mb-4" src="@Url.Content(Model.imagePath)" title="Biz Kimiz?">
         </div>
         <div class="col-lg-6">
-            <h2>@Model.Header</h2>
             <p>@Html.Raw(Model.About)</p>
-           
 
-            
+
+
         </div>
     </div><br />
     <!-- /.row -->
@@ -36,7 +36,7 @@
         {
             List<KisiselBlog.Models.Users> list = new List<KisiselBlog.Models.Users>();
             list = ViewBag.userList;
-            
+
             foreach (var item in list)
             {
                 @Html.Partial("_AuthourPartialView", item);
@@ -48,7 +48,6 @@
     </div>
     <!-- /.row -->
     <!-- Our Customers -->
-   
     <!-- /.row -->
 
 </div>

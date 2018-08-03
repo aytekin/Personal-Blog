@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "HesapOnayi";
+}
+@section title{Hesap Onayı}
+<div class="container  my-5">
+    @if (ViewBag.HesapOnaylandi != null)
+    {
+    <div class="alert alert-success" role="alert">
+        <div class="text-center">
+            <strong>Tebrikler!!  </strong>@ViewBag.HesapOnaylandi<br />
+            Sisteme <a href="@Url.Action("GirisYap","Home")" class="alert-link">Giriş Yap</a>
+
+        </div>
+    </div>
+
+     }
+     else if (ViewBag.ZatenOnayli != null)
+     {
+     <div class="alert alert-dark" role="alert">
+         <div class="text-center">
+             <strong>Başarısız!! </strong>@ViewBag.ZatenOnayli<br />
+             Sisteme <a href="@Url.Action("GirisYap","Home")" class="alert-link">Giriş Yap</a>.
+         </div>
+     </div>
+     }
+</div>
+
+

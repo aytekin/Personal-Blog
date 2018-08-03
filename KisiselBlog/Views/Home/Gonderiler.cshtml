@@ -3,12 +3,9 @@
 @{
     ViewBag.Title = "Gonderiler";
 
-    List<KisiselBlog.Models.Articles> display = new List<KisiselBlog.Models.Articles> ();
-    foreach (var item in Model)
-    {
-        display.Add(item);
-    }
+
 }
+@section title{Gönderiler}
 
 <ol class="breadcrumb mtop-sm-75 mt-xl-3 mt-xs-5">
     <li class="breadcrumb-item">
@@ -19,15 +16,13 @@
 
 <div class="row">
     <!-- Page Heading/Breadcrumbs -->
-  
-    
     <!-- Blog Entries Column -->
     <div class="col-md-8">
         <div class="row" id="display-zone">
             <!-- Blog Post -->
-            @foreach (var item in display)
+            @foreach (var model in Model)
             {
-                @Html.Partial("_PartialVİewGonderiler", item);
+                @Html.Partial("_PartialVİewGonderiler", model);
             }
 
         </div>
@@ -91,12 +86,12 @@
                     }
 
 
-                    </div>
+                </div>
                 <div class="col-md-2"></div>
             </div>
-                <div class="card-body">
-                </div>
+            <div class="card-body">
             </div>
+        </div>
 
         <!-- Categories Widget -->
         <div class="card my-4">
@@ -148,7 +143,7 @@
     $('#Search-model').on('input', function () {
         var value = $('#Search-model').val().toLocaleUpperCase();
         var a,div,head,author;
-        for (var i = 0; i < @display.Count(); i++)
+        for (var i = 0; i < @Model.Count(); i++)
         {
             div = document.getElementById('display-zone');
             a = div.getElementsByClassName('bounceIn')[i];
@@ -166,8 +161,8 @@
                 a.style.display = "none";
                 $('Posts').removeClass("bounceIn");
              }
- 
-            
+
+
         }
         console.log("value : " + value);
     });

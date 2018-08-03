@@ -4,6 +4,7 @@
     ViewBag.Title = "Kullanicilar";
     Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
 }
+@section title{Kullanıcılar}
 
 <div class="card mb-3">
     <div class="card-header">
@@ -101,62 +102,64 @@
     <div class="modal-dialog">
         <div class="modal-content">
 
-            <div class="modal-body"><br />
-            <div class="col-md-10 offset-md-1 col-sm-12 text-center">
-             <div class="card">
-                    <div class="card-header-pills">
+            <div class="modal-body">
+                <br />
+                <div class="col-md-10 offset-md-1 col-sm-12 text-center">
+                    <div class="card">
+                        <div class="card-header-pills">
 
-                        <div class="row">
-                            <div class="col-md-10 offset-md-1 col-sm-12 text-center mt-2">
-                                <img align="middle" class="img-fluid" id="User-pphoto" />
-                                <h4 class="text-center text-dark mt-1" id="User-name"></h4>
+                            <div class="row">
+                                <div class="col-md-10 offset-md-1 col-sm-12 text-center mt-2">
+                                    <img align="middle" class="img-fluid" id="User-pphoto" />
+                                    <h4 class="text-center text-dark mt-1" id="User-name"></h4>
+                                </div>
                             </div>
-                        </div>         
-                    </div>
-                 <hr />
-                 <h6 class="text-muted text-center" id="CurrentAuthorize"></h6>
-                 <hr />
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-10 offset-md-1 col-sm-10 offset-sm-1">
-                                
-                                @using (Html.BeginForm("KullaniciYetki", "User", FormMethod.Post, new {@class="was-validated" , enctype = "multipart/form-data" }))
-                                {
-                                    <div class="form-group mt-xl-2 mt-sm-4 mtop-sm-50">
-                                        <select class="custom-select" name="formrole" required>
-                                            <option value="">Yetki Seçiniz</option>
-                                            <option value="1">Admin</option>
-                                            <option value="4">Yönetici</option>
-                                            <option value="2">Yazar</option>
-                                            <option value="3">Sistem Kullanıcısı</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group text-center">
-
-                                        <input type="hidden" name="userid" id="userid" />
-                                    </div>
-                                    <button class="btn btn-success mt-2 text-center" type="submit">Yetkilendir</button>
-
-                                }
-
-
-
-                            </div>
-
                         </div>
+                        <hr />
+                        <h6 class="text-muted text-center" id="CurrentAuthorize"></h6>
+                        <hr />
+                        <p class="text-center text-dark" id="about"></p>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-10 offset-md-1 col-sm-10 offset-sm-1">
+
+                                    @using (Html.BeginForm("KullaniciYetki", "User", FormMethod.Post, new { @class = "was-validated", enctype = "multipart/form-data" }))
+                                    {
+                                        <div class="form-group mt-xl-2 mt-sm-4 mtop-sm-50">
+                                            <select class="custom-select" name="formrole" required>
+                                                <option value="">Yetki Seçiniz</option>
+                                                <option value="1">Admin</option>
+                                                <option value="4">Yönetici</option>
+                                                <option value="2">Yazar</option>
+                                                <option value="3">Sistem Kullanıcısı</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group text-center">
+
+                                            <input type="hidden" name="userid" id="userid" />
+                                        </div>
+                                        <button class="btn btn-success mt-2 text-center" type="submit">Yetkilendir</button>
+
+                                    }
+
+
+
+                                </div>
+
+                            </div>
+                        </div>
+
                     </div>
 
                 </div>
-               
-            </div>
-               
+
                 <br />
                 <br />
-                
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger text-white" data-dismiss="modal">İptal</button>
-               
+
             </div>
         </div>
     </div>
@@ -186,14 +189,15 @@
             document.getElementById('User-pphoto').src = "@Url.Content(Model.ElementAt(i).PPPath)";
             document.getElementById('User-name').innerHTML = "@Model.ElementAt(i).Name " + "@Model.ElementAt(i).Surname";
             document.getElementById('CurrentAuthorize').innerHTML = "Aktif Yetki : @Model.ElementAt(i).roles.RoleName";
-            
-           
-            
-        }          
+            var about = "@Model.ElementAt(i).AboutUser";
+            $('#about').html(about);
+
+
+        }
             </text>
         }
         document.getElementById('userid').value = x;
-        
+
     });
 
 </script>
